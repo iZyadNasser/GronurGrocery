@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.ui.theme
+package com.example.gronurgrocery.features.starting.ui.theme
 
 import android.app.Activity
 import android.os.Build

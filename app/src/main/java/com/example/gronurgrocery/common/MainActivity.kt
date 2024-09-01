@@ -1,11 +1,11 @@
-package com.example.gronurgrocery.core
+package com.example.gronurgrocery.common
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.example.gronurgrocery.ui.theme.GronurGroceryTheme
+import com.example.gronurgrocery.features.starting.ui.theme.GronurGroceryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

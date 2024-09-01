@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.core
+package com.example.gronurgrocery.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,14 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.gronurgrocery.ui.screens.logo.LogoScreen
+import com.example.gronurgrocery.features.starting.screens.splash.SplashScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun MyApp(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
@@ -32,7 +32,7 @@ fun MyApp(
                     }
                 }
             }
-            LogoScreen()
+            SplashScreen()
         }
 
         composable(route = "onboarding") {

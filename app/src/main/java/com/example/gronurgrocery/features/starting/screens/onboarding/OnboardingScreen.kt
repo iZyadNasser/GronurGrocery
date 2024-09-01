@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.ui.screens.onboarding
+package com.example.gronurgrocery.features.starting.screens.onboarding
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -40,7 +40,7 @@ fun OnBoardingHorizontalPager() {
 
 @Composable
 fun Indicator(
-    pageInd: Int
+    pageInd: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
