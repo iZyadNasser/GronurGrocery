@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.starting.ui.theme
+package com.example.gronurgrocery.features.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

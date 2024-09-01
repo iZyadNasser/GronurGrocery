@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gronurgrocery.R
-import com.example.gronurgrocery.features.starting.ui.theme.background
+import com.example.gronurgrocery.features.ui.theme.background
 
 @Preview
 @Composable
