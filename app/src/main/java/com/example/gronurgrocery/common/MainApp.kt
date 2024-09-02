@@ -1,4 +1,4 @@
-package com.example.gronurgrocery
+package com.example.gronurgrocery.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,9 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.gronurgrocery.features.starting.screens.splash.SplashScreen
+import com.example.gronurgrocery.features.starting.presentation.onboarding.OnBoardingPager
+import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+const val SPLASH_DELAY_TIME = 2000L
 
 @Composable
 fun MyApp(
@@ -18,15 +21,15 @@ fun MyApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "splash"
+        startDestination = NavigationScreen.Splash.route
     ) {
-        composable(route = "splash") {
+        composable(route = NavigationScreen.Splash.route) {
             val scope = rememberCoroutineScope()
             LaunchedEffect(key1 = true) {
                 scope.launch {
-                    delay(1500)
-                    navController.navigate(route = "onboarding") {
-                        popUpTo(route = "splash") {
+                    delay(SPLASH_DELAY_TIME)
+                    navController.navigate(route = NavigationScreen.Onboarding.route) {
+                        popUpTo(route = NavigationScreen.Splash.route) {
                             inclusive = true
                         }
                     }
@@ -35,8 +38,8 @@ fun MyApp(
             SplashScreen()
         }
 
-        composable(route = "onboarding") {
-
+        composable(route = NavigationScreen.Onboarding.route) {
+            OnBoardingPager()
         }
     }
 }

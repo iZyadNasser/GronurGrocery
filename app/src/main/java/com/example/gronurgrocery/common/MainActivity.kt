@@ -1,4 +1,4 @@
-package com.example.gronurgrocery
+package com.example.gronurgrocery.common
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

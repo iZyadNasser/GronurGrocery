@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.starting.screens.splash
+package com.example.gronurgrocery.features.starting.presentation.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ fun SplashScreen() {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(background)
             .paint(
                 painter = painterResource(id = R.drawable.pattarn),
                 contentScale = ContentScale.FillBounds

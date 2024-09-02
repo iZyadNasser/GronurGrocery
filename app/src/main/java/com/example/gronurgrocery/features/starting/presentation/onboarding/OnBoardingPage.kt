@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.starting.screens.onboarding
+package com.example.gronurgrocery.features.starting.presentation.onboarding
 
 import androidx.annotation.DrawableRes
 import com.example.gronurgrocery.R
