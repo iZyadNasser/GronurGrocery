@@ -18,6 +18,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -74,12 +76,13 @@ fun RegisterScreen(
                     )
             )
 
+
             Spacer(modifier = Modifier.height(40.dp))
             FormTextField(
                 label = "Email Address",
                 iconDrawable = R.drawable.sms,
                 fieldValue = "",
-                onValueChange = { /*TODO*/ },
+                onValueChange = { /* TODO */ },
                 modifier = Modifier
                     .fillMaxWidth()
             )

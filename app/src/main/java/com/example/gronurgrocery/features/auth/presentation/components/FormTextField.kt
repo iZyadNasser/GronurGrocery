@@ -16,6 +16,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,13 +32,14 @@ fun FormTextField(
     label: String,
     @DrawableRes iconDrawable: Int,
     fieldValue: String,
-    onValueChange: () -> Unit,
-    modifier: Modifier = Modifier
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    onFocusChanged: (FocusState) -> Unit = {/* TODO: Remove this default lambda */}
 ) {
         TextField(
             value = fieldValue,
-            onValueChange = { onValueChange() },
-            label = {
+            onValueChange = { onValueChange(it) },
+            placeholder = {
                 Row {
                     Icon(
                         painter = painterResource(id = iconDrawable),
@@ -61,6 +64,7 @@ fun FormTextField(
                 .clip(RoundedCornerShape(30.dp))
                 .height(60.dp)
                 .background(Color(0xFFF8F8F8))
+                .onFocusChanged { onFocusChanged(it) }
         )
 }
 
@@ -72,7 +76,8 @@ fun PreviewFormTextField() {
             label = "Email Address",
             iconDrawable = R.drawable.sms,
             fieldValue = "",
-            onValueChange = {}
+            onValueChange = {},
+            onFocusChanged = {}
         )
     }
 }
