@@ -41,7 +41,7 @@ fun Indicator(
 }
 
 @Composable
-fun IndicatorPoint(
+private fun IndicatorPoint(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -56,7 +56,7 @@ fun IndicatorPoint(
 
 @Preview
 @Composable
-fun IndicatorPreview() {
+private fun IndicatorPreview() {
     GronurGroceryTheme {
         Indicator(1)
     }

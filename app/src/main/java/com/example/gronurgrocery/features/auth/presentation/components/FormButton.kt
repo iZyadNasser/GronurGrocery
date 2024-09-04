@@ -27,7 +27,7 @@ fun FormButton(
 
 @Preview
 @Composable
-fun PreviewFormButton() {
+private fun PreviewFormButton() {
     GronurGroceryTheme {
         FormButton(
             text ="Sign In",

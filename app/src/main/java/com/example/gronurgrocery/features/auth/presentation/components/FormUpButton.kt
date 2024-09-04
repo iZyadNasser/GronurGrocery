@@ -41,7 +41,7 @@ fun FormUpButton(
 
 @Preview
 @Composable
-fun PreviewFormUpButton() {
+private fun PreviewFormUpButton() {
     GronurGroceryTheme {
         FormUpButton(
             onClick = {}

@@ -67,7 +67,7 @@ fun FormDivider(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PreviewFormDivider() {
+private fun PreviewFormDivider() {
     GronurGroceryTheme {
         FormDivider(
             modifier = Modifier.padding(12.dp)

@@ -157,7 +157,7 @@ fun OnboardingPager(
 
 
 @Composable
-fun OnboardingTopDesign(
+private fun OnboardingTopDesign(
     onboardingPage: OnboardingPage,
     modifier: Modifier = Modifier
 ) {
@@ -183,7 +183,7 @@ fun OnboardingTopDesign(
 }
 
 @Composable
-fun OnboardingBottomDesign(
+private fun OnboardingBottomDesign(
     onboardingPage: OnboardingPage,
     modifier: Modifier = Modifier
 ) {
@@ -217,7 +217,7 @@ fun OnboardingBottomDesign(
 
 @Preview(showSystemUi = true)
 @Composable
-fun OnboardingDesignPreview() {
+private fun OnboardingDesignPreview() {
     GronurGroceryTheme {
         OnboardingPager(
             onBackPressed = {},

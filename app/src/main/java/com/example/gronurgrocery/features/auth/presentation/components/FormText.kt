@@ -42,7 +42,7 @@ fun FormText(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PreviewFormText() {
+private fun PreviewFormText() {
     GronurGroceryTheme {
         FormText(
             titleText = "Register Now",

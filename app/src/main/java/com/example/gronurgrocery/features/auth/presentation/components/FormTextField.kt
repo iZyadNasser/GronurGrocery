@@ -70,7 +70,7 @@ fun FormTextField(
 
 @Preview
 @Composable
-fun PreviewFormTextField() {
+private fun PreviewFormTextField() {
     GronurGroceryTheme {
         FormTextField(
             label = "Email Address",
