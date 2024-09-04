@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.starting.presentation.onboarding.components
+package com.example.gronurgrocery.features.starting.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

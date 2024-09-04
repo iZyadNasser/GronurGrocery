@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.starting.presentation.onboarding.components
+package com.example.gronurgrocery.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomButton(
     text: String,
+    textColor: Color,
+    backgroundColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -26,15 +28,16 @@ fun CustomButton(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .clip(RoundedCornerShape(30.dp))
-            .background(Color.White)
             .fillMaxWidth()
             .height(60.dp)
             .clickable { onClick() }
+            .background(backgroundColor)
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = textColor
         )
     }
 }

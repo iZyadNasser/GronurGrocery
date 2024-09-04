@@ -37,10 +37,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
-import com.example.gronurgrocery.features.starting.presentation.onboarding.components.CustomButton
-import com.example.gronurgrocery.features.starting.presentation.onboarding.components.Indicator
+import com.example.gronurgrocery.common.components.CustomButton
+import com.example.gronurgrocery.features.starting.presentation.components.Indicator
 import kotlinx.coroutines.launch
-import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPage
 
 const val PAGE_COUNT = 3
 
@@ -136,6 +135,8 @@ fun OnboardingPager(
         ) {
             CustomButton(
                 "Continue",
+                textColor = Color.Black,
+                backgroundColor = Color.White,
                 onClick = {
                     if (topPagerState.currentPage != PAGE_COUNT - 1) {
                         coroutineScope.launch {
