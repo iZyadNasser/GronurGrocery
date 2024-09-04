@@ -1,6 +1,7 @@
 package com.example.gronurgrocery.features.auth.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun FormUpButton(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -25,6 +27,7 @@ fun FormUpButton(
             .clip(RoundedCornerShape(28.dp))
             .size(56.dp)
             .background(Color(0xFFF8F8F8))
+            .clickable { onClick() }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.arrow_left),
@@ -40,6 +43,8 @@ fun FormUpButton(
 @Composable
 fun PreviewFormUpButton() {
     GronurGroceryTheme {
-        FormUpButton()
+        FormUpButton(
+            onClick = {}
+        )
     }
 }
