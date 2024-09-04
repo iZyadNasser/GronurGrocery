@@ -14,7 +14,7 @@
         android:theme="@style/Theme.GronurGrocery"
         tools:targetApi="31">
         <activity
-            android:name=".common.MainActivity"
+            android:name=".common.main_app.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GronurGrocery">

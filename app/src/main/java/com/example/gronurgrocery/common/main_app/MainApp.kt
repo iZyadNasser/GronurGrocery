@@ -1,8 +1,9 @@
-package com.example.gronurgrocery.common
+package com.example.gronurgrocery.common.main_app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +18,8 @@ const val SPLASH_DELAY_TIME = 2000L
 
 @Composable
 fun MyApp(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MainAppViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navController,
@@ -28,13 +30,22 @@ fun MyApp(
             LaunchedEffect(key1 = true) {
                 scope.launch {
                     delay(SPLASH_DELAY_TIME)
-                    navController.navigate(route = NavigationScreen.Onboarding.route) {
-                        popUpTo(route = NavigationScreen.Splash.route) {
-                            inclusive = true
+                    if (viewModel.onboardingState.value) {
+                        navController.navigate(route = NavigationScreen.Register.route) {
+                            popUpTo(route = NavigationScreen.Splash.route) {
+                                inclusive = true
+                            }
+                        }
+                    } else {
+                        navController.navigate(route = NavigationScreen.Onboarding.route) {
+                            popUpTo(route = NavigationScreen.Splash.route) {
+                                inclusive = true
+                            }
                         }
                     }
                 }
             }
+
             SplashScreen()
         }
 
