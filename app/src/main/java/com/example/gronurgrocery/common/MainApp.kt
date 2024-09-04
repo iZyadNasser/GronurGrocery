@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.gronurgrocery.features.auth.presentation.LoginScreen
+import com.example.gronurgrocery.features.auth.presentation.RegisterScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -41,7 +42,7 @@ fun MyApp(
             OnboardingPager(
                 onBackPressed = { navController.popBackStack() },
                 onLastContinuePressed = {
-                    navController.navigate(route = NavigationScreen.Login.route) {
+                    navController.navigate(route = NavigationScreen.Register.route) {
                         popUpTo(route = NavigationScreen.Onboarding.route) {
                             inclusive = true
                         }
@@ -50,8 +51,8 @@ fun MyApp(
             )
         }
 
-        composable(route = NavigationScreen.Login.route) {
-            LoginScreen()
+        composable(route = NavigationScreen.Register.route) {
+            RegisterScreen()
         }
     }
 }
