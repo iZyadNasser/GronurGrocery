@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gronurgrocery.R
+import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun FormUpButton(
@@ -38,5 +39,7 @@ fun FormUpButton(
 @Preview
 @Composable
 fun PreviewFormUpButton() {
-    FormUpButton()
+    GronurGroceryTheme {
+        FormUpButton()
+    }
 }

@@ -20,6 +20,22 @@ val Typography = Typography(
         //fontFamily = FontFamily(Font(R.font.inter_bold)),
         textAlign = TextAlign.Center
     ),
+
+//    bodySmall = TextStyle(
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 18.sp,
+//        lineHeight = 26.sp,
+//        letterSpacing = 0.sp,
+//        textAlign = TextAlign.Start
+//    ),
+    titleSmall = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 26.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.sp,
+        //fontFamily = FontFamily(Font(R.font.inter_bold)),
+        textAlign = TextAlign.Center
+    )
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
@@ -36,13 +52,4 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
-
-    titleSmall = TextStyle(
-        fontWeight = FontWeight.Bold,
-        fontSize = 26.sp,
-        lineHeight = 36.sp,
-        letterSpacing = 0.sp,
-        //fontFamily = FontFamily(Font(R.font.inter_bold)),
-        textAlign = TextAlign.Center
-    )
 )
