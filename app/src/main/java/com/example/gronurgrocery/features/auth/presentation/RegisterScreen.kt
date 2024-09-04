@@ -1,7 +1,10 @@
 package com.example.gronurgrocery.features.auth.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +15,12 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gronurgrocery.R
@@ -27,7 +33,9 @@ import com.example.gronurgrocery.features.auth.presentation.components.FormUpBut
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    onSignInClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,6 +130,30 @@ fun RegisterScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(52.dp))
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Already have an account?",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFF96A4B2)
+                )
+                Text(
+                    text = " Sign In.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Start,
+                    color = Color(0xFF19253D),
+                    modifier = Modifier
+                        .clickable { onSignInClick() }
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+
         }
     }
 }
@@ -130,6 +162,8 @@ fun RegisterScreen() {
 @Composable
 private fun PreviewRegisterScreen() {
     GronurGroceryTheme {
-        RegisterScreen()
+        RegisterScreen(
+            onSignInClick = {}
+        )
     }
 }

@@ -52,7 +52,15 @@ fun MyApp(
         }
 
         composable(route = NavigationScreen.Register.route) {
-            RegisterScreen()
+            RegisterScreen(
+                onSignInClick = {
+                    navController.navigate(route = NavigationScreen.Login.route)
+                }
+            )
+        }
+
+        composable(route = NavigationScreen.Login.route) {
+            LoginScreen()
         }
     }
 }
