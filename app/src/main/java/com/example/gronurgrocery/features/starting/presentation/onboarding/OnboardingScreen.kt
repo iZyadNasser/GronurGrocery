@@ -1,30 +1,21 @@
 package com.example.gronurgrocery.features.starting.presentation.onboarding
 
 import android.annotation.SuppressLint
-import android.icu.math.BigDecimal
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,10 +25,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 import com.example.gronurgrocery.features.ui.theme.background
 import androidx.compose.foundation.pager.HorizontalPager
@@ -50,26 +39,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import com.example.gronurgrocery.features.starting.presentation.onboarding.components.CustomButton
 import com.example.gronurgrocery.features.starting.presentation.onboarding.components.Indicator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPage
 
 const val PAGE_COUNT = 3
 
 @SuppressLint("DefaultLocale")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingPager(
+fun OnboardingPager(
+    onBackPressed: () -> Unit,
+    onLastContinuePressed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val topPagerState = rememberPagerState(pageCount = {PAGE_COUNT})
     val bottomPagerState = rememberPagerState(pageCount = {PAGE_COUNT})
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val pages = listOf(
-        OnBoardingPage.First,
-        OnBoardingPage.Second,
-        OnBoardingPage.Third
+        OnboardingPage.First,
+        OnboardingPage.Second,
+        OnboardingPage.Third
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -94,6 +83,19 @@ fun OnBoardingPager(
             }
     }
 
+    BackHandler {
+        if (topPagerState.currentPage != 0) {
+            coroutineScope.launch {
+                topPagerState.scrollToPage(topPagerState.currentPage - 1)
+            }
+            coroutineScope.launch {
+                bottomPagerState.scrollToPage(bottomPagerState.currentPage - 1)
+            }
+        } else {
+            onBackPressed()
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -113,8 +115,8 @@ fun OnBoardingPager(
                 modifier = Modifier
                     .background(background)
             ) {
-                OnBoardingTopDesign(
-                    onBoardingPage = pages[position],
+                OnboardingTopDesign(
+                    onboardingPage = pages[position],
                     modifier = Modifier.height(screenHeight.times(0.5f).dp)
                 )
             }
@@ -125,7 +127,7 @@ fun OnBoardingPager(
         HorizontalPager(
             state = bottomPagerState
         ) { position ->
-            OnBoardingBottomDesign(onBoardingPage = pages[position])
+            OnboardingBottomDesign(onboardingPage = pages[position])
         }
         Column(
             verticalArrangement = Arrangement.Bottom, modifier = Modifier
@@ -142,6 +144,8 @@ fun OnBoardingPager(
                         coroutineScope.launch {
                             bottomPagerState.scrollToPage(bottomPagerState.currentPage + 1)
                         }
+                    } else {
+                        onLastContinuePressed()
                     }
                 }
             )
@@ -152,8 +156,8 @@ fun OnBoardingPager(
 
 
 @Composable
-fun OnBoardingTopDesign(
-    onBoardingPage: OnBoardingPage,
+fun OnboardingTopDesign(
+    onboardingPage: OnboardingPage,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -169,7 +173,7 @@ fun OnBoardingTopDesign(
             .background(Color.White)
     ) {
         Image(
-            painter = painterResource(id = onBoardingPage.imageRes),
+            painter = painterResource(id = onboardingPage.imageRes),
             contentDescription = "strawberry image",
             modifier = Modifier
                 .fillMaxSize()
@@ -178,8 +182,8 @@ fun OnBoardingTopDesign(
 }
 
 @Composable
-fun OnBoardingBottomDesign(
-    onBoardingPage: OnBoardingPage,
+fun OnboardingBottomDesign(
+    onboardingPage: OnboardingPage,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -192,14 +196,14 @@ fun OnBoardingBottomDesign(
             )
     ) {
             Text(
-                text = onBoardingPage.title,
+                text = onboardingPage.title,
                 color = Color.White,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .fillMaxWidth()
             )
             Text(
-                text = onBoardingPage.description,
+                text = onboardingPage.description,
                 color = Color.White,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
@@ -212,8 +216,11 @@ fun OnBoardingBottomDesign(
 
 @Preview(showSystemUi = true)
 @Composable
-fun OnBoardingDesignPreview() {
+fun OnboardingDesignPreview() {
     GronurGroceryTheme {
-        OnBoardingPager()
+        OnboardingPager(
+            onBackPressed = {},
+            onLastContinuePressed = {}
+        )
     }
 }

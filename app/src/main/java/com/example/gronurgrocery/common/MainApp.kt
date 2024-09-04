@@ -3,11 +3,11 @@ package com.example.gronurgrocery.common
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.gronurgrocery.features.starting.presentation.onboarding.OnBoardingPager
+import com.example.gronurgrocery.features.auth.presentation.LoginScreen
+import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -16,8 +16,7 @@ const val SPLASH_DELAY_TIME = 2000L
 
 @Composable
 fun MyApp(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
@@ -39,7 +38,20 @@ fun MyApp(
         }
 
         composable(route = NavigationScreen.Onboarding.route) {
-            OnBoardingPager()
+            OnboardingPager(
+                onBackPressed = { navController.popBackStack() },
+                onLastContinuePressed = {
+                    navController.navigate(route = NavigationScreen.Login.route) {
+                        popUpTo(route = NavigationScreen.Onboarding.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
+        composable(route = NavigationScreen.Login.route) {
+            LoginScreen()
         }
     }
 }
