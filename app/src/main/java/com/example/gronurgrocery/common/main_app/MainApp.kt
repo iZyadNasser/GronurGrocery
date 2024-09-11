@@ -89,7 +89,9 @@ fun MyApp(
         }
 
         composable(route = NavigationScreen.ForgotPassword.route) {
-            ForgotPasswordScreen()
+            ForgotPasswordScreen(
+                onUpButtonPressed = { navController.navigateUp() }
+            )
         }
     }
 }
