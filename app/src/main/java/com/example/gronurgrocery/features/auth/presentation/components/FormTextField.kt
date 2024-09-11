@@ -41,6 +41,7 @@ fun FormTextField(
         TextField(
             value = fieldValue,
             onValueChange = { onValueChange(it) },
+            singleLine = true,
             placeholder = {
                 Row {
                     Icon(
