@@ -11,6 +11,9 @@ import androidx.navigation.compose.composable
 import com.example.gronurgrocery.features.auth.presentation.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.RegisterScreen
+import com.example.gronurgrocery.features.auth.presentation.ResetPasswordScreen
+import com.example.gronurgrocery.features.auth.presentation.SetUpAccountScreen
+import com.example.gronurgrocery.features.auth.presentation.VerificationScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -90,7 +93,24 @@ fun MyApp(
 
         composable(route = NavigationScreen.ForgotPassword.route) {
             ForgotPasswordScreen(
+                navigateToVerification = { navController.navigate(NavigationScreen.Verification.route) },
                 onUpButtonPressed = { navController.navigateUp() }
+            )
+        }
+
+        composable(route = NavigationScreen.Verification.route) {
+            VerificationScreen(
+
+            )
+        }
+        composable(route = NavigationScreen.ResetPassword.route) {
+            ResetPasswordScreen(
+
+            )
+        }
+        composable(route = NavigationScreen.SetUpAccount.route) {
+            SetUpAccountScreen(
+
             )
         }
     }

@@ -6,4 +6,7 @@ sealed class NavigationScreen(val route: String) {
     data object Register : NavigationScreen("register_screen")
     data object Login : NavigationScreen("login_screen")
     data object ForgotPassword : NavigationScreen("forgot_password_screen")
+    data object Verification: NavigationScreen("verification_screen")
+    data object ResetPassword: NavigationScreen("reset_password_screen")
+    data object SetUpAccount: NavigationScreen("set_up_account_screen")
 }
