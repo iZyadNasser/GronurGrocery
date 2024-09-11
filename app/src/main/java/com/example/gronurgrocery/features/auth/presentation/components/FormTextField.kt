@@ -36,12 +36,14 @@ fun FormTextField(
     fieldValue: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onFocusChanged: (FocusState) -> Unit = {/* TODO: Remove this default lambda */}
+    onFocusChanged: (FocusState) -> Unit = {/* TODO: Remove this default lambda */},
+    isError: Boolean = false
 ) {
         TextField(
             value = fieldValue,
             onValueChange = { onValueChange(it) },
             singleLine = true,
+            isError = isError,
             placeholder = {
                 Row {
                     Icon(
