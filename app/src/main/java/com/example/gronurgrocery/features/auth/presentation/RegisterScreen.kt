@@ -18,8 +18,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -36,8 +38,21 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun RegisterScreen(
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
+    onUpButtonPressed: () -> Unit
 ) {
+    var emailTextFieldState by remember {
+        mutableStateOf("")
+    }
+
+    var passwordTextFieldState by remember {
+        mutableStateOf("")
+    }
+
+    var confirmPasswordTextFieldState by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +73,7 @@ fun RegisterScreen(
                 )
         ) {
             FormUpButton(
-                onClick = { /*TODO*/ }
+                onClick = { onUpButtonPressed() }
             )
         }
 
@@ -76,13 +91,12 @@ fun RegisterScreen(
                     )
             )
 
-
             Spacer(modifier = Modifier.height(40.dp))
             FormTextField(
                 label = "Email Address",
                 iconDrawable = R.drawable.sms,
-                fieldValue = "",
-                onValueChange = { /* TODO */ },
+                fieldValue = emailTextFieldState,
+                onValueChange = { emailTextFieldState = it },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -91,8 +105,8 @@ fun RegisterScreen(
             FormTextField(
                 label = "Password",
                 iconDrawable = R.drawable.lock,
-                fieldValue = "",
-                onValueChange = { /*TODO*/ },
+                fieldValue = passwordTextFieldState,
+                onValueChange = { passwordTextFieldState = it },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -101,8 +115,8 @@ fun RegisterScreen(
             FormTextField(
                 label = "Confirm Password",
                 iconDrawable = R.drawable.lock,
-                fieldValue = "",
-                onValueChange = { /*TODO*/ },
+                fieldValue = confirmPasswordTextFieldState,
+                onValueChange = { confirmPasswordTextFieldState = it },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -166,7 +180,8 @@ fun RegisterScreen(
 private fun PreviewRegisterScreen() {
     GronurGroceryTheme {
         RegisterScreen(
-            onSignInClick = {}
+            onSignInClick = {},
+            onUpButtonPressed = {}
         )
     }
 }

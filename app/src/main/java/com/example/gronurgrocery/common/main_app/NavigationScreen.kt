@@ -1,8 +1,9 @@
 package com.example.gronurgrocery.common.main_app
 
 sealed class NavigationScreen(val route: String) {
-    object Splash : NavigationScreen("splash_screen")
-    object Onboarding : NavigationScreen("onboarding_screen")
-    object Register : NavigationScreen("register_screen")
-    object Login : NavigationScreen("login_screen")
+    data object Splash : NavigationScreen("splash_screen")
+    data object Onboarding : NavigationScreen("onboarding_screen")
+    data object Register : NavigationScreen("register_screen")
+    data object Login : NavigationScreen("login_screen")
+    data object ForgotPassword : NavigationScreen("forgot_password_screen")
 }
