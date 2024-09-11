@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.verification
+package com.example.gronurgrocery.features.auth.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

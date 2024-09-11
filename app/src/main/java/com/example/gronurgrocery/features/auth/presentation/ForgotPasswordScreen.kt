@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.forgot_password
+package com.example.gronurgrocery.features.auth.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
