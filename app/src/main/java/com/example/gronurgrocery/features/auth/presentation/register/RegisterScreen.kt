@@ -18,40 +18,31 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.auth.presentation.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.components.FormTextField
+import com.example.gronurgrocery.features.auth.presentation.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.auth.presentation.components.FormUpButton
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun RegisterScreen(
     onSignInClick: () -> Unit,
-    onUpButtonPressed: () -> Unit
+    onUpButtonPressed: () -> Unit,
+    registerViewModel: RegisterViewModel = viewModel<RegisterViewModel>()
 ) {
-    var emailTextFieldState by remember {
-        mutableStateOf("")
-    }
 
-    var passwordTextFieldState by remember {
-        mutableStateOf("")
-    }
-
-    var confirmPasswordTextFieldState by remember {
-        mutableStateOf("")
-    }
+    val uiState = registerViewModel.state.value
 
     Column(
         modifier = Modifier
@@ -95,31 +86,79 @@ fun RegisterScreen(
             FormTextField(
                 label = "Email Address",
                 iconDrawable = R.drawable.sms,
-                fieldValue = emailTextFieldState,
-                onValueChange = { emailTextFieldState = it },
+                fieldValue = uiState.emailText,
+                onValueChange = { registerViewModel.updateEmailState(it)},
+                isError = uiState.emailError != null,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            if (uiState.emailError != null) {
+                if (uiState.emailText.isBlank()) {
+                    FormTextFieldErrorText(
+                        text = "This field is required",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                } else {
+                    FormTextFieldErrorText(
+                        text = uiState.emailError,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
             FormTextField(
                 label = "Password",
                 iconDrawable = R.drawable.lock,
-                fieldValue = passwordTextFieldState,
-                onValueChange = { passwordTextFieldState = it },
+                fieldValue = uiState.passwordText,
+                onValueChange = { registerViewModel.updatePasswordState(it) },
+                isError = uiState.passwordError != null,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            if (uiState.passwordError != null) {
+                if (uiState.passwordText.isBlank()) {
+                    FormTextFieldErrorText(
+                        text = "This field is required",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                } else {
+                    FormTextFieldErrorText(
+                        text = uiState.passwordError,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
             FormTextField(
                 label = "Confirm Password",
                 iconDrawable = R.drawable.lock,
-                fieldValue = confirmPasswordTextFieldState,
-                onValueChange = { confirmPasswordTextFieldState = it },
+                fieldValue = uiState.confirmPasswordText,
+                onValueChange = { registerViewModel.updateConfirmPasswordState(it) },
+                isError = uiState.confirmPasswordError != null,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            if (uiState.confirmPasswordError != null) {
+                if (uiState.confirmPasswordText.isBlank()) {
+                    FormTextFieldErrorText(
+                        text = "This field is required",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                } else {
+                    FormTextFieldErrorText(
+                        text = uiState.confirmPasswordError,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(40.dp))
             FormButton(
