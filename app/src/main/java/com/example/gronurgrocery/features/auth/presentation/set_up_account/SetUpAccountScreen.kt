@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation
+package com.example.gronurgrocery.features.auth.presentation.set_up_account
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,20 +10,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
-fun VerificationScreen(modifier: Modifier = Modifier) {
+fun SetUpAccountScreen(modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        Text(text = "Hello From Verification")
+        Text(text = "Hello From SetUpAccount")
     }
 }
 
 @Preview
 @Composable
-private fun PreviewVerificationScreen() {
+private fun PreviewSetUpAccountScreen() {
     GronurGroceryTheme {
-        VerificationScreen(
+        SetUpAccountScreen(
 
         )
     }

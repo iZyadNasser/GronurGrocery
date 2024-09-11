@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation
+package com.example.gronurgrocery.features.auth.presentation.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,12 +23,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.gronurgrocery.R
+import com.example.gronurgrocery.features.auth.presentation.components.CustomCheckbox
 import com.example.gronurgrocery.features.auth.presentation.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.components.FormDivider
@@ -37,9 +43,10 @@ import com.example.gronurgrocery.features.auth.presentation.components.FormUpBut
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
-fun RegisterScreen(
-    onSignInClick: () -> Unit,
-    onUpButtonPressed: () -> Unit
+fun LoginScreen(
+    onSignUpClick: () -> Unit,
+    onUpButtonPressed: () -> Unit,
+    onForgotPasswordClick: () -> Unit,
 ) {
     var emailTextFieldState by remember {
         mutableStateOf("")
@@ -49,9 +56,7 @@ fun RegisterScreen(
         mutableStateOf("")
     }
 
-    var confirmPasswordTextFieldState by remember {
-        mutableStateOf("")
-    }
+    var savePasswordChecked by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -83,8 +88,8 @@ fun RegisterScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             FormText(
-                titleText = "Register Now",
-                descriptionText = "Sign up with your email and password to continue",
+                titleText = "Welcome back",
+                descriptionText = "Access your account securely by using your email and password",
                 modifier = Modifier
                     .padding(
                         top = 12.dp
@@ -111,19 +116,58 @@ fun RegisterScreen(
                     .fillMaxWidth()
             )
 
+            // TODO save password
             Spacer(modifier = Modifier.height(20.dp))
-            FormTextField(
-                label = "Confirm Password",
-                iconDrawable = R.drawable.lock,
-                fieldValue = confirmPasswordTextFieldState,
-                onValueChange = { confirmPasswordTextFieldState = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CustomCheckbox(
+                        checked = savePasswordChecked,
+                        onClick = { savePasswordChecked = !savePasswordChecked },
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+
+                    Text(
+                        text = "Save password",
+                        style = TextStyle(
+                            textAlign = TextAlign.End,
+                            letterSpacing = 0.sp,
+                            lineHeight = 26.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        ),
+                        color = Color(0xFF96A4B2),
+                        modifier = Modifier
+                            .padding(
+                                start = 12.dp
+                            )
+                    )
+                }
+
+                Text(
+                    text = "Forgot password?",
+                    color = Color(0xFFFF5C01),
+                    style = TextStyle(
+                        textAlign = TextAlign.End,
+                        letterSpacing = 0.sp,
+                        lineHeight = 26.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp
+                    ),
+                    modifier = Modifier
+                        .clickable { onForgotPasswordClick() }
+                )
+            }
 
             Spacer(modifier = Modifier.height(40.dp))
             FormButton(
-                text = "Sign Up",
+                text = "Sign In",
                 onClick = { /*TODO*/ }
             )
 
@@ -155,18 +199,18 @@ fun RegisterScreen(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Already have an account?",
+                    text = "Didn’t have an account?",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     color = Color(0xFF96A4B2)
                 )
                 Text(
-                    text = " Sign In.",
+                    text = " Sign Up.",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Start,
                     color = Color(0xFF19253D),
                     modifier = Modifier
-                        .clickable { onSignInClick() }
+                        .clickable { onSignUpClick() }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -177,11 +221,12 @@ fun RegisterScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun PreviewRegisterScreen() {
+private fun PreviewLoginScreen() {
     GronurGroceryTheme {
-        RegisterScreen(
-            onSignInClick = {},
-            onUpButtonPressed = {}
+        LoginScreen(
+            onSignUpClick = {},
+            onUpButtonPressed = {},
+            onForgotPasswordClick = {}
         )
     }
 }
