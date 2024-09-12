@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -90,6 +92,8 @@ fun RegisterScreen(
                 fieldValue = uiState.emailText,
                 onValueChange = { registerViewModel.updateEmailState(it)},
                 isError = uiState.emailError != null,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -119,6 +123,8 @@ fun RegisterScreen(
                 onValueChange = { registerViewModel.updatePasswordState(it) },
                 isError = uiState.passwordError != null,
                 visualTransformation = if (uiState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -148,6 +154,8 @@ fun RegisterScreen(
                 onValueChange = { registerViewModel.updateConfirmPasswordState(it) },
                 isError = uiState.confirmPasswordError != null,
                 visualTransformation = if (uiState.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
             )
