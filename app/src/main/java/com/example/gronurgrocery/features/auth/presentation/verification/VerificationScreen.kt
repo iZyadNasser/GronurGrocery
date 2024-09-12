@@ -22,10 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -61,7 +58,6 @@ fun VerificationScreen(
     val focusManager = LocalFocusManager.current
 
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
@@ -72,7 +68,6 @@ fun VerificationScreen(
                 top = 16.dp,
                 start = 24.dp,
                 end = 24.dp,
-                bottom = 36.dp
             )
             .clickable(
                 indication = null,
@@ -80,21 +75,28 @@ fun VerificationScreen(
             ) { focusManager.clearFocus() }
 
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = 12.dp
+                )
+        ) {
+            FormUpButton(
+                onClick = { onUpButtonPressed() }
+            )
+        }
+
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             Column(
                 modifier = Modifier
                     .padding(
-                        bottom = 12.dp
+                        bottom = 36.dp
                     )
-            ) {
-                FormUpButton(
-                    onClick = { onUpButtonPressed() }
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
             ) {
                 FormText(
                     titleText = "Verification Code",
@@ -168,7 +170,10 @@ fun VerificationScreen(
                             unfocusedSuffixColor = Color.Transparent,
                             disabledSuffixColor = Color.Transparent,
                             errorSuffixColor = Color.Transparent,
-                            textSelectionColors = TextSelectionColors(Color.Transparent, Color.Transparent)
+                            textSelectionColors = TextSelectionColors(
+                                Color.Transparent,
+                                Color.Transparent
+                            )
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.NumberPassword,
@@ -203,14 +208,17 @@ fun VerificationScreen(
                         ) { /* TODO */ }
                 )
             }
-        }
-        FormButton(
-            text = "Next",
-            onClick = {
-                navigateToReset()
-                // TODO (add more logic)
+            Column {
+                FormButton(
+                    text = "Next",
+                    onClick = {
+                        navigateToReset()
+                        // TODO (add more logic)
+                    }
+                )
+                Spacer(modifier = Modifier.height(36.dp))
             }
-        )
+        }
     }
 }
 
