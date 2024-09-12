@@ -12,7 +12,7 @@ import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.SetUpAccountScreen
-import com.example.gronurgrocery.features.auth.presentation.VerificationScreen
+import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay

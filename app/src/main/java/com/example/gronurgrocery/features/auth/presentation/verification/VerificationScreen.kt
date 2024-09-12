@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation
+package com.example.gronurgrocery.features.auth.presentation.verification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.features.auth.presentation.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.components.FormToken
@@ -47,12 +48,11 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 fun VerificationScreen(
     navigateToReset: () -> Unit,
     onUpButtonPressed: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    verificationViewModel: VerificationViewModel = viewModel<VerificationViewModel>()
 ) {
 
-    var tokenState by remember {
-        mutableStateOf("")
-    }
+    val uiState = verificationViewModel.state.value
 
     val tokenFocusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -110,7 +110,7 @@ fun VerificationScreen(
                         .fillMaxWidth()
                 ) {
                     TextField(
-                        value = tokenState,
+                        value = uiState.tokenText,
                         onValueChange = {
                             var itt = ""
                             for (c in it) {
@@ -119,7 +119,7 @@ fun VerificationScreen(
                                 }
                             }
                             if (itt.length <= 4) {
-                                tokenState = itt
+                                verificationViewModel.updateTokenText(itt)
                             }
                         },
                         colors = TextFieldColors(
@@ -172,7 +172,7 @@ fun VerificationScreen(
                     )
                     FormToken(
                         length = 4,
-                        token = tokenState,
+                        token = uiState.tokenText,
                         onClick = {
                             focusManager.clearFocus()
                             tokenFocusRequester.requestFocus()
