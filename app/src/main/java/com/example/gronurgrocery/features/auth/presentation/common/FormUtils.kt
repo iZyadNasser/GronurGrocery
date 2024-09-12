@@ -42,3 +42,28 @@ fun validConfirmPassword(
     }
     return null
 }
+
+fun validFullName(nameText: String): String? {
+    // Check if the name contains only valid characters (letters, spaces, hyphens)
+    val invalidCharRegex = Regex("[^a-zA-Z\\s-]")
+    if (nameText.contains(invalidCharRegex)) {
+        return "Name contains invalid characters. Only letters, spaces, and hyphens are allowed."
+    }
+
+    // Check if the name length is valid (between 2 and 50 characters)
+    if (nameText.length !in 2..50) {
+        return "Name must be between 2 and 50 characters long"
+    }
+
+    // If all checks pass, return null indicating the name is valid
+    return null
+}
+
+fun validPhoneNumber(newPhoneNumber: String): String? {
+    val phoneRegex =
+        Regex("^\\+?\\d{1,3}?[-.\\s]?\\(?\\d{1,4}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$")
+    if (!newPhoneNumber.matches(phoneRegex)) {
+        return "Phone number format is invalid"
+    }
+    return null
+}

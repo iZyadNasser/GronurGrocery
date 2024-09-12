@@ -11,7 +11,7 @@ import com.example.gronurgrocery.features.auth.presentation.forgot_password.Forg
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
-import com.example.gronurgrocery.features.auth.presentation.SetUpAccountScreen
+import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
@@ -111,7 +111,8 @@ fun MyApp(
         }
         composable(route = NavigationScreen.SetUpAccount.route) {
             SetUpAccountScreen(
-
+                onSaveChangesClick = { /* TODO */ },
+                onUpButtonPressed = { navController.navigateUp() }
             )
         }
     }
