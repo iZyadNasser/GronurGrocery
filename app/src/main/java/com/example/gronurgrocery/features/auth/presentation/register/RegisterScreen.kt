@@ -36,11 +36,13 @@ import com.example.gronurgrocery.features.auth.presentation.common.components.Fo
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
+import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun RegisterScreen(
     onSignInClick: () -> Unit,
+    onSignUpClick: (RegisterData) -> Unit,
     onUpButtonPressed: () -> Unit,
     registerViewModel: RegisterViewModel = viewModel<RegisterViewModel>()
 ) {
@@ -90,7 +92,7 @@ fun RegisterScreen(
                 label = "Email Address",
                 iconDrawable = R.drawable.sms,
                 fieldValue = uiState.emailText,
-                onValueChange = { registerViewModel.updateEmailState(it)},
+                onValueChange = { registerViewModel.updateEmailState(it) },
                 isError = uiState.emailError != null,
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
@@ -152,23 +154,23 @@ fun RegisterScreen(
                 onVisibilityIconClick = { registerViewModel.toggleConfirmPasswordVisibility() },
                 fieldValue = uiState.confirmPasswordText,
                 onValueChange = { registerViewModel.updateConfirmPasswordState(it) },
-                isError = uiState.confirmPasswordError != null,
+                isError = (uiState.confirmPasswordError != null || (uiState.confirmPasswordText.isBlank() && uiState.anyError)),
                 visualTransformation = if (uiState.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            if (uiState.confirmPasswordError != null) {
-                if (uiState.confirmPasswordText.isBlank()) {
+            if (uiState.confirmPasswordError != null || (uiState.confirmPasswordText.isBlank() && uiState.anyError)) {
+                if (uiState.confirmPasswordError != null) {
                     FormTextFieldErrorText(
-                        text = "This field is required",
+                        text = uiState.confirmPasswordError,
                         modifier = Modifier
                             .padding(top = 4.dp)
                     )
                 } else {
                     FormTextFieldErrorText(
-                        text = uiState.confirmPasswordError,
+                        text = "This field is required",
                         modifier = Modifier
                             .padding(top = 4.dp)
                     )
@@ -178,7 +180,19 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(40.dp))
             FormButton(
                 text = "Sign Up",
-                onClick = { /*TODO*/ }
+                onClick = {
+                    if (registerViewModel.allDataValid()) {
+                        val regData = RegisterData(
+                            emailText = uiState.emailText,
+                            passwordText = uiState.passwordText,
+                            confirmPasswordText = uiState.confirmPasswordText
+                        )
+                        onSignUpClick(regData)
+                    } else {
+                        /* TODO */
+                    }
+                    /*TODO*/
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -235,6 +249,7 @@ private fun PreviewRegisterScreen() {
     GronurGroceryTheme {
         RegisterScreen(
             onSignInClick = {},
+            onSignUpClick = {},
             onUpButtonPressed = {}
         )
     }

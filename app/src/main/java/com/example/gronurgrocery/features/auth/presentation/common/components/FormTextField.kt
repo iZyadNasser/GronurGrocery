@@ -42,6 +42,7 @@ fun FormTextField(
     fieldValue: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    disabled: Boolean = false,
     @DrawableRes visibilityIconDrawable: Int? = null,
     onVisibilityIconClick: (() -> Unit)? = null,
     onFocusChanged: (FocusState) -> Unit = {/* TODO: Remove this default lambda */},
@@ -53,6 +54,7 @@ fun FormTextField(
 ) {
         TextField(
             value = fieldValue,
+            enabled = !disabled,
             onValueChange = { onValueChange(it) },
             singleLine = true,
             isError = isError,
@@ -99,6 +101,8 @@ fun FormTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                disabledContainerColor = Color(0xFFCECACA),
                 cursorColor = background
             ),
             textStyle = TextStyle(

@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app
+package com.example.gronurgrocery.common.main_app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,6 +7,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.example.gronurgrocery.common.main_app.MainActivity
+import com.example.gronurgrocery.common.main_app.navigation.screens.ForgotPassword
+import com.example.gronurgrocery.common.main_app.navigation.screens.Login
+import com.example.gronurgrocery.common.main_app.navigation.screens.Onboarding
+import com.example.gronurgrocery.common.main_app.navigation.screens.Register
+import com.example.gronurgrocery.common.main_app.navigation.screens.ResetPassword
+import com.example.gronurgrocery.common.main_app.navigation.screens.SetUpAccount
+import com.example.gronurgrocery.common.main_app.navigation.screens.Splash
+import com.example.gronurgrocery.common.main_app.navigation.screens.Verification
+import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
@@ -28,22 +39,22 @@ fun MyApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationScreen.Splash.route
+        startDestination = Splash
     ) {
-        composable(route = NavigationScreen.Splash.route) {
+        composable<Splash> {
             val coroutineScope = rememberCoroutineScope()
             LaunchedEffect(key1 = true) {
                 coroutineScope.launch {
                     delay(SPLASH_DELAY_TIME)
                     if (viewModel.onboardingState.value) {
-                        navController.navigate(route = NavigationScreen.Register.route) {
-                            popUpTo(route = NavigationScreen.Splash.route) {
+                        navController.navigate(route = Register) {
+                            popUpTo(route = Splash) {
                                 inclusive = true
                             }
                         }
                     } else {
-                        navController.navigate(route = NavigationScreen.Onboarding.route) {
-                            popUpTo(route = NavigationScreen.Splash.route) {
+                        navController.navigate(route = Onboarding) {
+                            popUpTo(route = Splash) {
                                 inclusive = true
                             }
                         }
@@ -54,12 +65,12 @@ fun MyApp(
             SplashScreen()
         }
 
-        composable(route = NavigationScreen.Onboarding.route) {
+        composable<Onboarding> {
             OnboardingPager(
                 onBackPressed = { navController.popBackStack() },
                 onLastContinuePressed = {
-                    navController.navigate(route = NavigationScreen.Register.route) {
-                        popUpTo(route = NavigationScreen.Onboarding.route) {
+                    navController.navigate(route = Register) {
+                        popUpTo(route = Onboarding) {
                             inclusive = true
                         }
                     }
@@ -67,52 +78,66 @@ fun MyApp(
             )
         }
 
-        composable(route = NavigationScreen.Register.route) {
+        composable<Register> {
             RegisterScreen(
                 onSignInClick = {
-                    navController.navigate(route = NavigationScreen.Login.route)
+                    navController.navigate(route = Login)
+                },
+                onSignUpClick = { regData ->
+
+                    navController.navigate(route = SetUpAccount(
+                        emailText = regData.emailText,
+                        password = regData.passwordText
+                    ))
                 },
                 onUpButtonPressed = { activity.finish() }
             )
         }
 
-        composable(route = NavigationScreen.Login.route) {
+        composable<Login> {
             LoginScreen(
                 onSignUpClick = {
-                    navController.navigate(route = NavigationScreen.Register.route) {
-                        popUpTo(route = NavigationScreen.Register.route) {
+                    navController.navigate(route = Register) {
+                        popUpTo(route = Register) {
                             inclusive = true
                         }
                     }
                 },
                 onUpButtonPressed = { navController.navigateUp() },
-                onForgotPasswordClick = { navController.navigate(NavigationScreen.ForgotPassword.route) }
+                onForgotPasswordClick = { navController.navigate(ForgotPassword) }
             )
         }
 
-        composable(route = NavigationScreen.ForgotPassword.route) {
+        composable<ForgotPassword> {
             ForgotPasswordScreen(
-                navigateToVerification = { navController.navigate(NavigationScreen.Verification.route) },
+                navigateToVerification = { navController.navigate(Verification) },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
 
-        composable(route = NavigationScreen.Verification.route) {
+        composable<Verification> {
             VerificationScreen(
-                navigateToReset = { navController.navigate(NavigationScreen.ResetPassword.route) },
+                navigateToReset = { navController.navigate(ResetPassword) },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
-        composable(route = NavigationScreen.ResetPassword.route) {
+        composable<ResetPassword> {
             ResetPasswordScreen(
-                onSaveClick = { navController.navigate(NavigationScreen.SetUpAccount.route) },
+                onSaveClick = { /* TODO */ },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
-        composable(route = NavigationScreen.SetUpAccount.route) {
+        composable<SetUpAccount> {
+            val args = it.toRoute<SetUpAccount>()
+            val registerData = RegisterData(
+                emailText = args.emailText,
+                passwordText = args.password,
+                confirmPasswordText = args.password
+            )
             SetUpAccountScreen(
                 onSaveChangesClick = { /* TODO */ },
-                onUpButtonPressed = { navController.navigateUp() }
+                onUpButtonPressed = { navController.navigateUp() },
+                registerData = registerData
             )
         }
     }

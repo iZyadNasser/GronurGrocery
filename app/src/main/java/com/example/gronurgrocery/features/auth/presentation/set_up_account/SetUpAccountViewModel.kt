@@ -3,6 +3,7 @@ package com.example.gronurgrocery.features.auth.presentation.set_up_account
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.common.validConfirmPassword
 import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 import com.example.gronurgrocery.features.auth.presentation.common.validFullName
@@ -13,6 +14,8 @@ class SetUpAccountViewModel: ViewModel() {
 
     private val _state = mutableStateOf(SetUpAccountState())
     val state: State<SetUpAccountState> = _state
+
+    private var isFormInitialized = false
 
     fun updateFullNameState(newName: String) {
         _state.value = _state.value.copy(
@@ -59,5 +62,14 @@ class SetUpAccountViewModel: ViewModel() {
         _state.value = _state.value.copy(
             isConfirmPasswordVisible = !_state.value.isConfirmPasswordVisible
         )
+    }
+
+    fun initializeForm(registerData: RegisterData) {
+        if (!isFormInitialized) {
+            updateEmailState(registerData.emailText)
+            updatePasswordState(registerData.passwordText)
+            updateConfirmPasswordState(registerData.confirmPasswordText)
+            isFormInitialized = true
+        }
     }
 }

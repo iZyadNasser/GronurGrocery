@@ -26,4 +26,5 @@ object StartingModule {
     fun provideSaveOnboardingStateUseCase(repository: DataStoreRepository): SaveOnboardingStateUseCase {
         return SaveOnboardingStateUseCase(repository)
     }
+
 }
