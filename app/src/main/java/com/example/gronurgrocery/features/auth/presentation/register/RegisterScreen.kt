@@ -36,11 +36,13 @@ import com.example.gronurgrocery.features.auth.presentation.common.components.Fo
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
+import com.example.gronurgrocery.features.auth.presentation.set_up_account.RegisterData
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun RegisterScreen(
     onSignInClick: () -> Unit,
+    onSignUpClick: (RegisterData) -> Unit,
     onUpButtonPressed: () -> Unit,
     registerViewModel: RegisterViewModel = viewModel<RegisterViewModel>()
 ) {
@@ -178,7 +180,19 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(40.dp))
             FormButton(
                 text = "Sign Up",
-                onClick = { /*TODO*/ }
+                onClick = {
+                    if (registerViewModel.allDataValid()) {
+                        val regData = RegisterData(
+                            emailText = uiState.emailText,
+                            passwordText = uiState.passwordText,
+                            confirmPasswordText = uiState.confirmPasswordText
+                        )
+                        onSignUpClick(regData)
+                    } else {
+                        /* TODO */
+                    }
+                    /*TODO*/
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -235,6 +249,7 @@ private fun PreviewRegisterScreen() {
     GronurGroceryTheme {
         RegisterScreen(
             onSignInClick = {},
+            onSignUpClick = {},
             onUpButtonPressed = {}
         )
     }

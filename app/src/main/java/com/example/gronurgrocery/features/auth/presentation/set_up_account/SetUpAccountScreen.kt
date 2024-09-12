@@ -35,6 +35,7 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 fun SetUpAccountScreen(
     onSaveChangesClick: () -> Unit,
     onUpButtonPressed: () -> Unit,
+    registerData: RegisterData,
     modifier: Modifier = Modifier,
     setUpAccountViewModel: SetUpAccountViewModel = viewModel<SetUpAccountViewModel>()
 ) {
@@ -118,6 +119,7 @@ fun SetUpAccountScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 FormTextField(
                     label = "Enter Your Email Address",
+                    disabled = true,
                     iconDrawable = R.drawable.sms,
                     fieldValue = uiState.emailText,
                     onValueChange = { setUpAccountViewModel.updateEmailState(it) },
@@ -254,7 +256,12 @@ private fun PreviewSetUpAccountScreen() {
     GronurGroceryTheme {
         SetUpAccountScreen(
             onUpButtonPressed = {},
-            onSaveChangesClick = {}
+            onSaveChangesClick = {},
+            registerData = RegisterData(
+                emailText = "zyadnasser@zezo.zed",
+                passwordText = "11111zZ#",
+                confirmPasswordText = "11111zZ#"
+            )
         )
     }
 }

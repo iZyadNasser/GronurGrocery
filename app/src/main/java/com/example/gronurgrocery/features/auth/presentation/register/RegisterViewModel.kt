@@ -45,4 +45,10 @@ class RegisterViewModel : ViewModel() {
         )
     }
 
+    fun allDataValid(): Boolean {
+        with(_state.value) {
+            return (emailError == null && passwordError == null && confirmPasswordError == null)
+        }
+    }
+
 }

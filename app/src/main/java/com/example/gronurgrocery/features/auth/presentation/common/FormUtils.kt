@@ -33,6 +33,22 @@ fun validPassword(passwordText: String): String? {
     return null
 }
 
+fun mapUnavailableSymbolsToText(symbol: String): String {
+    return when (symbol) {
+        "+" -> "@PLUS@"
+        "#" -> "@HASH@"
+        else -> symbol
+    }
+}
+
+fun mapTextToUnavailableSymbols(text: String): String {
+    return when (text) {
+        "@PLUS@" -> "+"
+        "@HASH@" -> "#"
+        else -> text
+    }
+}
+
 fun validConfirmPassword(
     passwordText: String,
     confirmPasswordText: String,

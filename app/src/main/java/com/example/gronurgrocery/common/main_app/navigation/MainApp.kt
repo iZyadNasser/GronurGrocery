@@ -1,5 +1,6 @@
-package com.example.gronurgrocery.common.main_app
+package com.example.gronurgrocery.common.main_app.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -7,14 +8,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.gronurgrocery.common.main_app.MainActivity
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
+import com.example.gronurgrocery.features.auth.presentation.set_up_account.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -72,6 +76,15 @@ fun MyApp(
                 onSignInClick = {
                     navController.navigate(route = NavigationScreen.Login.route)
                 },
+                onSignUpClick = { regData ->
+                    val gson = Gson()
+                    val regDataJson = gson.toJson(regData)
+                    Log.e("TAG", regDataJson, )
+
+                    navController.navigate(route = NavigationScreen.SetUpAccount.route
+                        .replace("{${ParameterKeys.REGISTER_DATA_KEY}}", regDataJson)
+                    )
+                },
                 onUpButtonPressed = { activity.finish() }
             )
         }
@@ -105,14 +118,20 @@ fun MyApp(
         }
         composable(route = NavigationScreen.ResetPassword.route) {
             ResetPasswordScreen(
-                onSaveClick = { navController.navigate(NavigationScreen.SetUpAccount.route) },
+                onSaveClick = { /* TODO */ },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
-        composable(route = NavigationScreen.SetUpAccount.route) {
+        composable(route = NavigationScreen.SetUpAccount.route) { backStackEntry ->
+            val registerDataJson = backStackEntry.arguments?.getString(ParameterKeys.REGISTER_DATA_KEY) ?: ""
+            val gson = Gson()
+            Log.e("TAG", registerDataJson )
+            val registerData = gson.fromJson(registerDataJson, RegisterData::class.java) ?: RegisterData()
+
             SetUpAccountScreen(
                 onSaveChangesClick = { /* TODO */ },
-                onUpButtonPressed = { navController.navigateUp() }
+                onUpButtonPressed = { navController.navigateUp() },
+                registerData = registerData
             )
         }
     }
