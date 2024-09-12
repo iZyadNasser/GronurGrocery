@@ -41,8 +41,8 @@ fun SetUpAccountScreen(
     setUpAccountViewModel: SetUpAccountViewModel = viewModel<SetUpAccountViewModel>()
 ) {
 
-    val uiState = setUpAccountViewModel.state.value
     setUpAccountViewModel.initializeForm(registerData)
+    val uiState = setUpAccountViewModel.state.value
 
     Column(
         modifier = modifier

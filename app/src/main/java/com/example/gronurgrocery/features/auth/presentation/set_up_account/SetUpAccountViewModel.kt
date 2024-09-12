@@ -15,6 +15,8 @@ class SetUpAccountViewModel: ViewModel() {
     private val _state = mutableStateOf(SetUpAccountState())
     val state: State<SetUpAccountState> = _state
 
+    private var isFormInitialized = false
+
     fun updateFullNameState(newName: String) {
         _state.value = _state.value.copy(
             fullNameText = newName,
@@ -63,8 +65,11 @@ class SetUpAccountViewModel: ViewModel() {
     }
 
     fun initializeForm(registerData: RegisterData) {
-        updateEmailState(registerData.emailText)
-        updatePasswordState(registerData.passwordText)
-        updateConfirmPasswordState(registerData.confirmPasswordText)
+        if (!isFormInitialized) {
+            updateEmailState(registerData.emailText)
+            updatePasswordState(registerData.passwordText)
+            updateConfirmPasswordState(registerData.confirmPasswordText)
+            isFormInitialized = true
+        }
     }
 }
