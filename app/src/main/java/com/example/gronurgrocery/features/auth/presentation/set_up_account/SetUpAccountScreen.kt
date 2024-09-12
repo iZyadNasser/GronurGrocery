@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
+import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
@@ -41,6 +42,7 @@ fun SetUpAccountScreen(
 ) {
 
     val uiState = setUpAccountViewModel.state.value
+    setUpAccountViewModel.initializeForm(registerData)
 
     Column(
         modifier = modifier

@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.set_up_account
+package com.example.gronurgrocery.features.auth.domain.model
 
 data class RegisterData(
     val emailText: String = "",

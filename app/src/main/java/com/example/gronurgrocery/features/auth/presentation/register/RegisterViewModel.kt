@@ -15,21 +15,23 @@ class RegisterViewModel : ViewModel() {
     fun updateEmailState(newEmail: String) {
         _state.value = _state.value.copy(
             emailText = newEmail,
-            emailError = validEmail(newEmail)
+            emailError = validEmail(newEmail),
         )
     }
 
     fun updatePasswordState(newPassword: String) {
         _state.value = _state.value.copy(
             passwordText = newPassword,
-            passwordError = validPassword(newPassword)
+            passwordError = validPassword(newPassword),
+            confirmPasswordError = validConfirmPassword(newPassword, _state.value.confirmPasswordText),
         )
     }
 
     fun updateConfirmPasswordState(newPassword: String) {
         _state.value = _state.value.copy(
             confirmPasswordText = newPassword,
-            confirmPasswordError = validConfirmPassword(_state.value.passwordText, newPassword)
+            confirmPasswordError = validConfirmPassword(_state.value.passwordText, newPassword),
+            anyError = _state.value.confirmPasswordError != null || _state.value.anyError
         )
     }
 
@@ -47,7 +49,7 @@ class RegisterViewModel : ViewModel() {
 
     fun allDataValid(): Boolean {
         with(_state.value) {
-            return (emailError == null && passwordError == null && confirmPasswordError == null)
+            return ((emailError == null && passwordError == null && confirmPasswordError == null) && (emailText.isNotBlank() && passwordText.isNotBlank() && confirmPasswordText.isNotBlank()))
         }
     }
 
