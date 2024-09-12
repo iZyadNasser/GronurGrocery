@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.forgot_password
+package com.example.gronurgrocery.features.auth.presentation.reset_password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,17 +32,16 @@ import com.example.gronurgrocery.features.auth.presentation.common.components.Fo
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
-fun ForgotPasswordScreen(
-    navigateToVerification: () -> Unit,
+fun ResetPasswordScreen(
+    onSaveClick: () -> Unit,
     onUpButtonPressed: () -> Unit,
-    modifier: Modifier = Modifier,
-    forgotPasswordViewModel: ForgotPasswordViewModel = viewModel<ForgotPasswordViewModel>()
+    resetPasswordViewModel: ResetPasswordViewModel = viewModel<ResetPasswordViewModel>()
 ) {
 
-    val uiState = forgotPasswordViewModel.state.value
+    val uiState = resetPasswordViewModel.state.value
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .safeDrawingPadding()
@@ -49,7 +50,7 @@ fun ForgotPasswordScreen(
             .padding(
                 top = 16.dp,
                 start = 24.dp,
-                end = 24.dp,
+                end = 24.dp
             )
     ) {
         Column(
@@ -62,12 +63,12 @@ fun ForgotPasswordScreen(
                 onClick = { onUpButtonPressed() }
             )
         }
-
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+
         ) {
             Column(
                 modifier = Modifier
@@ -76,28 +77,32 @@ fun ForgotPasswordScreen(
                     )
             ) {
                 FormText(
-                    titleText = "Forgot Password",
-                    descriptionText = "Provide the email address associated with your account in the designated field.",
+                    titleText = "Reset Password",
+                    descriptionText = "Ensure the security of your account by selecting a robust and fortified password.",
                     modifier = Modifier
                         .padding(
                             top = 12.dp
                         )
                 )
 
-                Spacer(modifier = Modifier.height(40.dp))
+
+                Spacer(modifier = Modifier.height(20.dp))
                 FormTextField(
-                    label = "Enter Email Address",
-                    iconDrawable = R.drawable.sms,
-                    fieldValue = uiState.emailText,
-                    onValueChange = { forgotPasswordViewModel.updateEmailState(it) },
-                    isError = uiState.emailError != null,
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Done,
+                    label = "New Password",
+                    iconDrawable = R.drawable.lock,
+                    fieldValue = uiState.passwordText,
+                    visibilityIconDrawable = if (uiState.isPasswordVisible) R.drawable.outline_visibility else R.drawable.outline_visibility_off,
+                    onVisibilityIconClick = { resetPasswordViewModel.togglePasswordVisibility() },
+                    onValueChange = { resetPasswordViewModel.updatePasswordState(it) },
+                    isError = uiState.passwordError != null,
+                    visualTransformation = if (uiState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next,
                     modifier = Modifier
                         .fillMaxWidth()
                 )
-                if (uiState.emailError != null) {
-                    if (uiState.emailText.isBlank()) {
+                if (uiState.passwordError != null) {
+                    if (uiState.passwordText.isBlank()) {
                         FormTextFieldErrorText(
                             text = "This field is required",
                             modifier = Modifier
@@ -105,18 +110,50 @@ fun ForgotPasswordScreen(
                         )
                     } else {
                         FormTextFieldErrorText(
-                            text = uiState.emailError,
+                            text = uiState.passwordError,
+                            modifier = Modifier
+                                .padding(top = 4.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+                FormTextField(
+                    label = "Confirm Password",
+                    iconDrawable = R.drawable.lock,
+                    visibilityIconDrawable = if (uiState.isConfirmPasswordVisible) R.drawable.outline_visibility else R.drawable.outline_visibility_off,
+                    onVisibilityIconClick = { resetPasswordViewModel.toggleConfirmPasswordVisibility() },
+                    fieldValue = uiState.confirmPasswordText,
+                    onValueChange = { resetPasswordViewModel.updateConfirmPasswordState(it) },
+                    isError = uiState.confirmPasswordError != null,
+                    visualTransformation = if (uiState.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                if (uiState.confirmPasswordError != null) {
+                    if (uiState.confirmPasswordText.isBlank()) {
+                        FormTextFieldErrorText(
+                            text = "This field is required",
+                            modifier = Modifier
+                                .padding(top = 4.dp)
+                        )
+                    } else {
+                        FormTextFieldErrorText(
+                            text = uiState.confirmPasswordError,
                             modifier = Modifier
                                 .padding(top = 4.dp)
                         )
                     }
                 }
             }
+
             Column {
                 FormButton(
-                    text = "Next",
+                    text = "Save",
                     onClick = {
-                        navigateToVerification()
+                        onSaveClick()
                         // TODO (add more logic)
                     },
                 )
@@ -126,13 +163,13 @@ fun ForgotPasswordScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
-private fun PreviewForgotPasswordScreen() {
+private fun PreviewResetPasswordScreen() {
     GronurGroceryTheme {
-        ForgotPasswordScreen(
-            navigateToVerification = {},
-            onUpButtonPressed = { /*TODO*/ }
+        ResetPasswordScreen(
+            onSaveClick = {},
+            onUpButtonPressed = {}
         )
     }
 }

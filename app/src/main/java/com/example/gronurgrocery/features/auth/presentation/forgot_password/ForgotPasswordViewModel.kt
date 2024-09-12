@@ -3,7 +3,7 @@ package com.example.gronurgrocery.features.auth.presentation.forgot_password
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.gronurgrocery.features.auth.presentation.validEmail
+import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 
 class ForgotPasswordViewModel: ViewModel() {
     private val _state = mutableStateOf(ForgotPasswordState())

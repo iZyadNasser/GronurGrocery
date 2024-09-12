@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
-import com.example.gronurgrocery.features.auth.presentation.ResetPasswordScreen
+import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
@@ -105,7 +105,8 @@ fun MyApp(
         }
         composable(route = NavigationScreen.ResetPassword.route) {
             ResetPasswordScreen(
-
+                onSaveClick = { navController.navigate(NavigationScreen.SetUpAccount.route) },
+                onUpButtonPressed = { navController.navigateUp() }
             )
         }
         composable(route = NavigationScreen.SetUpAccount.route) {

@@ -15,16 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -33,15 +31,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gronurgrocery.features.auth.presentation.components.FormButton
-import com.example.gronurgrocery.features.auth.presentation.components.FormText
-import com.example.gronurgrocery.features.auth.presentation.components.FormToken
-import com.example.gronurgrocery.features.auth.presentation.components.FormUpButton
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormToken
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
@@ -58,7 +58,6 @@ fun VerificationScreen(
     val focusManager = LocalFocusManager.current
 
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
@@ -69,7 +68,6 @@ fun VerificationScreen(
                 top = 16.dp,
                 start = 24.dp,
                 end = 24.dp,
-                bottom = 36.dp
             )
             .clickable(
                 indication = null,
@@ -77,21 +75,28 @@ fun VerificationScreen(
             ) { focusManager.clearFocus() }
 
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(
+                    bottom = 12.dp
+                )
+        ) {
+            FormUpButton(
+                onClick = { onUpButtonPressed() }
+            )
+        }
+
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             Column(
                 modifier = Modifier
                     .padding(
-                        bottom = 12.dp
+                        bottom = 36.dp
                     )
-            ) {
-                FormUpButton(
-                    onClick = { onUpButtonPressed() }
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
             ) {
                 FormText(
                     titleText = "Verification Code",
@@ -165,7 +170,14 @@ fun VerificationScreen(
                             unfocusedSuffixColor = Color.Transparent,
                             disabledSuffixColor = Color.Transparent,
                             errorSuffixColor = Color.Transparent,
-                            textSelectionColors = TextSelectionColors(Color.Transparent, Color.Transparent)
+                            textSelectionColors = TextSelectionColors(
+                                Color.Transparent,
+                                Color.Transparent
+                            )
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.NumberPassword,
+                            imeAction = ImeAction.Done
                         ),
                         modifier = Modifier
                             .focusRequester(tokenFocusRequester)
@@ -196,14 +208,17 @@ fun VerificationScreen(
                         ) { /* TODO */ }
                 )
             }
-        }
-        FormButton(
-            text = "Next",
-            onClick = {
-                navigateToReset()
-                // TODO (add more logic)
+            Column {
+                FormButton(
+                    text = "Next",
+                    onClick = {
+                        navigateToReset()
+                        // TODO (add more logic)
+                    }
+                )
+                Spacer(modifier = Modifier.height(36.dp))
             }
-        )
+        }
     }
 }
 

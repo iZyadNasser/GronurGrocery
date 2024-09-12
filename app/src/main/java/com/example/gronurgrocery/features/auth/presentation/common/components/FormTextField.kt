@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.components
+package com.example.gronurgrocery.features.auth.presentation.common.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize

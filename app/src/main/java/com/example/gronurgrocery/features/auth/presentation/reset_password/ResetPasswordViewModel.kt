@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.register
+package com.example.gronurgrocery.features.auth.presentation.reset_password
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,17 +7,9 @@ import com.example.gronurgrocery.features.auth.presentation.common.validConfirmP
 import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 import com.example.gronurgrocery.features.auth.presentation.common.validPassword
 
-class RegisterViewModel : ViewModel() {
-
-    private val _state = mutableStateOf(RegisterState())
-    val state: State<RegisterState> = _state
-
-    fun updateEmailState(newEmail: String) {
-        _state.value = _state.value.copy(
-            emailText = newEmail,
-            emailError = validEmail(newEmail)
-        )
-    }
+class ResetPasswordViewModel: ViewModel() {
+    private val _state = mutableStateOf(ResetPasswordState())
+    val state: State<ResetPasswordState> = _state
 
     fun updatePasswordState(newPassword: String) {
         _state.value = _state.value.copy(
@@ -44,5 +36,4 @@ class RegisterViewModel : ViewModel() {
             isConfirmPasswordVisible = !_state.value.isConfirmPasswordVisible
         )
     }
-
 }

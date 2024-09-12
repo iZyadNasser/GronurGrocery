@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.components
+package com.example.gronurgrocery.features.auth.presentation.common.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
