@@ -33,4 +33,16 @@ class RegisterViewModel : ViewModel() {
         )
     }
 
+    fun togglePasswordVisibility() {
+        _state.value = _state.value.copy(
+            isPasswordVisible = !_state.value.isPasswordVisible
+        )
+    }
+
+    fun toggleConfirmPasswordVisibility() {
+        _state.value = _state.value.copy(
+            isConfirmPasswordVisible = !_state.value.isConfirmPasswordVisible
+        )
+    }
+
 }
