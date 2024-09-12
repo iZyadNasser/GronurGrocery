@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +46,10 @@ fun FormTextField(
     onVisibilityIconClick: (() -> Unit)? = null,
     onFocusChanged: (FocusState) -> Unit = {/* TODO: Remove this default lambda */},
     isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardType: KeyboardType? = null,
+    imeAction: ImeAction? = null,
+    onActionButtonClick: (() -> Unit)? = null
 ) {
         TextField(
             value = fieldValue,
@@ -103,6 +110,18 @@ fun FormTextField(
                 textAlign = TextAlign.Start
             ),
             visualTransformation = visualTransformation,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType ?: KeyboardType.Text,
+                imeAction = imeAction ?: ImeAction.Default
+            ),
+            keyboardActions = if (onActionButtonClick != null) { KeyboardActions(
+                onDone = {
+                    onActionButtonClick()
+                }
+            )} else {
+                KeyboardActions.Default
+            }
+            ,
             modifier = modifier
                 .clip(RoundedCornerShape(30.dp))
                 .height(60.dp)
