@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.gronurgrocery.features.auth.presentation.ForgotPasswordScreen
+import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.ResetPasswordScreen
