@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -113,7 +114,14 @@ fun FormTextField(
                 keyboardType = keyboardType ?: KeyboardType.Text,
                 imeAction = imeAction ?: ImeAction.Default
             ),
-
+            keyboardActions = if (onActionButtonClick != null) { KeyboardActions(
+                onDone = {
+                    onActionButtonClick()
+                }
+            )} else {
+                KeyboardActions.Default
+            }
+            ,
             modifier = modifier
                 .clip(RoundedCornerShape(30.dp))
                 .height(60.dp)
