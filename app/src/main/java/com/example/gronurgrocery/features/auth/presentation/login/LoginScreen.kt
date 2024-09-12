@@ -131,7 +131,7 @@ fun LoginScreen(
                 isError = uiState.passwordError != null,
                 visualTransformation = if (uiState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Next,
+                imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -151,7 +151,6 @@ fun LoginScreen(
                 }
             }
 
-            // TODO save password
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
