@@ -96,6 +96,9 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
+    // Gson
+    implementation(libs.gson)
+
     // Splash Screen API
     implementation(libs.androidx.core.splashscreen)
 

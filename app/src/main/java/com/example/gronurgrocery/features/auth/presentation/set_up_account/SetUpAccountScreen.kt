@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
+import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
@@ -35,10 +36,12 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 fun SetUpAccountScreen(
     onSaveChangesClick: () -> Unit,
     onUpButtonPressed: () -> Unit,
+    registerData: RegisterData,
     modifier: Modifier = Modifier,
     setUpAccountViewModel: SetUpAccountViewModel = viewModel<SetUpAccountViewModel>()
 ) {
 
+    setUpAccountViewModel.initializeForm(registerData)
     val uiState = setUpAccountViewModel.state.value
 
     Column(
@@ -118,6 +121,7 @@ fun SetUpAccountScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 FormTextField(
                     label = "Enter Your Email Address",
+                    disabled = true,
                     iconDrawable = R.drawable.sms,
                     fieldValue = uiState.emailText,
                     onValueChange = { setUpAccountViewModel.updateEmailState(it) },
@@ -254,7 +258,12 @@ private fun PreviewSetUpAccountScreen() {
     GronurGroceryTheme {
         SetUpAccountScreen(
             onUpButtonPressed = {},
-            onSaveChangesClick = {}
+            onSaveChangesClick = {},
+            registerData = RegisterData(
+                emailText = "zyadnasser@zezo.zed",
+                passwordText = "11111zZ#",
+                confirmPasswordText = "11111zZ#"
+            )
         )
     }
 }
