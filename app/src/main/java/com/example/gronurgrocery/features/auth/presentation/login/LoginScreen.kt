@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation
+package com.example.gronurgrocery.features.auth.presentation.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,19 +19,20 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.auth.presentation.components.CustomCheckbox
 import com.example.gronurgrocery.features.auth.presentation.components.FormButton
@@ -39,6 +40,7 @@ import com.example.gronurgrocery.features.auth.presentation.components.FormConti
 import com.example.gronurgrocery.features.auth.presentation.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.components.FormTextField
+import com.example.gronurgrocery.features.auth.presentation.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.auth.presentation.components.FormUpButton
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
@@ -47,16 +49,10 @@ fun LoginScreen(
     onSignUpClick: () -> Unit,
     onUpButtonPressed: () -> Unit,
     onForgotPasswordClick: () -> Unit,
+    loginViewModel: LoginViewModel = viewModel<LoginViewModel>()
 ) {
-    var emailTextFieldState by remember {
-        mutableStateOf("")
-    }
 
-    var passwordTextFieldState by remember {
-        mutableStateOf("")
-    }
-
-    var savePasswordChecked by remember { mutableStateOf(false) }
+    val uiState = loginViewModel.state.value
 
     Column(
         modifier = Modifier
@@ -100,21 +96,60 @@ fun LoginScreen(
             FormTextField(
                 label = "Email Address",
                 iconDrawable = R.drawable.sms,
-                fieldValue = emailTextFieldState,
-                onValueChange = { emailTextFieldState = it },
+                fieldValue = uiState.emailText,
+                onValueChange = { loginViewModel.updateEmailState(it) },
+                isError = uiState.emailError != null,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            if (uiState.emailError != null) {
+                if (uiState.emailText.isBlank()) {
+                    FormTextFieldErrorText(
+                        text = "This field is required",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                } else {
+                    FormTextFieldErrorText(
+                        text = uiState.emailError,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
             FormTextField(
                 label = "Password",
                 iconDrawable = R.drawable.lock,
-                fieldValue = passwordTextFieldState,
-                onValueChange = { passwordTextFieldState = it },
+                fieldValue = uiState.passwordText,
+                onValueChange = { loginViewModel.updatePasswordState(it) },
+                visibilityIconDrawable = if (uiState.isPasswordVisible) R.drawable.outline_visibility else R.drawable.outline_visibility_off,
+                onVisibilityIconClick = { loginViewModel.togglePasswordVisibility() },
+                isError = uiState.passwordError != null,
+                visualTransformation = if (uiState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            if (uiState.passwordError != null) {
+                if (uiState.passwordText.isBlank()) {
+                    FormTextFieldErrorText(
+                        text = "This field is required",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                } else {
+                    FormTextFieldErrorText(
+                        text = uiState.passwordError,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
 
             // TODO save password
             Spacer(modifier = Modifier.height(20.dp))
@@ -127,8 +162,8 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CustomCheckbox(
-                        checked = savePasswordChecked,
-                        onClick = { savePasswordChecked = !savePasswordChecked },
+                        checked = uiState.isSavePasswordChecked,
+                        onClick = { loginViewModel.toggleSavePasswordCheckbox() },
                         modifier = Modifier
                             .size(20.dp)
                     )
