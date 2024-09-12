@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -33,15 +34,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gronurgrocery.features.auth.presentation.components.FormButton
-import com.example.gronurgrocery.features.auth.presentation.components.FormText
-import com.example.gronurgrocery.features.auth.presentation.components.FormToken
-import com.example.gronurgrocery.features.auth.presentation.components.FormUpButton
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormToken
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
@@ -166,6 +169,10 @@ fun VerificationScreen(
                             disabledSuffixColor = Color.Transparent,
                             errorSuffixColor = Color.Transparent,
                             textSelectionColors = TextSelectionColors(Color.Transparent, Color.Transparent)
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.NumberPassword,
+                            imeAction = ImeAction.Done
                         ),
                         modifier = Modifier
                             .focusRequester(tokenFocusRequester)
