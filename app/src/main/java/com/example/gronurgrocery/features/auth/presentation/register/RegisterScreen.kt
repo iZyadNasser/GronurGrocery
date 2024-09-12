@@ -20,10 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.auth.presentation.components.FormButton
@@ -113,8 +114,11 @@ fun RegisterScreen(
                 label = "Password",
                 iconDrawable = R.drawable.lock,
                 fieldValue = uiState.passwordText,
+                visibilityIconDrawable = if (uiState.isPasswordVisible) R.drawable.outline_visibility else R.drawable.outline_visibility_off,
+                onVisibilityIconClick = { registerViewModel.togglePasswordVisibility() },
                 onValueChange = { registerViewModel.updatePasswordState(it) },
                 isError = uiState.passwordError != null,
+                visualTransformation = if (uiState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -138,9 +142,12 @@ fun RegisterScreen(
             FormTextField(
                 label = "Confirm Password",
                 iconDrawable = R.drawable.lock,
+                visibilityIconDrawable = if (uiState.isConfirmPasswordVisible) R.drawable.outline_visibility else R.drawable.outline_visibility_off,
+                onVisibilityIconClick = { registerViewModel.toggleConfirmPasswordVisibility() },
                 fieldValue = uiState.confirmPasswordText,
                 onValueChange = { registerViewModel.updateConfirmPasswordState(it) },
                 isError = uiState.confirmPasswordError != null,
+                visualTransformation = if (uiState.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
             )
