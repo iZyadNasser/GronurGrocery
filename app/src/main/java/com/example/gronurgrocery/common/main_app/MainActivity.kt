@@ -17,8 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GronurGroceryTheme {
                 MyApp(
-                    navController = rememberNavController(),
-                    this
+                    navController = rememberNavController()
                 )
             }
         }
