@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app.navigation
+package com.example.gronurgrocery.common.presentation.navigation
 
 object ParameterKeys {
     const val REGISTER_DATA_KEY = "regData"

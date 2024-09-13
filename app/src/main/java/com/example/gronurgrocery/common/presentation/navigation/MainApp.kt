@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app.navigation
+package com.example.gronurgrocery.common.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,15 +8,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.gronurgrocery.common.main_app.navigation.screens.ForgotPassword
-import com.example.gronurgrocery.common.main_app.navigation.screens.Login
-import com.example.gronurgrocery.common.main_app.navigation.screens.Onboarding
-import com.example.gronurgrocery.common.main_app.navigation.screens.Register
-import com.example.gronurgrocery.common.main_app.navigation.screens.ResetPassword
-import com.example.gronurgrocery.common.main_app.navigation.screens.SetUpAccount
-import com.example.gronurgrocery.common.main_app.navigation.screens.Splash
-import com.example.gronurgrocery.common.main_app.navigation.screens.Verification
-import com.example.gronurgrocery.common.main_app.navigation.screens.VerificationSource
+import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
+import com.example.gronurgrocery.common.presentation.navigation.screens.Login
+import com.example.gronurgrocery.common.presentation.navigation.screens.Onboarding
+import com.example.gronurgrocery.common.presentation.navigation.screens.Register
+import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
+import com.example.gronurgrocery.common.presentation.navigation.screens.SetUpAccount
+import com.example.gronurgrocery.common.presentation.navigation.screens.Splash
+import com.example.gronurgrocery.common.presentation.navigation.screens.Verification
+import com.example.gronurgrocery.common.presentation.navigation.screens.VerificationSource
 import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen

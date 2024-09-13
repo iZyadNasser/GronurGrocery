@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app.navigation
+package com.example.gronurgrocery.common.presentation.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
