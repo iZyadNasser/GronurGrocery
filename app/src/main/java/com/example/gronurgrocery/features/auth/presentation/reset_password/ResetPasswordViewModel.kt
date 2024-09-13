@@ -40,4 +40,16 @@ class ResetPasswordViewModel : ViewModel() {
             isConfirmPasswordVisible = !_state.value.isConfirmPasswordVisible
         )
     }
+
+    fun allDataValid(): Boolean {
+        with(_state.value) {
+            return ((passwordError == null && confirmPasswordError == null) && (passwordText.isNotBlank() && confirmPasswordText.isNotBlank()))
+        }
+    }
+
+    fun putEmail(email: String) {
+        _state.value = _state.value.copy(
+            emailText = email
+        )
+    }
 }

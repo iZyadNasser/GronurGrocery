@@ -33,11 +33,14 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun ResetPasswordScreen(
-    onSaveClick: () -> Unit,
+    email: String,
+    onSaveClick: (String, String) -> Unit,
     onUpButtonPressed: () -> Unit,
     resetPasswordViewModel: ResetPasswordViewModel = viewModel<ResetPasswordViewModel>()
 ) {
 
+
+    resetPasswordViewModel.putEmail(email)
     val uiState = resetPasswordViewModel.state.value
 
     Column(
@@ -153,7 +156,9 @@ fun ResetPasswordScreen(
                 FormButton(
                     text = "Save",
                     onClick = {
-                        onSaveClick()
+                        if (resetPasswordViewModel.allDataValid()) {
+                            onSaveClick(uiState.emailText, uiState.passwordText)
+                        }
                         // TODO (add more logic)
                     },
                 )
@@ -168,7 +173,8 @@ fun ResetPasswordScreen(
 private fun PreviewResetPasswordScreen() {
     GronurGroceryTheme {
         ResetPasswordScreen(
-            onSaveClick = {},
+            email = "",
+            onSaveClick = { _, _ -> },
             onUpButtonPressed = {}
         )
     }

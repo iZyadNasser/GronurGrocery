@@ -15,4 +15,10 @@ class ForgotPasswordViewModel: ViewModel() {
             emailError = validEmail(newEmail)
         )
     }
+
+    fun allDataValid(): Boolean {
+        with(_state.value) {
+            return (emailError == null && emailText.isNotBlank())
+        }
+    }
 }

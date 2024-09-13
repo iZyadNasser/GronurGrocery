@@ -46,12 +46,16 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun LoginScreen(
+    email: String = "",
+    password: String = "",
     onSignUpClick: () -> Unit,
     onUpButtonPressed: () -> Unit,
     onForgotPasswordClick: () -> Unit,
     loginViewModel: LoginViewModel = viewModel<LoginViewModel>()
 ) {
-
+    if (password.isNotBlank()) {
+        loginViewModel.initializeState(email, password)
+    }
     val uiState = loginViewModel.state.value
 
     Column(

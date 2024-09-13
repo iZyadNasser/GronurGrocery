@@ -31,7 +31,7 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun ForgotPasswordScreen(
-    navigateToVerification: () -> Unit,
+    navigateToVerification: (String) -> Unit,
     onUpButtonPressed: () -> Unit,
     modifier: Modifier = Modifier,
     forgotPasswordViewModel: ForgotPasswordViewModel = viewModel<ForgotPasswordViewModel>()
@@ -116,7 +116,9 @@ fun ForgotPasswordScreen(
                 FormButton(
                     text = "Next",
                     onClick = {
-                        navigateToVerification()
+                        if (forgotPasswordViewModel.allDataValid()) {
+                            navigateToVerification(uiState.emailText)
+                        }
                         // TODO (add more logic)
                     },
                 )
