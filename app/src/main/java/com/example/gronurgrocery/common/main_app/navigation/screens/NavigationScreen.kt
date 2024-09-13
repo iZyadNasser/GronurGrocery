@@ -1,6 +1,5 @@
 package com.example.gronurgrocery.common.main_app.navigation.screens
 
-import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,7 +22,9 @@ object ForgotPassword
 
 @Serializable
 data class Verification(
-    val emailText: String
+    val emailText: String = "",
+    val password: String = "",
+    val source: String,
 )
 
 @Serializable
