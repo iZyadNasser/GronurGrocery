@@ -195,6 +195,7 @@ fun VerificationScreen(
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = "Resend Code",
+                    color = uiState.resendButtonColor,
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         fontSize = 16.sp,
@@ -205,7 +206,9 @@ fun VerificationScreen(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                        ) { /* TODO */ }
+                        ) {
+                            verificationViewModel.onResendButtonClicked()
+                        }
                 )
             }
             Column {
