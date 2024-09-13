@@ -1,6 +1,8 @@
 package com.example.gronurgrocery.common
 
 object Constants {
+
+    const val CLICK_EFFECT_DURATION = 1000L
 }
 
 

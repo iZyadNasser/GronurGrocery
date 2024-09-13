@@ -81,21 +81,26 @@ fun MyApp(
         composable<Register> {
             RegisterScreen(
                 onSignInClick = {
-                    navController.navigate(route = Login)
+                    navController.navigate(route = Login())
                 },
                 onSignUpClick = { regData ->
 
-                    navController.navigate(route = SetUpAccount(
-                        emailText = regData.emailText,
-                        password = regData.passwordText
-                    ))
+                    navController.navigate(
+                        route = SetUpAccount(
+                            emailText = regData.emailText,
+                            password = regData.passwordText
+                        )
+                    )
                 },
                 onUpButtonPressed = { activity.finish() }
             )
         }
 
         composable<Login> {
+            val args = it.toRoute<Login>()
             LoginScreen(
+                email = args.emailText,
+                password = args.passwordText,
                 onSignUpClick = {
                     navController.navigate(route = Register) {
                         popUpTo(route = Register) {
@@ -110,20 +115,37 @@ fun MyApp(
 
         composable<ForgotPassword> {
             ForgotPasswordScreen(
-                navigateToVerification = { navController.navigate(Verification) },
+                navigateToVerification = { navController.navigate(Verification(emailText = it)) },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
 
         composable<Verification> {
+            val args = it.toRoute<Verification>()
             VerificationScreen(
-                navigateToReset = { navController.navigate(ResetPassword) },
+                email = args.emailText,
+                navigateToReset = { navController.navigate(ResetPassword(args.emailText)) },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
+
         composable<ResetPassword> {
+            val args = it.toRoute<ResetPassword>()
+
             ResetPasswordScreen(
-                onSaveClick = { /* TODO */ },
+                email = args.emailText,
+                onSaveClick = { emailText, passwordText ->
+                    navController.navigate(
+                        route = Login(
+                            emailText = emailText,
+                            passwordText = passwordText
+                        )
+                    ) {
+                        popUpTo(route = Login()) {
+                            inclusive = true
+                        }
+                    }
+                },
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }

@@ -1,6 +1,9 @@
 package com.example.gronurgrocery.features.auth.presentation.common
 
+import android.util.Log
 import android.util.Patterns
+import kotlin.math.max
+import kotlin.math.min
 
 fun validEmail(emailText: String): String? {
     if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
@@ -66,4 +69,15 @@ fun validPhoneNumber(newPhoneNumber: String): String? {
         return "Phone number is invalid"
     }
     return null
+}
+
+fun hideMail(email: String): String {
+    val atInd = email.indexOf('@')
+    val suffix = email.substring(atInd)
+    val prefixLen = max(min(3, atInd - 5), 1)
+    val prefix = email.substring(0, prefixLen)
+    val dots = ".".repeat(email.length - (suffix.length + prefix.length))
+    val newEmail = prefix + dots + suffix
+
+    return newEmail
 }

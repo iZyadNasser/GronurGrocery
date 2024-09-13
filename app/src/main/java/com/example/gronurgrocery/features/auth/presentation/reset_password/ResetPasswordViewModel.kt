@@ -4,24 +4,28 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.gronurgrocery.features.auth.presentation.common.validConfirmPassword
-import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 import com.example.gronurgrocery.features.auth.presentation.common.validPassword
 
-class ResetPasswordViewModel: ViewModel() {
+class ResetPasswordViewModel : ViewModel() {
     private val _state = mutableStateOf(ResetPasswordState())
     val state: State<ResetPasswordState> = _state
 
     fun updatePasswordState(newPassword: String) {
         _state.value = _state.value.copy(
             passwordText = newPassword,
-            passwordError = validPassword(newPassword)
+            passwordError = validPassword(newPassword),
+            confirmPasswordError = validConfirmPassword(
+                newPassword,
+                _state.value.confirmPasswordText
+            )
         )
     }
 
     fun updateConfirmPasswordState(newPassword: String) {
         _state.value = _state.value.copy(
             confirmPasswordText = newPassword,
-            confirmPasswordError = validConfirmPassword(_state.value.passwordText, newPassword)
+            confirmPasswordError = validConfirmPassword(_state.value.passwordText, newPassword),
+            anyError = _state.value.confirmPasswordError != null || _state.value.anyError
         )
     }
 
@@ -34,6 +38,18 @@ class ResetPasswordViewModel: ViewModel() {
     fun toggleConfirmPasswordVisibility() {
         _state.value = _state.value.copy(
             isConfirmPasswordVisible = !_state.value.isConfirmPasswordVisible
+        )
+    }
+
+    fun allDataValid(): Boolean {
+        with(_state.value) {
+            return ((passwordError == null && confirmPasswordError == null) && (passwordText.isNotBlank() && confirmPasswordText.isNotBlank()))
+        }
+    }
+
+    fun putEmail(email: String) {
+        _state.value = _state.value.copy(
+            emailText = email
         )
     }
 }

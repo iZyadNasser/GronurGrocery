@@ -23,7 +23,7 @@ class RegisterViewModel : ViewModel() {
         _state.value = _state.value.copy(
             passwordText = newPassword,
             passwordError = validPassword(newPassword),
-            confirmPasswordError = validConfirmPassword(newPassword, _state.value.confirmPasswordText),
+            confirmPasswordError = validConfirmPassword(newPassword, _state.value.confirmPasswordText)
         )
     }
 

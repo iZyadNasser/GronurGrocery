@@ -13,16 +13,23 @@ object Onboarding
 object Register
 
 @Serializable
-object Login
+data class Login(
+    val emailText: String = "",
+    val passwordText: String = ""
+)
 
 @Serializable
 object ForgotPassword
 
 @Serializable
-object Verification
+data class Verification(
+    val emailText: String
+)
 
 @Serializable
-object ResetPassword
+data class ResetPassword(
+    val emailText: String
+)
 
 @Serializable
 data class SetUpAccount(

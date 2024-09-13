@@ -10,6 +10,8 @@ class LoginViewModel: ViewModel() {
     private val _state = mutableStateOf(LoginState())
     val state: State<LoginState> = _state
 
+    private var isFirst = true
+
     fun updateEmailState(newEmail: String) {
         _state.value = _state.value.copy(
             emailText = newEmail,
@@ -34,5 +36,13 @@ class LoginViewModel: ViewModel() {
         _state.value = _state.value.copy(
             isSavePasswordChecked = !_state.value.isSavePasswordChecked
         )
+    }
+
+    fun initializeState(email: String, password: String) {
+        if (isFirst) {
+            updateEmailState(email)
+            updatePasswordState(password)
+            isFirst = false
+        }
     }
 }

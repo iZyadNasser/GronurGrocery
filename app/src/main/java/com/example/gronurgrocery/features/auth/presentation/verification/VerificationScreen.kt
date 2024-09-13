@@ -42,10 +42,12 @@ import com.example.gronurgrocery.features.auth.presentation.common.components.Fo
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormToken
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
+import com.example.gronurgrocery.features.auth.presentation.common.hideMail
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun VerificationScreen(
+    email: String,
     navigateToReset: () -> Unit,
     onUpButtonPressed: () -> Unit,
     modifier: Modifier = Modifier,
@@ -100,7 +102,7 @@ fun VerificationScreen(
             ) {
                 FormText(
                     titleText = "Verification Code",
-                    descriptionText = "We’ve sent the code to your mail address that you include: sha.....@gmail.com", // TODO (replace placeholder email with actual email written)
+                    descriptionText = "We’ve sent the code to your mail address that you include: ${hideMail(email)}", // TODO (replace placeholder email with actual email written)
                     modifier = Modifier
                         .padding(
                             top = 12.dp
@@ -195,6 +197,7 @@ fun VerificationScreen(
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = "Resend Code",
+                    color = uiState.resendButtonColor,
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         fontSize = 16.sp,
@@ -205,7 +208,9 @@ fun VerificationScreen(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                        ) { /* TODO */ }
+                        ) {
+                            verificationViewModel.onResendButtonClicked()
+                        }
                 )
             }
             Column {
@@ -227,6 +232,7 @@ fun VerificationScreen(
 private fun PreviewVerificationScreen() {
     GronurGroceryTheme {
         VerificationScreen(
+            email = "zyadhammad531@gmail.com",
             navigateToReset = {},
             onUpButtonPressed = {}
         )
