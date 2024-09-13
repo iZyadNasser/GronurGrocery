@@ -125,23 +125,23 @@ fun ResetPasswordScreen(
                     onVisibilityIconClick = { resetPasswordViewModel.toggleConfirmPasswordVisibility() },
                     fieldValue = uiState.confirmPasswordText,
                     onValueChange = { resetPasswordViewModel.updateConfirmPasswordState(it) },
-                    isError = uiState.confirmPasswordError != null,
+                    isError = (uiState.confirmPasswordError != null || (uiState.confirmPasswordText.isBlank() && uiState.anyError)),
                     visualTransformation = if (uiState.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done,
                     modifier = Modifier
                         .fillMaxWidth()
                 )
-                if (uiState.confirmPasswordError != null) {
-                    if (uiState.confirmPasswordText.isBlank()) {
+                if (uiState.confirmPasswordError != null || (uiState.confirmPasswordText.isBlank() && uiState.anyError)) {
+                    if (uiState.confirmPasswordError != null) {
                         FormTextFieldErrorText(
-                            text = "This field is required",
+                            text = uiState.confirmPasswordError,
                             modifier = Modifier
                                 .padding(top = 4.dp)
                         )
                     } else {
                         FormTextFieldErrorText(
-                            text = uiState.confirmPasswordError,
+                            text = "This field is required",
                             modifier = Modifier
                                 .padding(top = 4.dp)
                         )

@@ -6,5 +6,6 @@ data class ResetPasswordState(
     val passwordError: String? = null,
     val confirmPasswordError: String? = null,
     val isPasswordVisible: Boolean = false,
-    val isConfirmPasswordVisible: Boolean = false
+    val isConfirmPasswordVisible: Boolean = false,
+    val anyError: Boolean = false
 )
