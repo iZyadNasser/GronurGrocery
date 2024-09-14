@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.components
+package com.example.gronurgrocery.common.presentation.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

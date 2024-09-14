@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.gronurgrocery.R
-import com.example.gronurgrocery.common.components.CustomButton
+import com.example.gronurgrocery.common.presentation.ui.components.CustomButton
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
