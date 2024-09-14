@@ -1,22 +1,35 @@
 package com.example.gronurgrocery.common.presentation.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
+import com.example.gronurgrocery.common.presentation.navigation.screens.Home
 import com.example.gronurgrocery.common.presentation.navigation.screens.Login
+import com.example.gronurgrocery.common.presentation.navigation.screens.More
+import com.example.gronurgrocery.common.presentation.navigation.screens.MyCart
 import com.example.gronurgrocery.common.presentation.navigation.screens.Onboarding
+import com.example.gronurgrocery.common.presentation.navigation.screens.Order
 import com.example.gronurgrocery.common.presentation.navigation.screens.Register
 import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.SetUpAccount
 import com.example.gronurgrocery.common.presentation.navigation.screens.Splash
 import com.example.gronurgrocery.common.presentation.navigation.screens.Verification
 import com.example.gronurgrocery.common.presentation.navigation.screens.VerificationSource
+import com.example.gronurgrocery.common.presentation.ui.bottom_navigation.BottomNavigationBody
 import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
@@ -24,6 +37,7 @@ import com.example.gronurgrocery.features.auth.presentation.register.RegisterScr
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
+import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -187,6 +201,7 @@ fun MyApp(
                 onUpButtonPressed = { navController.navigateUp() }
             )
         }
+
         composable<SetUpAccount> {
             val args = it.toRoute<SetUpAccount>()
             val registerData = RegisterData(
@@ -195,10 +210,107 @@ fun MyApp(
                 confirmPasswordText = args.password
             )
             SetUpAccountScreen(
-                onSaveChangesClick = { /* TODO */ },
+                onSaveChangesClick = {
+                    navController.navigate(Home("")) {
+                        popUpTo(route = Register) {
+                            inclusive = true
+                        }
+                    }
+                    /* TODO */
+                },
                 onUpButtonPressed = { navController.navigateUp() },
                 registerData = registerData
             )
+        }
+
+        composable<Home> {
+            BottomNavigationBody(
+                currentRoute = Home(""),
+                content = { HomeMainScreen() },
+                navigateToItem = {
+                    navController.navigate(it) {
+                        popUpTo(route = Home(""))
+                    }
+                })
+        }
+
+        composable<Order> {
+            BottomNavigationBody(
+                currentRoute = Order(""),
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 40.dp,
+                                    bottomEnd = 40.dp
+                                )
+                            )
+                            .fillMaxSize()
+                            .background(Color.Red)
+                    ) {
+
+                    }
+                },
+                navigateToItem = {
+                    navController.navigate(it) {
+                        popUpTo(route = Home("")) {
+                            inclusive = (it == Home(""))
+                        }
+                    }
+                })
+        }
+        composable<MyCart> {
+            BottomNavigationBody(
+                currentRoute = MyCart(""),
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 40.dp,
+                                    bottomEnd = 40.dp
+                                )
+                            )
+                            .fillMaxSize()
+                            .background(Color.Green)
+                    ) {
+
+                    }
+                },
+                navigateToItem = {
+                    navController.navigate(it) {
+                        popUpTo(route = Home("")) {
+                            inclusive = (it == Home(""))
+                        }
+                    }
+                })
+        }
+        composable<More> {
+            BottomNavigationBody(
+                currentRoute = More(""),
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 40.dp,
+                                    bottomEnd = 40.dp
+                                )
+                            )
+                            .fillMaxSize()
+                            .background(Color.Blue)
+                    ) {
+
+                    }
+                },
+                navigateToItem = {
+                    navController.navigate(it) {
+                        popUpTo(route = Home("")) {
+                            inclusive = (it == Home(""))
+                        }
+                    }
+                })
         }
     }
 }
