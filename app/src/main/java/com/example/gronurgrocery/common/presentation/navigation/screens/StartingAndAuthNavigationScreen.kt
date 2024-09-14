@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app.navigation.screens
+package com.example.gronurgrocery.common.presentation.navigation.screens
 
 import kotlinx.serialization.Serializable
 

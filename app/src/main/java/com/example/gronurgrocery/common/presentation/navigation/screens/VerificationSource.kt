@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.common.main_app.navigation.screens
+package com.example.gronurgrocery.common.presentation.navigation.screens
 
 sealed class VerificationSource(val source: String) {
 
