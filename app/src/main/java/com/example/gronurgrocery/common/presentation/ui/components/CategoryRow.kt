@@ -36,7 +36,7 @@ fun CategoryRow(
     selectedItem: String? = null
 ) {
 
-    val newItems = listOf("") + items
+    val newItems = listOf("") + items + listOf("")
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -95,7 +95,7 @@ private fun CategoryRowItem(
 private fun InvisibleItem(
     modifier: Modifier = Modifier
 ) {
-    Spacer(modifier = modifier.width(24.dp))
+    Spacer(modifier = modifier.width(12.dp))
 }
 
 @Preview
