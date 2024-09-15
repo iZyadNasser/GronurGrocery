@@ -37,7 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
-import com.example.gronurgrocery.common.components.CustomButton
+import com.example.gronurgrocery.common.presentation.ui.components.CustomButton
 import com.example.gronurgrocery.features.starting.presentation.components.Indicator
 import kotlinx.coroutines.launch
 import androidx.hilt.navigation.compose.hiltViewModel

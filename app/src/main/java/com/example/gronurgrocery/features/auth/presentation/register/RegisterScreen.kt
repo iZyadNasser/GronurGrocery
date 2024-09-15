@@ -20,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -29,9 +27,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
+import com.example.gronurgrocery.common.presentation.ui.components.AppTitle
 import com.example.gronurgrocery.features.auth.domain.model.RegisterData
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormContinueWithButton
@@ -40,13 +38,11 @@ import com.example.gronurgrocery.features.auth.presentation.common.components.Fo
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
-import com.example.gronurgrocery.features.ui.theme.background
 
 @Composable
 fun RegisterScreen(
     onSignInClick: () -> Unit,
     onSignUpClick: (RegisterData) -> Unit,
-    //onUpButtonPressed: () -> Unit,
     registerViewModel: RegisterViewModel = viewModel<RegisterViewModel>()
 ) {
 
@@ -71,11 +67,7 @@ fun RegisterScreen(
                     bottom = 12.dp
                 )
         ) {
-//            FormUpButton(
-//                onClick = { onUpButtonPressed() }
-//            )
-
-            AppTitle(title = "Gronur Grocery")
+            AppTitle(title = "Daily Grocery Food")
         }
 
         Column(
@@ -257,34 +249,5 @@ private fun PreviewRegisterScreen() {
             onSignUpClick = {},
             //onUpButtonPressed = {}
         )
-    }
-}
-
-@Composable
-fun AppTitle(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        textAlign = TextAlign.Center,
-        text = title,
-        color = background,
-        style = TextStyle(
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
-        ),
-        modifier = modifier
-            .height(56.dp)
-            .padding(
-                top = 10.dp
-            )
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewAppTitle() {
-    GronurGroceryTheme {
-        AppTitle("Gronur Grocery")
     }
 }
