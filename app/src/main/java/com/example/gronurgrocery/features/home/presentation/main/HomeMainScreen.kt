@@ -35,6 +35,7 @@ import com.example.gronurgrocery.features.ui.theme.background
 
 @Composable
 fun HomeMainScreen(
+    onSeeAllClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     homeMainViewModel: HomeMainViewModel = hiltViewModel()
 ) {
@@ -102,7 +103,7 @@ fun HomeMainScreen(
                     ),
                     modifier = Modifier
                         .clickable {
-                            /* TODO */
+                            onSeeAllClick(uiState.category)
                         }
                 )
             }
@@ -125,6 +126,6 @@ fun HomeMainScreen(
 @Composable
 private fun PreviewHomeMainScreen() {
     GronurGroceryTheme {
-        BottomNavigationBody(currentRoute = Home, content = { HomeMainScreen() }, {})
+        BottomNavigationBody(currentRoute = Home, content = { HomeMainScreen({}) }, {})
     }
 }

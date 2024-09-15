@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.gronurgrocery.common.presentation.navigation.screens.CategoryProductsList
 import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.Home
 import com.example.gronurgrocery.common.presentation.navigation.screens.Login
@@ -37,6 +38,7 @@ import com.example.gronurgrocery.features.auth.presentation.register.RegisterScr
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
+import com.example.gronurgrocery.features.home.presentation.category_products.CategoryProductsScreenContainer
 import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
@@ -226,7 +228,14 @@ fun MyApp(
         composable<Home> {
             BottomNavigationBody(
                 currentRoute = Home(""),
-                content = { HomeMainScreen() },
+                content = { HomeMainScreen(
+                    onSeeAllClick = {
+                        navController.navigate(CategoryProductsList(
+                            token = "",
+                            category = it
+                        ))
+                    }
+                ) },
                 navigateToItem = {
                     navController.navigate(it) {
                         popUpTo(route = Home(""))
@@ -311,6 +320,15 @@ fun MyApp(
                         }
                     }
                 })
+        }
+
+        composable<CategoryProductsList> {
+            val args = it.toRoute<CategoryProductsList>()
+
+            CategoryProductsScreenContainer(
+                title = args.category,
+                onUpButtonPressed = { navController.navigateUp() }
+            )
         }
     }
 }
