@@ -38,8 +38,14 @@ import com.example.gronurgrocery.features.auth.presentation.register.RegisterScr
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
+import com.example.gronurgrocery.features.home.domain.model.Product
+import com.example.gronurgrocery.features.home.domain.model.ProductDetail
+import com.example.gronurgrocery.features.home.domain.model.Review
+import com.example.gronurgrocery.features.home.domain.model.UserBrief
 import com.example.gronurgrocery.features.home.presentation.category_products.CategoryProductsScreenContainer
 import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
+import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreen
+import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -229,11 +235,14 @@ fun MyApp(
             BottomNavigationBody(
                 currentRoute = Home(""),
                 content = { HomeMainScreen(
+//                    onSeeAllClick = { category ->
+//                        navController.navigate(CategoryProductsList(
+//                            token = "",
+//                            category = category
+//                        ))
+//                    }
                     onSeeAllClick = {
-                        navController.navigate(CategoryProductsList(
-                            token = "",
-                            category = it
-                        ))
+                        navController.navigate(com.example.gronurgrocery.common.presentation.navigation.screens.ProductDetail("", ""))
                     }
                 ) },
                 navigateToItem = {
@@ -241,6 +250,57 @@ fun MyApp(
                         popUpTo(route = Home(""))
                     }
                 })
+        }
+
+        composable<CategoryProductsList> {
+            val args = it.toRoute<CategoryProductsList>()
+
+            CategoryProductsScreenContainer(
+                title = args.category,
+                onUpButtonPressed = { navController.navigateUp() }
+            )
+        }
+
+        composable<com.example.gronurgrocery.common.presentation.navigation.screens.ProductDetail> {
+            ProductDetailScreenContainer(
+                content = { product, modifier ->
+                    ProductDetailScreen(productDetail = product, modifier = modifier)
+                },
+                productDetail = ProductDetail(
+                    imageUrl = "https://w7.pngwing.com/pngs/736/5/png-transparent-sugar-apple-graphy-fruit-desktop-apple-thumbnail.png",
+                    name = "Fresh Orange",
+                    isAvailable = true,
+                    maxAmount = 30,
+                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+                    productReviews = listOf(
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        )
+                    ),
+                    similarProducts = listOf(
+                        Product(
+                            imageUrl = "",
+                            name = "Strawberry",
+                            cals = "75",
+                            price = "14.75"
+                        ),
+                        Product(
+                            imageUrl = "",
+                            name = "Capsicum",
+                            cals = "52",
+                            price = "75.68"
+                        )
+                    ),
+                    price = "14.75"
+                )
+            )
         }
 
         composable<Order> {
@@ -320,15 +380,6 @@ fun MyApp(
                         }
                     }
                 })
-        }
-
-        composable<CategoryProductsList> {
-            val args = it.toRoute<CategoryProductsList>()
-
-            CategoryProductsScreenContainer(
-                title = args.category,
-                onUpButtonPressed = { navController.navigateUp() }
-            )
         }
     }
 }

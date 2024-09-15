@@ -56,7 +56,6 @@ fun HomeMainScreen(
     ) {
         MainPagesHeader(
             modifier = Modifier
-                .safeDrawingPadding()
                 .statusBarsPadding()
                 .padding(
                     top = 16.dp,
@@ -108,7 +107,7 @@ fun HomeMainScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             ItemsGrid(
                 items = uiState.productList,
                 modifier = Modifier

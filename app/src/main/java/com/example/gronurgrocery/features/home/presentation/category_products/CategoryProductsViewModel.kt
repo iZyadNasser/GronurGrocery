@@ -23,7 +23,13 @@ class CategoryProductsViewModel @Inject constructor(
         getCurrentCategoryProducts()
     }
 
-    private fun getCurrentCategoryProducts() {
+    fun initializeCategory(category: String) {
+        _state.value = _state.value.copy(
+            category = category
+        )
+    }
+
+    fun getCurrentCategoryProducts() {
         getAllProductsByCategoryUseCase(_state.value.category).onEach { productResponse ->
             when (productResponse) {
                 is Resource.Loading -> {

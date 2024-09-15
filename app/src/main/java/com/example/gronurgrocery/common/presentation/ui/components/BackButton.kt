@@ -22,7 +22,9 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 @Composable
 fun BackButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    borderColor: Color = Color(0x66FFFFFF),
+    arrowColor: Color = Color.White
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -32,7 +34,7 @@ fun BackButton(
             .height(56.dp)
             .border(
                 width = 2.dp,
-                color = Color(0x66FFFFFF),
+                color = borderColor,
                 shape = RoundedCornerShape(100.dp)
             )
             .background(Color.Transparent)
@@ -40,7 +42,7 @@ fun BackButton(
                 onClick()
             }
     ) {
-        Icon(painter = painterResource(id = R.drawable.arrow_left), contentDescription = "search", tint = Color.White)
+        Icon(painter = painterResource(id = R.drawable.arrow_left), contentDescription = "search", tint = arrowColor)
     }
 }
 

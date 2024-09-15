@@ -17,7 +17,7 @@ class GetAllProductsByCategoryUseCase @Inject constructor(
     operator fun invoke(category: String): Flow<Resource<List<Product>>> = flow {
         try {
             emit(Resource.Loading())
-            val productList = repository.getPopularProductsByCategory(category).map { it.toDomain() }
+            val productList = repository.getAllProductsByCategory(category).map { it.toDomain() }
             emit(Resource.Success(productList))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error happened"))

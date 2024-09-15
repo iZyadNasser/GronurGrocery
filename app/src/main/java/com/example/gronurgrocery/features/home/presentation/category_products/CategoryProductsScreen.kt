@@ -3,6 +3,8 @@ package com.example.gronurgrocery.features.home.presentation.category_products
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,15 +23,18 @@ fun CategoryProductsScreenContainer(
     title: String,
     modifier: Modifier = Modifier
 ) {
-    DarkPageContainerWithBackButton(title = title, content = { CategoryProductsScreen() }, modifier = modifier, onBackButtonPressed = onUpButtonPressed)
+    DarkPageContainerWithBackButton(title = title, content = { CategoryProductsScreen(currentCategory = title) }, modifier = modifier, onBackButtonPressed = onUpButtonPressed)
 }
 
 @Composable
 private fun CategoryProductsScreen(
+    currentCategory: String,
     modifier: Modifier = Modifier,
     categoryProductsViewModel: CategoryProductsViewModel = hiltViewModel()
 ) {
 
+    categoryProductsViewModel.initializeCategory(currentCategory)
+    categoryProductsViewModel.getCurrentCategoryProducts()
     val uiState = categoryProductsViewModel.state.value
 
     Column(
@@ -42,6 +47,8 @@ private fun CategoryProductsScreen(
             )
             .fillMaxSize()
             .background(Color.White)
+            .navigationBarsPadding()
+
     ) {
         ItemsGrid(items = uiState.productList)
     }

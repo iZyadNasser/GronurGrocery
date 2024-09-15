@@ -52,8 +52,6 @@ fun BottomNavigationBody(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxSize()
-            .safeDrawingPadding()
-            .statusBarsPadding()
     ) {
 
         val configuration = LocalConfiguration.current

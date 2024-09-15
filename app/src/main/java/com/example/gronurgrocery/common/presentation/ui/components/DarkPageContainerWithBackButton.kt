@@ -53,7 +53,6 @@ fun DarkPageContainerWithBackButton(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .safeDrawingPadding()
                 .statusBarsPadding()
                 .padding(
                     start = 24.dp,
@@ -79,7 +78,7 @@ fun DarkPageContainerWithBackButton(
                     textAlign = TextAlign.Center
                 ),
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(3f)
             )
             Spacer(modifier = Modifier.weight(1f))
         }
