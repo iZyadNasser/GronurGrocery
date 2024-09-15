@@ -1,10 +1,11 @@
-package com.example.gronurgrocery.common.presentation.ui.components
+package com.example.gronurgrocery.common.presentation.ui.components.category_row
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 import com.example.gronurgrocery.features.ui.theme.background
 
@@ -33,8 +36,14 @@ import com.example.gronurgrocery.features.ui.theme.background
 fun CategoryRow(
     items: List<String>,
     modifier: Modifier = Modifier,
-    selectedItem: String? = null
+    initialSelectedItem: String? = null,
+    onItemClick: (String) -> Unit,
+    categoryRowViewModel: CategoryRowViewModel = viewModel<CategoryRowViewModel>()
 ) {
+
+    categoryRowViewModel.initializeSelectedItem(initialSelectedItem)
+
+    val uiState = categoryRowViewModel.state.value
 
     val newItems = listOf("") + items + listOf("")
 
@@ -48,11 +57,24 @@ fun CategoryRow(
                 "" -> {
                     InvisibleItem()
                 }
-                selectedItem -> {
-                    CategoryRowItem(name = item, selected = true)
+                uiState.selectedItem -> {
+                    CategoryRowItem(
+                        onItemClick = {
+                            onItemClick(it)
+                            categoryRowViewModel.updateSelectedItem(it)
+                        },
+                        name = item,
+                        selected = true
+                    )
                 }
                 else -> {
-                    CategoryRowItem(name = item)
+                    CategoryRowItem(
+                        onItemClick = {
+                            onItemClick(it)
+                            categoryRowViewModel.updateSelectedItem(it)
+                        },
+                        name = item
+                    )
                 }
             }
         }
@@ -64,6 +86,7 @@ private fun CategoryRowItem(
     name: String,
     modifier: Modifier = Modifier,
     selected: Boolean = false,
+    onItemClick: (String) -> Unit,
 ) {
 
     val fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium
@@ -79,6 +102,13 @@ private fun CategoryRowItem(
             .padding(
                 horizontal = 20.dp
             )
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                onItemClick(name)
+                // TODO
+            }
     ) {
         Text(
             text = name,
@@ -102,7 +132,7 @@ private fun InvisibleItem(
 @Composable
 private fun PreviewCategoryRowItemSelected() {
     GronurGroceryTheme {
-        CategoryRowItem("Fast-food", selected = true)
+        CategoryRowItem(onItemClick = {  }, name = "Fast-food", selected = true)
     }
 }
 
@@ -110,7 +140,7 @@ private fun PreviewCategoryRowItemSelected() {
 @Composable
 private fun PreviewCategoryRowItemNotSelected() {
     GronurGroceryTheme {
-        CategoryRowItem("Fast-food")
+        CategoryRowItem(onItemClick = {  }, name = "Fast-food")
     }
 }
 
@@ -134,7 +164,8 @@ private fun PreviewCategoryRow() {
                     "Vegetables",
                     "Fish"
                 ),
-                selectedItem = "Fruits"
+                initialSelectedItem = "Fruits",
+                onItemClick = {}
             )
         }
     }
