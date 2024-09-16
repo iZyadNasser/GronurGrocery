@@ -263,8 +263,11 @@ fun MyApp(
 
         composable<com.example.gronurgrocery.common.presentation.navigation.screens.ProductDetail> {
             ProductDetailScreenContainer(
-                content = { product, modifier ->
-                    ProductDetailScreen(productDetail = product, modifier = modifier)
+                onUpButtonPressed = {
+                    navController.navigateUp()
+                },
+                content = { product, modifier, onUpButtonPressed ->
+                    ProductDetailScreen(productDetail = product, modifier = modifier, onUpButtonPressed = onUpButtonPressed)
                 },
                 productDetail = ProductDetail(
                     imageUrl = "https://w7.pngwing.com/pngs/736/5/png-transparent-sugar-apple-graphy-fruit-desktop-apple-thumbnail.png",
@@ -273,6 +276,36 @@ fun MyApp(
                     maxAmount = 30,
                     description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
                     productReviews = listOf(
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
                         Review(
                             user = UserBrief(
                                 userId = "",

@@ -24,7 +24,8 @@ fun BackButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     borderColor: Color = Color(0x66FFFFFF),
-    arrowColor: Color = Color.White
+    arrowColor: Color = Color.White,
+    backgroundColor: Color = Color.Transparent
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -37,7 +38,7 @@ fun BackButton(
                 color = borderColor,
                 shape = RoundedCornerShape(100.dp)
             )
-            .background(Color.Transparent)
+            .background(backgroundColor)
             .clickable {
                 onClick()
             }
