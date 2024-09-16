@@ -4,7 +4,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.common.presentation.ui.components.DarkPageContainerWithBackButton
+import com.example.gronurgrocery.features.home.domain.model.Product
 import com.example.gronurgrocery.features.home.presentation.components.item_grid.ItemsGrid
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 import com.example.gronurgrocery.features.ui.theme.background
@@ -46,47 +46,60 @@ import com.example.gronurgrocery.features.ui.theme.background
 @Composable
 fun SearchScreenContainer(
     onUpButtonPressed: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    DarkPageContainerWithBackButton(
-        title = "Search",
-        content = { SearchScreen() },
-        modifier = modifier,
-        onBackButtonPressed = onUpButtonPressed
-    )
-}
-
-@Composable
-fun SearchScreen(
-    modifier: Modifier = Modifier,
     searchViewModel: SearchViewModel = viewModel<SearchViewModel>()
 ) {
 
     val uiState = searchViewModel.state.value
+    var toggle: (() -> Unit)? = null
+    if (uiState.isFilterTabOpen) {
+        toggle = { searchViewModel.toggleFilterTab() }
+    }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 24.dp
-                )
-
-        ) {
-            SearchBar(
-                fieldValue = uiState.currentSearchText,
-                onValueChange = { searchViewModel.updateSearchBarState(it) },
-                onFilterIconClick = { /* TODO */ },
+    DarkPageContainerWithBackButton(
+        putMask = toggle,
+        onContainerClick = { searchViewModel.toggleFilterTab() },
+        title = "Search",
+        preContent = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-            )
-        }
+                    .padding(
+                        horizontal = 24.dp
+                    )
+            ) {
+                SearchBar(
+                    fieldValue = uiState.currentSearchText,
+                    onValueChange = { searchViewModel.updateSearchBarState(it) },
+                    onFilterIconClick = { searchViewModel.toggleFilterTab() },
+                    onFocus = { searchViewModel.toggleFilterTab() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+        },
+        content = {
+            SearchScreen(uiState.items)
+        },
+        onBackButtonPressed = onUpButtonPressed
+    )
 
+}
+
+@Composable
+fun SearchScreen(
+    items: List<Product>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+            ) {
+
+            }
+    ) {
         Spacer(modifier = Modifier.height(24.dp))
         Column(
             modifier = modifier
@@ -104,10 +117,9 @@ fun SearchScreen(
                 )
 
         ) {
-            ItemsGrid(items = uiState.items)
+            ItemsGrid(items = items)
         }
     }
-
 }
 
 @Composable
@@ -115,6 +127,7 @@ private fun SearchBar(
     fieldValue: String,
     onValueChange: (String) -> Unit,
     onFilterIconClick: () -> Unit,
+    onFocus: () -> Unit,
     modifier: Modifier = Modifier,
     onActionButtonClick: (() -> Unit)? = null,
 ) {
@@ -186,6 +199,11 @@ private fun SearchBar(
             .clip(RoundedCornerShape(30.dp))
             .height(60.dp)
             .background(Color.White)
+            .onFocusChanged {
+                if (it.hasFocus) {
+                    onFocus()
+                }
+            }
     )
 }
 
@@ -196,7 +214,8 @@ private fun PreviewSearchBar() {
         SearchBar(
             onFilterIconClick = {},
             onValueChange = {},
-            fieldValue = ""
+            fieldValue = "",
+            onFocus = {}
         )
     }
 }
@@ -205,6 +224,6 @@ private fun PreviewSearchBar() {
 @Composable
 private fun PreviewSearchScreen() {
     GronurGroceryTheme {
-        SearchScreenContainer(onUpButtonPressed = {  })
+        SearchScreenContainer(onUpButtonPressed = { })
     }
 }

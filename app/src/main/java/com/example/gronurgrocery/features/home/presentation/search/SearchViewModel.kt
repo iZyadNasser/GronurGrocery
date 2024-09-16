@@ -14,4 +14,10 @@ class SearchViewModel: ViewModel() {
             currentSearchText = newText
         )
     }
+
+    fun toggleFilterTab() {
+        _state.value = _state.value.copy(
+            isFilterTabOpen = !_state.value.isFilterTabOpen
+        )
+    }
 }

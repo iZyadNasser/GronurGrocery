@@ -24,7 +24,7 @@ fun CategoryProductsScreenContainer(
     title: String,
     modifier: Modifier = Modifier
 ) {
-    DarkPageContainerWithBackButton(title = title, content = { CategoryProductsScreen(currentCategory = title) }, modifier = modifier, onBackButtonPressed = onUpButtonPressed)
+    DarkPageContainerWithBackButton(title = title, content = { CategoryProductsScreen(currentCategory = title) }, modifier = modifier, onBackButtonPressed = onUpButtonPressed, preContent = null)
 }
 
 @Composable
