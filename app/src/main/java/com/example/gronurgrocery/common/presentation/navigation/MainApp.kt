@@ -26,6 +26,7 @@ import com.example.gronurgrocery.common.presentation.navigation.screens.Onboardi
 import com.example.gronurgrocery.common.presentation.navigation.screens.Order
 import com.example.gronurgrocery.common.presentation.navigation.screens.Register
 import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
+import com.example.gronurgrocery.common.presentation.navigation.screens.Search
 import com.example.gronurgrocery.common.presentation.navigation.screens.SetUpAccount
 import com.example.gronurgrocery.common.presentation.navigation.screens.Splash
 import com.example.gronurgrocery.common.presentation.navigation.screens.Verification
@@ -46,6 +47,7 @@ import com.example.gronurgrocery.features.home.presentation.category_products.Ca
 import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
+import com.example.gronurgrocery.features.home.presentation.search.SearchScreenContainer
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -235,14 +237,14 @@ fun MyApp(
             BottomNavigationBody(
                 currentRoute = Home(""),
                 content = { HomeMainScreen(
-//                    onSeeAllClick = { category ->
-//                        navController.navigate(CategoryProductsList(
-//                            token = "",
-//                            category = category
-//                        ))
-//                    }
-                    onSeeAllClick = {
-                        navController.navigate(com.example.gronurgrocery.common.presentation.navigation.screens.ProductDetail("", ""))
+                    onSeeAllClick = { category ->
+                        navController.navigate(CategoryProductsList(
+                            token = "",
+                            category = category
+                        ))
+                    },
+                    onSearchIconClick = {
+                        navController.navigate(Search(""))
                     }
                 ) },
                 navigateToItem = {
@@ -333,6 +335,12 @@ fun MyApp(
                     ),
                     price = "14.75"
                 )
+            )
+        }
+
+        composable<Search> {
+            SearchScreenContainer(
+                onUpButtonPressed = { navController.navigateUp() }
             )
         }
 

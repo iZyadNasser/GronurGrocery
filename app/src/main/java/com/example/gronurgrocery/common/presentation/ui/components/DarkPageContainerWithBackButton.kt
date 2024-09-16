@@ -75,7 +75,8 @@ fun DarkPageContainerWithBackButton(
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    letterSpacing = 0.sp
                 ),
                 modifier = Modifier
                     .weight(3f)

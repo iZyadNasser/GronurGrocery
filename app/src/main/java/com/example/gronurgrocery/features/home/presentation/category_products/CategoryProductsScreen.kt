@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -48,6 +49,9 @@ private fun CategoryProductsScreen(
             .fillMaxSize()
             .background(Color.White)
             .navigationBarsPadding()
+            .padding(
+                horizontal = 24.dp
+            )
 
     ) {
         ItemsGrid(items = uiState.productList)
