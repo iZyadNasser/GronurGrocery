@@ -24,6 +24,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
@@ -335,22 +336,6 @@ private fun FilterTab(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                ) {
-                    Row(
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(10.dp)
-                        .background(background)
-                    ) {
-
-                    }
-                }
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -359,79 +344,27 @@ private fun FilterTab(
                         .fillMaxWidth()
                         .height(50.dp)
                 ) {
-                    Slider(
-                        valueRange = 50f..100f,
-                        steps = 10,
-                        value = uiState.searchFilter.priceRange.minPrice,
+                    RangeSlider(
+                        valueRange = 0f..100f,
+                        steps = 100,
+                        value = uiState.searchFilter.priceRange.minPrice..uiState.searchFilter.priceRange.maxPrice,
                         onValueChange = {
                             searchViewModel.updatePriceRangeState(
                                 PriceRange(
-                                    it,
-                                    uiState.searchFilter.priceRange.maxPrice
-                                )
-                            )
-                        },
-                        colors = SliderDefaults.colors(
-                            thumbColor = background,
-                            activeTrackColor = Color(0x3319253D),
-                            activeTickColor = Color(0x3319253D),
-                            inactiveTrackColor = background,
-                            inactiveTickColor = background
-                        ),
-
-                        thumb = {
-                            Image(
-                                painter = painterResource(id = R.drawable.slider_indicator),
-                                contentDescription = "drag",
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                            )
-                        },
-                        track = { sliderState ->
-                            val colorStops = arrayOf(
-                                0.0f to Color(0x3319253D),
-                                ((sliderState.value - 50) / 50) to Color(0x3319253D),
-                                ((sliderState.value - 50) / 50) to background,
-                                1f to background
-                            )
-                            Row(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .fillMaxWidth()
-                                    .height(10.dp)
-                                    .background(
-                                        brush = Brush.horizontalGradient(
-                                            colorStops = colorStops
-                                        )
-                                    )
-                            ) {
-
-                            }
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(50.dp)
-                    )
-                    Slider(
-                        valueRange = 50f..100f,
-                        steps = 10,
-                        value = uiState.searchFilter.priceRange.maxPrice,
-                        onValueChange = {
-                            searchViewModel.updatePriceRangeState(
-                                PriceRange(
-                                    uiState.searchFilter.priceRange.minPrice,
-                                    it
+                                    it.start,
+                                    it.endInclusive
                                 )
                             )
                         },
                         colors = SliderDefaults.colors(
                             thumbColor = background,
                             activeTrackColor = background,
-                            activeTickColor = Color(0x3319253D),
+                            activeTickColor = background,
                             inactiveTrackColor = Color(0x3319253D),
                             inactiveTickColor = Color(0x3319253D)
                         ),
-                        thumb = {
+
+                        startThumb = {
                             Image(
                                 painter = painterResource(id = R.drawable.slider_indicator),
                                 contentDescription = "drag",
@@ -439,11 +372,21 @@ private fun FilterTab(
                                     .clip(RoundedCornerShape(10.dp))
                             )
                         },
-                        track = { sliderState ->
+                        endThumb = {
+                            Image(
+                                painter = painterResource(id = R.drawable.slider_indicator),
+                                contentDescription = "drag",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                            )
+                        },
+                        track = {
                             val colorStops = arrayOf(
-                                0.0f to background,
-                                ((sliderState.value - 50) / 50) to background,
-                                ((sliderState.value - 50) / 50) to Color(0x3319253D),
+                                0.0f to Color(0x3319253D),
+                                ((uiState.searchFilter.priceRange.minPrice) / 100) to Color(0x3319253D),
+                                ((uiState.searchFilter.priceRange.minPrice) / 100) to background,
+                                ((uiState.searchFilter.priceRange.maxPrice) / 100) to background,
+                                ((uiState.searchFilter.priceRange.maxPrice) / 100) to Color(0x3319253D),
                                 1f to Color(0x3319253D)
                             )
                             Row(
