@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,10 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RangeSlider
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -276,8 +275,6 @@ private fun FilterTab(
                 .background(Color.White)
                 .navigationBarsPadding()
                 .padding(
-                    start = 24.dp,
-                    end = 24.dp,
                     top = 32.dp
                 )
 
@@ -287,6 +284,10 @@ private fun FilterTab(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
             ) {
                 Text(
                     text = "Filter",
@@ -319,7 +320,12 @@ private fun FilterTab(
 
             Spacer(modifier = Modifier.height(16.dp))
             Divider(
-                color = Color(0x1A96A4B2)
+                color = Color(0x1A96A4B2),
+                modifier = Modifier
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
             )
             Spacer(modifier = Modifier.height(32.dp))
             Text(
@@ -328,85 +334,178 @@ private fun FilterTab(
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.SemiBold
-                )
+                ),
+                modifier = Modifier
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                contentAlignment = Alignment.Center,
+
+            // Range Slider
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
             ) {
+                RangeSlider(
+                    valueRange = 1f..100f,
+                    steps = 100,
+                    value = uiState.searchFilter.priceRange.minPrice..uiState.searchFilter.priceRange.maxPrice,
+                    onValueChange = {
+                        searchViewModel.updatePriceRangeState(
+                            PriceRange(
+                                it.start,
+                                it.endInclusive
+                            )
+                        )
+                    },
+                    colors = SliderDefaults.colors(
+                        thumbColor = background,
+                        activeTrackColor = background,
+                        activeTickColor = background,
+                        inactiveTrackColor = Color(0x3319253D),
+                        inactiveTickColor = Color(0x3319253D)
+                    ),
+
+                    startThumb = {
+                        Image(
+                            painter = painterResource(id = R.drawable.slider_indicator),
+                            contentDescription = "drag",
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+                    },
+                    endThumb = {
+                        Image(
+                            painter = painterResource(id = R.drawable.slider_indicator),
+                            contentDescription = "drag",
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+                    },
+                    track = {
+                        val colorStops = arrayOf(
+                            0.0f to Color(0x3319253D),
+                            ((uiState.searchFilter.priceRange.minPrice) / 100) to Color(0x3319253D),
+                            ((uiState.searchFilter.priceRange.minPrice) / 100) to background,
+                            ((uiState.searchFilter.priceRange.maxPrice) / 100) to background,
+                            ((uiState.searchFilter.priceRange.maxPrice) / 100) to Color(0x3319253D),
+                            1f to Color(0x3319253D)
+                        )
+                        Row(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .fillMaxWidth()
+                                .height(10.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        colorStops = colorStops
+                                    )
+                                )
+                        ) {
+
+                        }
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp)
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 9.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 30.dp)
+                        .fillMaxWidth((uiState.searchFilter.priceRange.minPrice / 100) + 0.01f)
+                ) {
+                    Text(
+                        text = "$${uiState.searchFilter.priceRange.minPrice.toInt()}",
+                        color = background,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    )
+                }
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.Start,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
+                        .defaultMinSize(minWidth = 50.dp)
+                        .fillMaxWidth(1 - (uiState.searchFilter.priceRange.maxPrice / 100) + 0.01f)
                 ) {
-                    RangeSlider(
-                        valueRange = 0f..100f,
-                        steps = 100,
-                        value = uiState.searchFilter.priceRange.minPrice..uiState.searchFilter.priceRange.maxPrice,
-                        onValueChange = {
-                            searchViewModel.updatePriceRangeState(
-                                PriceRange(
-                                    it.start,
-                                    it.endInclusive
-                                )
-                            )
-                        },
-                        colors = SliderDefaults.colors(
-                            thumbColor = background,
-                            activeTrackColor = background,
-                            activeTickColor = background,
-                            inactiveTrackColor = Color(0x3319253D),
-                            inactiveTickColor = Color(0x3319253D)
-                        ),
-
-                        startThumb = {
-                            Image(
-                                painter = painterResource(id = R.drawable.slider_indicator),
-                                contentDescription = "drag",
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                            )
-                        },
-                        endThumb = {
-                            Image(
-                                painter = painterResource(id = R.drawable.slider_indicator),
-                                contentDescription = "drag",
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                            )
-                        },
-                        track = {
-                            val colorStops = arrayOf(
-                                0.0f to Color(0x3319253D),
-                                ((uiState.searchFilter.priceRange.minPrice) / 100) to Color(0x3319253D),
-                                ((uiState.searchFilter.priceRange.minPrice) / 100) to background,
-                                ((uiState.searchFilter.priceRange.maxPrice) / 100) to background,
-                                ((uiState.searchFilter.priceRange.maxPrice) / 100) to Color(0x3319253D),
-                                1f to Color(0x3319253D)
-                            )
-                            Row(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .fillMaxWidth()
-                                    .height(10.dp)
-                                    .background(
-                                        brush = Brush.horizontalGradient(
-                                            colorStops = colorStops
-                                        )
-                                    )
-                            ) {
-
-                            }
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(50.dp)
+                    Text(
+                        text = "$${uiState.searchFilter.priceRange.maxPrice.toInt()}",
+                        color = background,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
                     )
+                }
+            }
+
+            // Categories
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "Categories",
+                color = background,
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold
+                ),
+                modifier = Modifier
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+            val newItems = listOf("") + uiState.searchFilter.categories + listOf("")
+
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                items(newItems) { item ->
+                    when (item) {
+                        "" -> {
+                            InvisibleItem()
+                        }
+                        in uiState.searchFilter.categoriesChoice -> {
+                            CategoryRowItem(
+                                onItemClick = {
+                                    searchViewModel.updateCurrentCategories(it)
+                                },
+                                name = item,
+                                selected = true
+                            )
+                        }
+                        else -> {
+                            CategoryRowItem(
+                                onItemClick = {
+                                    searchViewModel.updateCurrentCategories(it)
+                                },
+                                name = item
+                            )
+                        }
+                    }
                 }
             }
 
@@ -415,8 +514,50 @@ private fun FilterTab(
 }
 
 @Composable
-private fun PriceRange(modifier: Modifier = Modifier) {
+private fun CategoryRowItem(
+    name: String,
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    onItemClick: (String) -> Unit,
+) {
 
+    val fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium
+    val backgroundColor = if (selected) background else Color(0xFFF8F8F8)
+    val fontColor = if (selected) Color.White else background
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .height(48.dp)
+            .background(backgroundColor)
+            .padding(
+                horizontal = 20.dp
+            )
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                onItemClick(name)
+                // TODO
+            }
+    ) {
+        androidx.compose.material.Text(
+            text = name,
+            color = fontColor,
+            style = TextStyle(
+                fontWeight = fontWeight,
+                fontSize = 16.sp
+            )
+        )
+    }
+}
+
+@Composable
+private fun InvisibleItem(
+    modifier: Modifier = Modifier
+) {
+    Spacer(modifier = modifier.width(24.dp))
 }
 
 @Preview
