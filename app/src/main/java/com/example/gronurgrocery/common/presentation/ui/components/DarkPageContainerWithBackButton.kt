@@ -50,6 +50,12 @@ fun DarkPageContainerWithBackButton(
             modifier = modifier
                 .fillMaxSize()
                 .background(background)
+                .paint(
+                    painter = painterResource(id = R.drawable.inner_pattern),
+                    contentScale = ContentScale.FillWidth,
+                    alignment = Alignment.TopStart,
+                    alpha = 0.6f
+                )
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
@@ -134,7 +140,7 @@ fun DarkPageContainerWithBackButton(
                         .weight(1f)
                 ) {
                     BackButton(
-                        onClick = { if (onContainerClick != null || putMask != null) onBackButtonPressed() }
+                        onClick = { onBackButtonPressed() }
                     )
                 }
 
@@ -170,6 +176,7 @@ private fun PreviewDarkPageContainerWithBackButton() {
     GronurGroceryTheme {
         DarkPageContainerWithBackButton(
             putMask = {},
+            onContainerClick = {},
             onBackButtonPressed = {},
             title = "Fruits",
             preContent = {
