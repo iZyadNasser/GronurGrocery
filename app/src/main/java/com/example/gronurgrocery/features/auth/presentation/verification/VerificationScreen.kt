@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
+import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormToken
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton

@@ -14,6 +14,7 @@ class SearchViewModel: ViewModel() {
 
     init {
         getCategories()
+        getRecentSearch()
     }
 
     fun updateSearchBarState(newText: String) {
@@ -36,6 +37,7 @@ class SearchViewModel: ViewModel() {
             )
         )
         getCategories()
+        getRecentSearch()
     }
 
     fun updatePriceRangeState(priceRange: PriceRange) {
@@ -76,7 +78,33 @@ class SearchViewModel: ViewModel() {
         )
     }
 
-    fun forceRecomposition() {
+    private fun getRecentSearch() {
+        // TODO
+        _state.value = _state.value.copy(
+            searchFilter = _state.value.searchFilter.copy(
+                recentSearch = listOf(
+                    "Fresh fruit",
+                    "Fresh vegetables",
+                    "Fast-food",
+                    "Cold drinks"
+                )
+            )
+        )
+
+
+    }
+
+    fun updateCurrentSearch(newSearch: String) {
+        _state.value = _state.value.copy(
+            searchFilter = _state.value.searchFilter.copy(
+                recentSearchChoice = newSearch
+            )
+        )
+
+        forceRecomposition()
+    }
+
+    private fun forceRecomposition() {
         _state.value = _state.value.copy(
             recompositionTrigger = !_state.value.recompositionTrigger
         )

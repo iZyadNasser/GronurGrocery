@@ -19,10 +19,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.common.presentation.ui.components.DarkPageContainerWithBackButton
+import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.home.domain.model.Product
 import com.example.gronurgrocery.features.home.presentation.components.item_grid.ItemsGrid
 import com.example.gronurgrocery.features.home.presentation.search.search_state.PriceRange
@@ -277,6 +284,7 @@ private fun FilterTab(
                 .padding(
                     top = 32.dp
                 )
+                .verticalScroll(rememberScrollState())
 
         ) {
             Row(
@@ -509,6 +517,84 @@ private fun FilterTab(
                 }
             }
 
+            // Recent search
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "Recently Search",
+                color = background,
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold
+                ),
+                modifier = Modifier
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            val newSearch = uiState.searchFilter.recentSearch + listOf("")
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 24.dp
+                    )
+                    .height(130.dp)
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    items(newSearch) { item ->
+                        when (item) {
+                            "" -> {
+                                InvisibleItem()
+                            }
+                            uiState.searchFilter.recentSearchChoice -> {
+                                CategoryRowItem(
+                                    onItemClick = {
+                                        searchViewModel.updateCurrentSearch(it)
+                                    },
+                                    name = item,
+                                    selected = true
+                                )
+                            }
+                            else -> {
+                                CategoryRowItem(
+                                    onItemClick = {
+                                        searchViewModel.updateCurrentSearch(it)
+                                    },
+                                    name = item
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            // Apply now button
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 24.dp
+                    )
+            ) {
+                FormButton(
+                    text = "Apply Now",
+                    onClick = { /*TODO*/ }
+                )
+            }
+
         }
     }
 }
@@ -542,7 +628,7 @@ private fun CategoryRowItem(
                 // TODO
             }
     ) {
-        androidx.compose.material.Text(
+        Text(
             text = name,
             color = fontColor,
             style = TextStyle(

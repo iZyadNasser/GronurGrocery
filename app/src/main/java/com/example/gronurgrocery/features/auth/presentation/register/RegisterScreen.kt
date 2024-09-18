@@ -31,7 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.common.presentation.ui.components.AppTitle
 import com.example.gronurgrocery.features.auth.domain.model.RegisterData
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
+import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText

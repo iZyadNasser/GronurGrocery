@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.auth.presentation.common.components.CustomCheckbox
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormButton
+import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
