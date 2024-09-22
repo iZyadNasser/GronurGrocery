@@ -3,12 +3,13 @@ package com.example.gronurgrocery.features.auth.presentation.set_up_account
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.gronurgrocery.features.auth.domain.model.RegisterData
+import com.example.gronurgrocery.features.auth.domain.model.RegisterResponse
 import com.example.gronurgrocery.features.auth.presentation.common.validConfirmPassword
 import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 import com.example.gronurgrocery.features.auth.presentation.common.validFullName
 import com.example.gronurgrocery.features.auth.presentation.common.validPassword
 import com.example.gronurgrocery.features.auth.presentation.common.validPhoneNumber
+import com.example.gronurgrocery.features.auth.presentation.register.RegData
 
 class SetUpAccountViewModel: ViewModel() {
 
@@ -66,11 +67,11 @@ class SetUpAccountViewModel: ViewModel() {
         )
     }
 
-    fun initializeForm(registerData: RegisterData) {
+    fun initializeForm(registerResponse: RegData) {
         if (!isFormInitialized) {
-            updateEmailState(registerData.emailText)
-            updatePasswordState(registerData.passwordText)
-            updateConfirmPasswordState(registerData.confirmPasswordText)
+            updateEmailState(registerResponse.emailText)
+            updatePasswordState(registerResponse.passwordText)
+            updateConfirmPasswordState(registerResponse.confirmPasswordText)
             isFormInitialized = true
         }
     }

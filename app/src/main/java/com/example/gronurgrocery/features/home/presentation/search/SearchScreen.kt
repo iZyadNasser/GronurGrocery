@@ -357,7 +357,6 @@ private fun FilterTab(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
                     .padding(
                         start = 24.dp,
                         end = 24.dp,
@@ -384,20 +383,56 @@ private fun FilterTab(
                     ),
 
                     startThumb = {
-                        Image(
-                            painter = painterResource(id = R.drawable.slider_indicator),
-                            contentDescription = "drag",
+                        Column(
+                            verticalArrangement = Arrangement.Top,
                             modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                        )
+                                .height(100.dp)
+                        ) {
+                            Spacer(modifier = Modifier.height(40.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.slider_indicator),
+                                contentDescription = "drag",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Text(
+                                text = "$${uiState.searchFilter.priceRange.minPrice.toInt()}",
+                                color = background,
+                                style = TextStyle(
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium,
+                                )
+                            )
+                        }
                     },
                     endThumb = {
-                        Image(
-                            painter = painterResource(id = R.drawable.slider_indicator),
-                            contentDescription = "drag",
+                        Column(
+                            verticalArrangement = Arrangement.Top,
                             modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                        )
+                                .height(100.dp)
+                        ) {
+                            Spacer(modifier = Modifier.height(40.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.slider_indicator),
+                                contentDescription = "drag",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Text(
+                                text = "$${uiState.searchFilter.priceRange.maxPrice.toInt()}",
+                                color = background,
+                                style = TextStyle(
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium,
+                                )
+                            )
+                        }
                     },
                     track = {
                         val colorStops = arrayOf(
@@ -424,48 +459,48 @@ private fun FilterTab(
                     },
                     modifier = Modifier
                         .weight(1f)
-                        .height(50.dp)
+                        .height(100.dp)
                 )
             }
 
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 9.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 30.dp)
-                        .fillMaxWidth((uiState.searchFilter.priceRange.minPrice / 100) + 0.01f)
-                ) {
-                    Text(
-                        text = "$${uiState.searchFilter.priceRange.minPrice.toInt()}",
-                        color = background,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                        )
-                    )
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.Start,
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 50.dp)
-                        .fillMaxWidth(1 - (uiState.searchFilter.priceRange.maxPrice / 100) + 0.01f)
-                ) {
-                    Text(
-                        text = "$${uiState.searchFilter.priceRange.maxPrice.toInt()}",
-                        color = background,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                        )
-                    )
-                }
-            }
+//            Row(
+//                horizontalArrangement = Arrangement.SpaceBetween,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 9.dp)
+//            ) {
+//                Row(
+//                    horizontalArrangement = Arrangement.End,
+//                    modifier = Modifier
+//                        .defaultMinSize(minWidth = 30.dp)
+//                        .fillMaxWidth((uiState.searchFilter.priceRange.minPrice / 100) + 0.01f)
+//                ) {
+//                    Text(
+//                        text = "$${uiState.searchFilter.priceRange.minPrice.toInt()}",
+//                        color = background,
+//                        style = TextStyle(
+//                            fontSize = 16.sp,
+//                            fontWeight = FontWeight.Medium,
+//                        )
+//                    )
+//                }
+//
+//                Row(
+//                    horizontalArrangement = Arrangement.Start,
+//                    modifier = Modifier
+//                        .defaultMinSize(minWidth = 50.dp)
+//                        .fillMaxWidth(1 - (uiState.searchFilter.priceRange.maxPrice / 100) + 0.01f)
+//                ) {
+//                    Text(
+//                        text = "$${uiState.searchFilter.priceRange.maxPrice.toInt()}",
+//                        color = background,
+//                        style = TextStyle(
+//                            fontSize = 16.sp,
+//                            fontWeight = FontWeight.Medium,
+//                        )
+//                    )
+//                }
+//            }
 
             // Categories
             Spacer(modifier = Modifier.height(32.dp))

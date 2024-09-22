@@ -32,9 +32,10 @@ import com.example.gronurgrocery.common.presentation.navigation.screens.Splash
 import com.example.gronurgrocery.common.presentation.navigation.screens.Verification
 import com.example.gronurgrocery.common.presentation.navigation.screens.VerificationSource
 import com.example.gronurgrocery.common.presentation.ui.bottom_navigation.BottomNavigationBody
-import com.example.gronurgrocery.features.auth.domain.model.RegisterData
+import com.example.gronurgrocery.features.auth.domain.model.RegisterResponse
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
+import com.example.gronurgrocery.features.auth.presentation.register.RegData
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
@@ -71,9 +72,17 @@ fun MyApp(
                 coroutineScope.launch {
                     delay(SPLASH_DELAY_TIME)
                     if (viewModel.onboardingState.value) {
-                        navController.navigate(route = Register) {
-                            popUpTo(route = Splash) {
-                                inclusive = true
+                        if (viewModel.userTokenState.value.isEmpty()) {
+                            navController.navigate(route = Register) {
+                                popUpTo(route = Splash) {
+                                    inclusive = true
+                                }
+                            }
+                        } else {
+                            navController.navigate(route = Home(viewModel.userTokenState.value)) {
+                                popUpTo(route = Splash) {
+                                    inclusive = true
+                                }
                             }
                         }
                     } else {
@@ -214,7 +223,7 @@ fun MyApp(
 
         composable<SetUpAccount> {
             val args = it.toRoute<SetUpAccount>()
-            val registerData = RegisterData(
+            val registerResponse = RegData(
                 emailText = args.emailText,
                 passwordText = args.password,
                 confirmPasswordText = args.password
@@ -229,7 +238,7 @@ fun MyApp(
                     /* TODO */
                 },
                 onUpButtonPressed = { navController.navigateUp() },
-                registerData = registerData
+                registerResponse = registerResponse
             )
         }
 

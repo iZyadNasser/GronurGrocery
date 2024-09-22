@@ -3,6 +3,7 @@ package com.example.gronurgrocery.common
 object Constants {
 
     const val CLICK_EFFECT_DURATION = 1000L
+    const val BASE_URL = "https://gronurgrocery.azurewebsites.net/api/"
 }
 
 

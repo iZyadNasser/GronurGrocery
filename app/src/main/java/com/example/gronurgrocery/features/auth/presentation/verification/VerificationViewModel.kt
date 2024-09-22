@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gronurgrocery.common.Constants.CLICK_EFFECT_DURATION
+import com.example.gronurgrocery.features.auth.presentation.common.ResponseStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -40,5 +41,19 @@ class VerificationViewModel : ViewModel() {
         _state.value = _state.value.copy(
             tokenText = ""
         )
+    }
+
+    fun endResponse() {
+        _state.value = _state.value.copy(
+            verifyStatus = ResponseStatus.NONE
+        )
+    }
+
+    fun isValid(): Boolean {
+        return _state.value.tokenText.length == 4
+    }
+
+    fun sendVerification() {
+        /* TODO */
     }
 }
