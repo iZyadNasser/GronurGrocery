@@ -263,7 +263,8 @@ private fun PreviewSetUpAccountScreen() {
             registerResponse = RegData(
                 emailText = "zyadnasser@zezo.zed",
                 passwordText = "11111zZ#",
-                confirmPasswordText = "11111zZ#"
+                confirmPasswordText = "11111zZ#",
+                tokenText = ""
             )
         )
     }

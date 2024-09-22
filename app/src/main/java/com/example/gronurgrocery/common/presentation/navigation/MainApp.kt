@@ -122,7 +122,8 @@ fun MyApp(
                         route = Verification(
                             source = VerificationSource.RegisterSource.source,
                             emailText = regData.emailText,
-                            password = regData.passwordText
+                            password = regData.passwordText,
+                            token = regData.tokenText
                         )
                     )
                 }
@@ -226,7 +227,8 @@ fun MyApp(
             val registerResponse = RegData(
                 emailText = args.emailText,
                 passwordText = args.password,
-                confirmPasswordText = args.password
+                confirmPasswordText = args.password,
+                tokenText = ""
             )
             SetUpAccountScreen(
                 onSaveChangesClick = {
@@ -248,12 +250,11 @@ fun MyApp(
                 content = { HomeMainScreen(
                     onSeeAllClick = { category ->
                         navController.navigate(CategoryProductsList(
-                            token = "",
                             category = category
                         ))
                     },
                     onSearchIconClick = {
-                        navController.navigate(Search(""))
+                        navController.navigate(Search)
                     }
                 ) },
                 navigateToItem = {

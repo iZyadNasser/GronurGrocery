@@ -7,5 +7,8 @@ data class VerificationState(
     val tokenText: String = "",
     val resendButtonColor: Color = Color.Black,
     val verifyStatus: ResponseStatus = ResponseStatus.NONE,
-    val errorMsg: String? = ""
+    val errorMsg: String? = "",
+    val email: String = "",
+    val resendOTPStatus: ResponseStatus = ResponseStatus.NONE,
+    val resendOTPErrorMsg: String? = ""
 )

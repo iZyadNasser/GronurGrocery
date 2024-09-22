@@ -17,6 +17,6 @@ data class VerifyRegisterResponseDto(
 
 fun VerifyRegisterResponseDto.toDomain(): VerifyRegisterResponse {
     return VerifyRegisterResponse(
-        msg = message ?: ""
+        status = status ?: ""
     )
 }

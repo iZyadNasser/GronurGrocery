@@ -19,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUserUseCase: RegisterUserUseCase,
-    private val saveUserTokenUseCase: SaveUserTokenUseCase
+    private val registerUserUseCase: RegisterUserUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(RegisterState())
@@ -29,7 +28,7 @@ class RegisterViewModel @Inject constructor(
     fun updateEmailState(newEmail: String) {
         _state.value = _state.value.copy(
             emailText = newEmail,
-            emailError = validEmail(newEmail),
+            emailError = validEmail(newEmail)
         )
     }
 
@@ -80,10 +79,9 @@ class RegisterViewModel @Inject constructor(
                 when(result) {
                     is Resource.Success -> {
                         _state.value = _state.value.copy(
-                            responseStatus = ResponseStatus.SUCCESS
+                            responseStatus = ResponseStatus.SUCCESS,
+                            token = result.data?.token ?: ""
                         )
-                        Log.e("TAG", "sendRegisterData: ${result.data?.token ?: "null"}", )
-                        saveUserToken(result.data?.token ?: "")
                     }
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
@@ -105,13 +103,5 @@ class RegisterViewModel @Inject constructor(
         _state.value = _state.value.copy(
             responseStatus = ResponseStatus.NONE
         )
-    }
-
-    private fun saveUserToken(
-        token: String
-    ) {
-        viewModelScope.launch {
-            saveUserTokenUseCase(token)
-        }
     }
 }

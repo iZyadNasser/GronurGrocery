@@ -56,12 +56,13 @@ fun RegisterScreen(
     val uiState = registerViewModel.state.value
 
     if (uiState.responseStatus == ResponseStatus.SUCCESS) {
+        registerViewModel.endRegisterProcess()
         val regData = RegData(
             emailText = uiState.emailText,
             passwordText = uiState.passwordText,
-            confirmPasswordText = uiState.confirmPasswordText
+            confirmPasswordText = uiState.confirmPasswordText,
+            tokenText = uiState.token
         )
-        registerViewModel.endRegisterProcess()
         onSignUpClick(regData)
     } else if (uiState.responseStatus == ResponseStatus.FAILURE) {
         registerViewModel.endRegisterProcess()

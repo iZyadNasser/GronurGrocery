@@ -5,6 +5,7 @@ import com.example.gronurgrocery.features.auth.domain.model.LoginBody
 import com.example.gronurgrocery.features.auth.domain.model.LoginResponse
 import com.example.gronurgrocery.features.auth.domain.model.RegisterBody
 import com.example.gronurgrocery.features.auth.domain.model.RegisterResponse
+import com.example.gronurgrocery.features.auth.domain.model.ResendOTPBody
 import com.example.gronurgrocery.features.auth.domain.model.VerifyRegisterBody
 import com.example.gronurgrocery.features.auth.domain.model.VerifyRegisterResponse
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,10 @@ interface AuthRepository {
 
     suspend fun verifyEmail(
         verifyRegisterBody: VerifyRegisterBody
+    ): Flow<Resource<VerifyRegisterResponse>>
+
+    suspend fun resendRegisterVerification(
+        resendOTPBody: ResendOTPBody
     ): Flow<Resource<VerifyRegisterResponse>>
 
 //    suspend fun setUpAccount(

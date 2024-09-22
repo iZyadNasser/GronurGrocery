@@ -5,8 +5,10 @@ import com.example.gronurgrocery.features.auth.data.source.remote.dto.RegisterRe
 import com.example.gronurgrocery.features.auth.data.source.remote.dto.VerifyRegisterResponseDto
 import com.example.gronurgrocery.features.auth.domain.model.LoginBody
 import com.example.gronurgrocery.features.auth.domain.model.RegisterBody
+import com.example.gronurgrocery.features.auth.domain.model.ResendOTPBody
 import com.example.gronurgrocery.features.auth.domain.model.VerifyRegisterBody
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.POST
 
 interface AuthService {
@@ -19,4 +21,9 @@ interface AuthService {
 
     @POST("auth/verify")
     suspend fun verifyEmail(@Body verifyRegisterBody: VerifyRegisterBody): VerifyRegisterResponseDto
+
+    @POST("auth/resendOTP")
+    suspend fun resendRegisterVerify(
+        @Body resendOTPBody: ResendOTPBody
+    ): VerifyRegisterResponseDto
 }

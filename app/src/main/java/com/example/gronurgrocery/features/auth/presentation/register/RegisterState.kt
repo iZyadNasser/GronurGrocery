@@ -13,5 +13,6 @@ data class RegisterState(
     val isConfirmPasswordVisible: Boolean = false,
     val anyError: Boolean = false,
     val responseStatus: ResponseStatus = ResponseStatus.NONE,
-    val registerErrorMsg: String? = null
+    val registerErrorMsg: String? = null,
+    val token: String = ""
 )

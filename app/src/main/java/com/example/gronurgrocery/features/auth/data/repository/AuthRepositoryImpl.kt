@@ -7,6 +7,7 @@ import com.example.gronurgrocery.features.auth.domain.model.LoginBody
 import com.example.gronurgrocery.features.auth.domain.model.LoginResponse
 import com.example.gronurgrocery.features.auth.domain.model.RegisterBody
 import com.example.gronurgrocery.features.auth.domain.model.RegisterResponse
+import com.example.gronurgrocery.features.auth.domain.model.ResendOTPBody
 import com.example.gronurgrocery.features.auth.domain.model.VerifyRegisterBody
 import com.example.gronurgrocery.features.auth.domain.model.VerifyRegisterResponse
 import com.example.gronurgrocery.features.auth.domain.repository.AuthRepository
@@ -50,6 +51,18 @@ class AuthRepositoryImpl @Inject constructor(
         try {
             emit(Resource.Loading())
             val verifyRegisterResponse = apiService.verifyEmail(verifyRegisterBody).toDomain()
+            emit(Resource.Success(verifyRegisterResponse))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error happened"))
+        } catch (e: IOException) {
+            emit(Resource.Error("Couldn't reach server, please check your internet connection"))
+        }
+    }
+
+    override suspend fun resendRegisterVerification(resendOTPBody: ResendOTPBody): Flow<Resource<VerifyRegisterResponse>> = flow {
+        try {
+            emit(Resource.Loading())
+            val verifyRegisterResponse = apiService.resendRegisterVerify(resendOTPBody).toDomain()
             emit(Resource.Success(verifyRegisterResponse))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error happened"))

@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.auth.presentation.common.ResponseStatus
@@ -56,8 +57,11 @@ fun VerificationScreen(
     navigateToReset: () -> Unit,
     onUpButtonPressed: () -> Unit,
     modifier: Modifier = Modifier,
-    verificationViewModel: VerificationViewModel = viewModel<VerificationViewModel>()
+    token: String = "",
+    verificationViewModel: VerificationViewModel = hiltViewModel()
 ) {
+
+    verificationViewModel.addEmail(email)
 
     val uiState = verificationViewModel.state.value
 
@@ -249,7 +253,7 @@ fun VerificationScreen(
             }
         }
 
-        if (uiState.verifyStatus == ResponseStatus.LOADING) {
+        if (uiState.verifyStatus == ResponseStatus.LOADING || uiState.resendOTPStatus == ResponseStatus.LOADING) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
