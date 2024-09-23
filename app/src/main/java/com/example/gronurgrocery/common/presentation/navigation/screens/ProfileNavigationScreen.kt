@@ -7,3 +7,9 @@ object ProfileMain
 
 @Serializable
 object AccountInfo
+
+@Serializable
+object DeliveryAddress
+
+@Serializable
+object PaymentMethod

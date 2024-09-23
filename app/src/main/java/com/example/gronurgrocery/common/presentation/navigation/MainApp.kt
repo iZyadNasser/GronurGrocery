@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.gronurgrocery.common.presentation.navigation.screens.AccountInfo
 import com.example.gronurgrocery.common.presentation.navigation.screens.CategoryProductsList
+import com.example.gronurgrocery.common.presentation.navigation.screens.DeliveryAddress
 import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.Home
 import com.example.gronurgrocery.common.presentation.navigation.screens.Login
@@ -25,6 +26,7 @@ import com.example.gronurgrocery.common.presentation.navigation.screens.More
 import com.example.gronurgrocery.common.presentation.navigation.screens.MyCart
 import com.example.gronurgrocery.common.presentation.navigation.screens.Onboarding
 import com.example.gronurgrocery.common.presentation.navigation.screens.Order
+import com.example.gronurgrocery.common.presentation.navigation.screens.PaymentMethod
 import com.example.gronurgrocery.common.presentation.navigation.screens.ProfileMain
 import com.example.gronurgrocery.common.presentation.navigation.screens.Register
 import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
@@ -52,6 +54,8 @@ import com.example.gronurgrocery.features.home.presentation.product_detail.Produ
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
 import com.example.gronurgrocery.features.home.presentation.search.SearchScreenContainer
 import com.example.gronurgrocery.features.profile.presentation.account_info.AccountInfo
+import com.example.gronurgrocery.features.profile.presentation.address.DeliveryAddress
+import com.example.gronurgrocery.features.profile.presentation.payment.PaymentMethod
 import com.example.gronurgrocery.features.profile.presentation.profile_main.ProfileMain
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
@@ -458,6 +462,22 @@ fun MyApp(
 
         composable<AccountInfo> {
             AccountInfo(
+                onUpButtonPressed = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        composable<DeliveryAddress> {
+            DeliveryAddress(
+                onUpButtonPressed = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        composable<PaymentMethod> {
+            PaymentMethod(
                 onUpButtonPressed = {
                     navController.navigateUp()
                 }
