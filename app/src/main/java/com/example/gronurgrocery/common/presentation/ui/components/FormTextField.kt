@@ -1,11 +1,14 @@
-package com.example.gronurgrocery.features.auth.presentation.common.components
+package com.example.gronurgrocery.common.presentation.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -50,7 +53,8 @@ fun FormTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType? = null,
     imeAction: ImeAction? = null,
-    onActionButtonClick: (() -> Unit)? = null
+    onActionButtonClick: (() -> Unit)? = null,
+    iconTint: Color = Color(0xFF96A4B2)
 ) {
         TextField(
             value = fieldValue,
@@ -62,7 +66,7 @@ fun FormTextField(
                 Icon(
                     painter = painterResource(id = iconDrawable),
                     contentDescription = "email",
-                    tint = Color(0xFF96A4B2)
+                    tint = iconTint
                 )
             },
             trailingIcon = {
@@ -70,7 +74,7 @@ fun FormTextField(
                     Icon(
                         painter = painterResource(id = visibilityIconDrawable),
                         contentDescription = "toggle password visibility",
-                        tint = Color(0xFF96A4B2),
+                        tint = iconTint,
                         modifier = if (onVisibilityIconClick != null) {
                             Modifier
                                 .clickable(
@@ -129,8 +133,14 @@ fun FormTextField(
             modifier = modifier
                 .clip(RoundedCornerShape(30.dp))
                 .height(60.dp)
-                .background(Color(0xFFF8F8F8))
+                .background(if (disabled) Color(0xFFCECACA) else Color(0xFFF8F8F8))
                 .onFocusChanged { onFocusChanged(it) }
+                .padding(
+                    top = 4.dp,
+                    start = 12.dp,
+                    end = 12.dp,
+                    bottom = 4.dp
+                )
         )
 }
 

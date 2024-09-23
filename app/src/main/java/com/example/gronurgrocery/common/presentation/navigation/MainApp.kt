@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.gronurgrocery.common.presentation.navigation.screens.AccountInfo
 import com.example.gronurgrocery.common.presentation.navigation.screens.CategoryProductsList
 import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.Home
@@ -50,6 +51,7 @@ import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
 import com.example.gronurgrocery.features.home.presentation.search.SearchScreenContainer
+import com.example.gronurgrocery.features.profile.presentation.account_info.AccountInfo
 import com.example.gronurgrocery.features.profile.presentation.profile_main.ProfileMain
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
@@ -65,7 +67,7 @@ fun MyApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Splash
+        startDestination = AccountInfo
     ) {
         composable<Splash> {
             val coroutineScope = rememberCoroutineScope()
@@ -450,6 +452,14 @@ fun MyApp(
                             inclusive = true
                         }
                     }
+                }
+            )
+        }
+
+        composable<AccountInfo> {
+            AccountInfo(
+                onUpButtonPressed = {
+                    navController.navigateUp()
                 }
             )
         }

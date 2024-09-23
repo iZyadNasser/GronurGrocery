@@ -38,7 +38,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.auth.presentation.common.components.CustomCheckbox
 import com.example.gronurgrocery.common.presentation.ui.components.FormButton
@@ -46,10 +45,9 @@ import com.example.gronurgrocery.features.auth.presentation.common.ResponseStatu
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextFieldErrorText
+import com.example.gronurgrocery.common.presentation.ui.components.FormTextField
+import com.example.gronurgrocery.common.presentation.ui.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormUpButton
-import com.example.gronurgrocery.features.auth.presentation.register.RegData
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable

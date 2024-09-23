@@ -42,8 +42,8 @@ import com.example.gronurgrocery.features.auth.presentation.common.ResponseStatu
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormContinueWithButton
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormDivider
 import com.example.gronurgrocery.features.auth.presentation.common.components.FormText
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextField
-import com.example.gronurgrocery.features.auth.presentation.common.components.FormTextFieldErrorText
+import com.example.gronurgrocery.common.presentation.ui.components.FormTextField
+import com.example.gronurgrocery.common.presentation.ui.components.FormTextFieldErrorText
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable

@@ -55,7 +55,7 @@ fun ProfileMain(
 }
 
 @Composable
-fun ProfileMainScreen(
+private fun ProfileMainScreen(
     modifier: Modifier = Modifier,
     onLogoutPressed: () -> Unit,
     profileMainViewModel: ProfileMainViewModel = hiltViewModel()
@@ -75,6 +75,7 @@ fun ProfileMainScreen(
             .navigationBarsPadding()
     ) {
         Column(
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .clip(
@@ -85,69 +86,73 @@ fun ProfileMainScreen(
                 .padding(20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "profile",
-                tint = Color.Gray,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(45.dp))
-                    .size(90.dp)
-                    .background(Color(0xFFF4F5F7))
-                    .padding(16.dp)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Shahinur Rahman", /* TODO( get from api ) */
-                color = background,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.profile),
+                    contentDescription = "profile",
+                    tint = Color.Gray,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(45.dp))
+                        .size(90.dp)
+                        .background(Color(0xFFF4F5F7))
+                        .padding(16.dp)
                 )
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "shahinurstk02@gmail.com", /* TODO( get from api ) */
-                color = Color(0xFF96A4B2),
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = "Shahinur Rahman", /* TODO( get from api ) */
+                    color = background,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            ProfileButton(
-                onClick = { /*TODO*/ },
-                text = "Account Information",
-                icon = R.drawable.frame
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "shahinurstk02@gmail.com", /* TODO( get from api ) */
+                    color = Color(0xFF96A4B2),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                ProfileButton(
+                    onClick = { /*TODO*/ },
+                    text = "Account Information",
+                    icon = R.drawable.frame
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            ProfileButton(
-                onClick = { /*TODO*/ },
-                text = "Delivery Address",
-                icon = R.drawable.location
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                ProfileButton(
+                    onClick = { /*TODO*/ },
+                    text = "Delivery Address",
+                    icon = R.drawable.location
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            ProfileButton(
-                onClick = { /*TODO*/ },
-                text = "Payment Method",
-                icon = R.drawable.empty_wallet
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                ProfileButton(
+                    onClick = { /*TODO*/ },
+                    text = "Payment Method",
+                    icon = R.drawable.empty_wallet
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            ProfileButton(
-                onClick = { /*TODO*/ },
-                text = "Password",
-                icon = R.drawable.profile_lock
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                ProfileButton(
+                    onClick = { /*TODO*/ },
+                    text = "Password",
+                    icon = R.drawable.profile_lock
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            ProfileButton(
-                onClick = { /*TODO*/ },
-                text = "Reference Friends",
-                icon = R.drawable.friends
-            )
+                ProfileButton(
+                    onClick = { /*TODO*/ },
+                    text = "Reference Friends",
+                    icon = R.drawable.friends
+                )
+            }
 
             Spacer(modifier = Modifier.height(68.dp))
             FormButton(

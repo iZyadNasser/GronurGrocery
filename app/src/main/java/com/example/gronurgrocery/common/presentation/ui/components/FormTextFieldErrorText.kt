@@ -1,4 +1,4 @@
-package com.example.gronurgrocery.features.auth.presentation.common.components
+package com.example.gronurgrocery.common.presentation.ui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -8,7 +8,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
