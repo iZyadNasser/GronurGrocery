@@ -10,7 +10,9 @@ data class LoginResponseDto(
     @SerializedName("status")
     val status: String?,
     @SerializedName("user")
-    val user: UserLogin
+    val user: UserLogin,
+    @SerializedName("message")
+    val message: String?
 )
 
 fun LoginResponseDto.toDomain(): LoginResponse {
@@ -19,6 +21,7 @@ fun LoginResponseDto.toDomain(): LoginResponse {
         email = user.email,
         phoneNum = user.phoneNum,
         token = authorisation?.token ?: "",
-        id = user.id
+        id = user.id,
+        message = message ?: ""
     )
 }

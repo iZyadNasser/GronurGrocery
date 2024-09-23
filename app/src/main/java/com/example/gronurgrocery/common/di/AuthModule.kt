@@ -7,6 +7,7 @@ import com.example.gronurgrocery.features.auth.data.repository.AuthRepositoryImp
 import com.example.gronurgrocery.features.auth.data.source.remote.AuthInterceptor
 import com.example.gronurgrocery.features.auth.data.source.remote.AuthService
 import com.example.gronurgrocery.features.auth.domain.repository.AuthRepository
+import com.example.gronurgrocery.features.auth.domain.use_case.LoginUseCase
 import com.example.gronurgrocery.features.auth.domain.use_case.RegisterUserUseCase
 import com.example.gronurgrocery.features.auth.domain.use_case.ResendEmailUseCase
 import com.example.gronurgrocery.features.auth.domain.use_case.SaveUserTokenUseCase
@@ -52,5 +53,11 @@ object AuthModule {
     @Singleton
     fun provideResendEmailUseCase(authRepository: AuthRepository): ResendEmailUseCase {
         return ResendEmailUseCase(authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase {
+        return LoginUseCase(authRepository)
     }
 }

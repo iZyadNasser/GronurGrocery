@@ -143,7 +143,14 @@ fun MyApp(
                     }
                 },
                 onUpButtonPressed = { navController.navigateUp() },
-                onForgotPasswordClick = { navController.navigate(ForgotPassword) }
+                onForgotPasswordClick = { navController.navigate(ForgotPassword) },
+                onLoginClick = {
+                    navController.navigate(Home("")) {
+                        popUpTo(route = Splash) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
 
