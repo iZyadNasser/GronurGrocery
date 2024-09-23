@@ -24,6 +24,7 @@ import com.example.gronurgrocery.common.presentation.navigation.screens.More
 import com.example.gronurgrocery.common.presentation.navigation.screens.MyCart
 import com.example.gronurgrocery.common.presentation.navigation.screens.Onboarding
 import com.example.gronurgrocery.common.presentation.navigation.screens.Order
+import com.example.gronurgrocery.common.presentation.navigation.screens.ProfileMain
 import com.example.gronurgrocery.common.presentation.navigation.screens.Register
 import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.Search
@@ -49,6 +50,7 @@ import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreen
 import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
 import com.example.gronurgrocery.features.home.presentation.search.SearchScreenContainer
+import com.example.gronurgrocery.features.profile.presentation.profile_main.ProfileMain
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -59,7 +61,6 @@ const val SPLASH_DELAY_TIME = 2000L
 @Composable
 fun MyApp(
     navController: NavHostController,
-//    activity: MainActivity,
     viewModel: MainAppViewModel = hiltViewModel()
 ) {
     NavHost(
@@ -438,6 +439,19 @@ fun MyApp(
                         }
                     }
                 })
+        }
+
+        composable<ProfileMain> {
+            ProfileMain(
+                onBackButtonPressed = { navController.navigateUp() },
+                onLogoutPressed = {
+                    navController.navigate(Login()) {
+                        popUpTo(route = Home("")) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
