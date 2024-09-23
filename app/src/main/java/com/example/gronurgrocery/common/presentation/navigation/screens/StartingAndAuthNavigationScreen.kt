@@ -25,6 +25,7 @@ data class Verification(
     val emailText: String = "",
     val password: String = "",
     val source: String,
+    val token: String = ""
 )
 
 @Serializable

@@ -1,13 +1,26 @@
 package com.example.gronurgrocery.features.auth.presentation.register
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.gronurgrocery.common.data.network.Resource
+import com.example.gronurgrocery.features.auth.domain.model.RegisterBody
+import com.example.gronurgrocery.features.auth.domain.use_case.RegisterUserUseCase
+import com.example.gronurgrocery.features.auth.domain.use_case.SaveUserTokenUseCase
+import com.example.gronurgrocery.features.auth.presentation.common.ResponseStatus
 import com.example.gronurgrocery.features.auth.presentation.common.validConfirmPassword
 import com.example.gronurgrocery.features.auth.presentation.common.validEmail
 import com.example.gronurgrocery.features.auth.presentation.common.validPassword
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val registerUserUseCase: RegisterUserUseCase
+) : ViewModel() {
 
     private val _state = mutableStateOf(RegisterState())
     val state: State<RegisterState> = _state
@@ -15,7 +28,7 @@ class RegisterViewModel : ViewModel() {
     fun updateEmailState(newEmail: String) {
         _state.value = _state.value.copy(
             emailText = newEmail,
-            emailError = validEmail(newEmail),
+            emailError = validEmail(newEmail)
         )
     }
 
@@ -53,4 +66,42 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+    fun sendRegisterData() {
+        viewModelScope.launch {
+            val registerBody = RegisterBody(
+                email = _state.value.emailText,
+                password = _state.value.passwordText,
+                passwordConfirmation = _state.value.confirmPasswordText
+            )
+            registerUserUseCase(
+                registerBody = registerBody
+            ).collect { result ->
+                when(result) {
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(
+                            responseStatus = ResponseStatus.SUCCESS,
+                            token = result.data?.token ?: ""
+                        )
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            responseStatus = ResponseStatus.FAILURE,
+                            registerErrorMsg = result.message
+                        )
+                    }
+                    is Resource.Loading -> {
+                        _state.value = _state.value.copy(
+                            responseStatus = ResponseStatus.LOADING
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun endRegisterProcess() {
+        _state.value = _state.value.copy(
+            responseStatus = ResponseStatus.NONE
+        )
+    }
 }

@@ -2,6 +2,7 @@ package com.example.gronurgrocery.common.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 
 @Composable
 fun MainPagesHeader(
+    onSearchIconClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -36,12 +38,15 @@ fun MainPagesHeader(
             .fillMaxWidth()
     ) {
         AppTitle(title = "Daily\nGrocery Food")
-        SearchButton()
+        SearchButton(
+            onSearchIconClick = onSearchIconClick
+        )
     }
 }
 
 @Composable
 private fun SearchButton(
+    onSearchIconClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -55,6 +60,9 @@ private fun SearchButton(
                 color = Color(0xFFF8F8F8),
                 shape = RoundedCornerShape(36.dp)
             )
+            .clickable {
+                onSearchIconClick()
+            }
     ) {
         Icon(painter = painterResource(id = R.drawable.search), contentDescription = "search")
     }
@@ -64,7 +72,7 @@ private fun SearchButton(
 @Composable
 private fun PreviewSearchButton() {
     GronurGroceryTheme {
-        SearchButton()
+        SearchButton({})
     }
 }
 
@@ -82,7 +90,7 @@ private fun PreviewMainHeader() {
                     end = 24.dp
                 )
         ) {
-            MainPagesHeader()
+            MainPagesHeader({})
         }
     }
 }

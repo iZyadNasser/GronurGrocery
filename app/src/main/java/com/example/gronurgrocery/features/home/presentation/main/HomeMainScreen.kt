@@ -35,6 +35,8 @@ import com.example.gronurgrocery.features.ui.theme.background
 
 @Composable
 fun HomeMainScreen(
+    onSeeAllClick: (String) -> Unit,
+    onSearchIconClick: () -> Unit,
     modifier: Modifier = Modifier,
     homeMainViewModel: HomeMainViewModel = hiltViewModel()
 ) {
@@ -54,8 +56,8 @@ fun HomeMainScreen(
 
     ) {
         MainPagesHeader(
+            onSearchIconClick = onSearchIconClick,
             modifier = Modifier
-                .safeDrawingPadding()
                 .statusBarsPadding()
                 .padding(
                     top = 16.dp,
@@ -102,12 +104,12 @@ fun HomeMainScreen(
                     ),
                     modifier = Modifier
                         .clickable {
-                            /* TODO */
+                            onSeeAllClick(uiState.category)
                         }
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             ItemsGrid(
                 items = uiState.productList,
                 modifier = Modifier
@@ -125,6 +127,6 @@ fun HomeMainScreen(
 @Composable
 private fun PreviewHomeMainScreen() {
     GronurGroceryTheme {
-        BottomNavigationBody(currentRoute = Home, content = { HomeMainScreen() }, {})
+        BottomNavigationBody(currentRoute = Home, content = { HomeMainScreen({}, {}) }, {})
     }
 }

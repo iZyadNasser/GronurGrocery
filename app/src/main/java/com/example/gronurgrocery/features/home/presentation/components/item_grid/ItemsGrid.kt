@@ -30,7 +30,7 @@ fun ItemsGrid(
         modifier = modifier.fillMaxSize()
     ) {
 
-        val newItems = items + listOf(Product("", "", "", "")) + listOf(Product("", "", "", ""))
+        val newItems = listOf(Product("", "", "", "")) + listOf(Product("", "", "", "")) + items + listOf(Product("", "", "", "")) + listOf(Product("", "", "", ""))
 
         items(newItems) { item ->
             if (item.name != "") {

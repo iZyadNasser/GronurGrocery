@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.gronurgrocery.common.presentation.navigation.screens.CategoryProductsList
 import com.example.gronurgrocery.common.presentation.navigation.screens.ForgotPassword
 import com.example.gronurgrocery.common.presentation.navigation.screens.Home
 import com.example.gronurgrocery.common.presentation.navigation.screens.Login
@@ -25,19 +26,29 @@ import com.example.gronurgrocery.common.presentation.navigation.screens.Onboardi
 import com.example.gronurgrocery.common.presentation.navigation.screens.Order
 import com.example.gronurgrocery.common.presentation.navigation.screens.Register
 import com.example.gronurgrocery.common.presentation.navigation.screens.ResetPassword
+import com.example.gronurgrocery.common.presentation.navigation.screens.Search
 import com.example.gronurgrocery.common.presentation.navigation.screens.SetUpAccount
 import com.example.gronurgrocery.common.presentation.navigation.screens.Splash
 import com.example.gronurgrocery.common.presentation.navigation.screens.Verification
 import com.example.gronurgrocery.common.presentation.navigation.screens.VerificationSource
 import com.example.gronurgrocery.common.presentation.ui.bottom_navigation.BottomNavigationBody
-import com.example.gronurgrocery.features.auth.domain.model.RegisterData
+import com.example.gronurgrocery.features.auth.domain.model.RegisterResponse
 import com.example.gronurgrocery.features.auth.presentation.forgot_password.ForgotPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.login.LoginScreen
+import com.example.gronurgrocery.features.auth.presentation.register.RegData
 import com.example.gronurgrocery.features.auth.presentation.register.RegisterScreen
 import com.example.gronurgrocery.features.auth.presentation.reset_password.ResetPasswordScreen
 import com.example.gronurgrocery.features.auth.presentation.set_up_account.SetUpAccountScreen
 import com.example.gronurgrocery.features.auth.presentation.verification.VerificationScreen
+import com.example.gronurgrocery.features.home.domain.model.Product
+import com.example.gronurgrocery.features.home.domain.model.ProductDetail
+import com.example.gronurgrocery.features.home.domain.model.Review
+import com.example.gronurgrocery.features.home.domain.model.UserBrief
+import com.example.gronurgrocery.features.home.presentation.category_products.CategoryProductsScreenContainer
 import com.example.gronurgrocery.features.home.presentation.main.HomeMainScreen
+import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreen
+import com.example.gronurgrocery.features.home.presentation.product_detail.ProductDetailScreenContainer
+import com.example.gronurgrocery.features.home.presentation.search.SearchScreenContainer
 import com.example.gronurgrocery.features.starting.presentation.onboarding.OnboardingPager
 import com.example.gronurgrocery.features.starting.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -61,9 +72,17 @@ fun MyApp(
                 coroutineScope.launch {
                     delay(SPLASH_DELAY_TIME)
                     if (viewModel.onboardingState.value) {
-                        navController.navigate(route = Register) {
-                            popUpTo(route = Splash) {
-                                inclusive = true
+                        if (viewModel.userTokenState.value.isEmpty()) {
+                            navController.navigate(route = Register) {
+                                popUpTo(route = Splash) {
+                                    inclusive = true
+                                }
+                            }
+                        } else {
+                            navController.navigate(route = Home(viewModel.userTokenState.value)) {
+                                popUpTo(route = Splash) {
+                                    inclusive = true
+                                }
                             }
                         }
                     } else {
@@ -103,7 +122,8 @@ fun MyApp(
                         route = Verification(
                             source = VerificationSource.RegisterSource.source,
                             emailText = regData.emailText,
-                            password = regData.passwordText
+                            password = regData.passwordText,
+                            token = regData.tokenText
                         )
                     )
                 }
@@ -123,7 +143,14 @@ fun MyApp(
                     }
                 },
                 onUpButtonPressed = { navController.navigateUp() },
-                onForgotPasswordClick = { navController.navigate(ForgotPassword) }
+                onForgotPasswordClick = { navController.navigate(ForgotPassword) },
+                onLoginClick = {
+                    navController.navigate(Home("")) {
+                        popUpTo(route = Splash) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
 
@@ -204,10 +231,11 @@ fun MyApp(
 
         composable<SetUpAccount> {
             val args = it.toRoute<SetUpAccount>()
-            val registerData = RegisterData(
+            val registerResponse = RegData(
                 emailText = args.emailText,
                 passwordText = args.password,
-                confirmPasswordText = args.password
+                confirmPasswordText = args.password,
+                tokenText = ""
             )
             SetUpAccountScreen(
                 onSaveChangesClick = {
@@ -219,19 +247,118 @@ fun MyApp(
                     /* TODO */
                 },
                 onUpButtonPressed = { navController.navigateUp() },
-                registerData = registerData
+                registerResponse = registerResponse
             )
         }
 
         composable<Home> {
             BottomNavigationBody(
                 currentRoute = Home(""),
-                content = { HomeMainScreen() },
+                content = { HomeMainScreen(
+                    onSeeAllClick = { category ->
+                        navController.navigate(CategoryProductsList(
+                            category = category
+                        ))
+                    },
+                    onSearchIconClick = {
+                        navController.navigate(Search)
+                    }
+                ) },
                 navigateToItem = {
                     navController.navigate(it) {
                         popUpTo(route = Home(""))
                     }
                 })
+        }
+
+        composable<CategoryProductsList> {
+            val args = it.toRoute<CategoryProductsList>()
+
+            CategoryProductsScreenContainer(
+                title = args.category,
+                onUpButtonPressed = { navController.navigateUp() }
+            )
+        }
+
+        composable<com.example.gronurgrocery.common.presentation.navigation.screens.ProductDetail> {
+            ProductDetailScreenContainer(
+                onUpButtonPressed = {
+                    navController.navigateUp()
+                },
+                content = { product, modifier, onUpButtonPressed ->
+                    ProductDetailScreen(productDetail = product, modifier = modifier, onUpButtonPressed = onUpButtonPressed)
+                },
+                productDetail = ProductDetail(
+                    imageUrl = "https://w7.pngwing.com/pngs/736/5/png-transparent-sugar-apple-graphy-fruit-desktop-apple-thumbnail.png",
+                    name = "Fresh Orange",
+                    isAvailable = true,
+                    maxAmount = 30,
+                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+                    productReviews = listOf(
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        ),
+                        Review(
+                            user = UserBrief(
+                                userId = "",
+                                imageUrl = "",
+                                name = "Victor Flexin"
+                            ),
+                            rating = 5,
+                            date = "18 Sep, 2023",
+                            review = "The dial on this timepiece is extremely unique , Next time I want to buy it again."
+                        )
+                    ),
+                    similarProducts = listOf(
+                        Product(
+                            imageUrl = "",
+                            name = "Strawberry",
+                            cals = "75",
+                            price = "14.75"
+                        ),
+                        Product(
+                            imageUrl = "",
+                            name = "Capsicum",
+                            cals = "52",
+                            price = "75.68"
+                        )
+                    ),
+                    price = "14.75"
+                )
+            )
+        }
+
+        composable<Search> {
+            SearchScreenContainer(
+                onUpButtonPressed = { navController.navigateUp() }
+            )
         }
 
         composable<Order> {
