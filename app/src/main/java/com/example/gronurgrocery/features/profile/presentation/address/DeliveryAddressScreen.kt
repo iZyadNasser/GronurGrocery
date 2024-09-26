@@ -5,15 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +38,7 @@ import com.example.gronurgrocery.R
 import com.example.gronurgrocery.common.presentation.ui.components.DarkPageContainerWithBackButton
 import com.example.gronurgrocery.common.presentation.ui.components.FormButton
 import com.example.gronurgrocery.features.profile.domain.model.Address
+import com.example.gronurgrocery.features.profile.domain.model.AddressType
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 import com.example.gronurgrocery.features.ui.theme.background
 
@@ -64,7 +71,7 @@ private fun DeliveryAddressScreen(
     if (addresses.isEmpty()) {
         NoAddressScreen()
     } else {
-        HasAddressScreen()
+        HasAddressScreen(addresses)
     }
 }
 
@@ -147,10 +154,88 @@ private fun NoAddressScreen(
 
 @Composable
 private fun HasAddressScreen(
+    addresses: List<Address>,
     modifier: Modifier = Modifier
 ) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .clip(
+                RoundedCornerShape(
+                    topStart = 32.dp,
+                    topEnd = 32.dp
+                )
+            )
+            .fillMaxSize()
+            .background(Color(0xFFF4F5F7))
+            .padding(16.dp)
+            .navigationBarsPadding()
+    ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
 
+            items(addresses) { address ->
+                DeliveryAddressItem(address = address)
+            }
+        }
+    }
 }
+
+@Composable
+private fun DeliveryAddressItem(
+    address: Address,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(
+                top = 24.dp,
+                bottom = 24.dp,
+                start = 20.dp,
+                end = 20.dp
+            )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = address.addressType.typeIconRes),
+                contentDescription = address.addressType.typeName,
+                tint = background
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = address.addressType.typeName,
+                color = background,
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "${address.addressLine}, ${address.city}, ${address.country}",
+            color = Color(0xFF96A4B2),
+            style = TextStyle(
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 22.sp
+            )
+        )
+    }
+}
+
 
 @Preview
 @Composable

@@ -5,3 +5,33 @@ import com.example.gronurgrocery.features.profile.domain.model.Address
 data class DeliveryAddressState(
     val addresses: List<Address> = emptyList()
 )
+
+/*
+Address(
+            addressLine = "18, elbana buildings, Street 100, New Damietta",
+            addressType = AddressType(
+                typeName = "Home",
+                typeIconRes = R.drawable.home
+            ),
+            city = "Damietta",
+            country = "Egypt"
+        ),
+        Address(
+            addressLine = "18, elbana buildings, Street 100, New Damietta",
+            addressType = AddressType(
+                typeName = "Home 01",
+                typeIconRes = R.drawable.home
+            ),
+            city = "Damietta",
+            country = "Egypt"
+        ),
+        Address(
+            addressLine = "18, elbana buildings, Street 100, New Damietta",
+            addressType = AddressType(
+                typeName = "Work",
+                typeIconRes = R.drawable.profile
+            ),
+            city = "Damietta",
+            country = "Egypt"
+        )
+* */
