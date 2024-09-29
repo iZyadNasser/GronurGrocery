@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,14 +17,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -37,15 +40,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gronurgrocery.R
 import com.example.gronurgrocery.common.presentation.ui.components.DarkPageContainerWithBackButton
 import com.example.gronurgrocery.common.presentation.ui.components.FormButton
+import com.example.gronurgrocery.common.presentation.ui.components.FormTextField
+import com.example.gronurgrocery.features.auth.presentation.common.components.FormDivider
 import com.example.gronurgrocery.features.profile.domain.model.Address
-import com.example.gronurgrocery.features.profile.domain.model.AddressType
 import com.example.gronurgrocery.features.ui.theme.GronurGroceryTheme
 import com.example.gronurgrocery.features.ui.theme.background
 
 @Composable
 fun DeliveryAddress(
     onUpButtonPressed: () -> Unit,
-    modifier: Modifier = Modifier,
     deliveryAddressViewModel: DeliveryAddressViewModel = viewModel<DeliveryAddressViewModel>()
 ) {
 
@@ -65,8 +68,7 @@ fun DeliveryAddress(
 
 @Composable
 private fun DeliveryAddressScreen(
-    modifier: Modifier = Modifier,
-    addresses: List<Address> = emptyList(),
+    addresses: List<Address> = emptyList()
 ) {
     if (addresses.isEmpty()) {
         NoAddressScreen()
@@ -155,10 +157,14 @@ private fun NoAddressScreen(
 @Composable
 private fun HasAddressScreen(
     addresses: List<Address>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deliveryAddressViewModel: DeliveryAddressViewModel = viewModel<DeliveryAddressViewModel>()
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
+
+    val uiState = deliveryAddressViewModel.state.value
+
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .clip(
                 RoundedCornerShape(
@@ -168,19 +174,31 @@ private fun HasAddressScreen(
             )
             .fillMaxSize()
             .background(Color(0xFFF4F5F7))
-            .padding(16.dp)
+            .padding(
+                bottom = 36.dp,
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp
+            )
             .navigationBarsPadding()
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+
         ) {
 
             items(addresses) { address ->
                 DeliveryAddressItem(address = address)
             }
         }
+
+        FormButton(
+            text = "Add Address",
+            onClick = { /*TODO*/ }
+        )
     }
 }
 
@@ -236,6 +254,117 @@ private fun DeliveryAddressItem(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddAddressSheet(
+    onDismiss: () -> Unit,
+    deliveryAddressViewModel: DeliveryAddressViewModel = viewModel<DeliveryAddressViewModel>()
+) {
+
+    val uiState = deliveryAddressViewModel.state.value
+
+    Box(
+        //onDismissRequest = { onDismiss() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 20.dp,
+                    bottom = 36.dp,
+                    start = 20.dp,
+                    end = 20.dp
+                )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Add a Address",
+                    color = background,
+                    style = TextStyle(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                    )
+                )
+
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .size(40.dp)
+                        .background(Color(0xFFF8F8F8))
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.decline),
+                        contentDescription = "close"
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider(
+                color = Color(0xFF96A4B2),
+                modifier = Modifier
+                    .alpha(0.1f)
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            FormTextField(
+                label = "Location type",
+                iconDrawable = R.drawable.location,
+                fieldValue = uiState.newAddress.addressType.typeName,
+                onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
+                iconTint = background,
+                placeholderColor = background,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                FormTextField(
+                    label = "Country",
+                    fieldValue = uiState.newAddress.addressType.typeName,
+                    onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
+                    iconTint = Color(0xFF96A4B2),
+                    placeholderColor = Color(0xFF96A4B2),
+                    visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+
+                FormTextField(
+                    label = "City",
+                    fieldValue = uiState.newAddress.addressType.typeName,
+                    onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
+                    iconTint = Color(0xFF96A4B2),
+                    placeholderColor = Color(0xFF96A4B2),
+                    modifier = Modifier
+                        .weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewAddAddressSheet() {
+    GronurGroceryTheme {
+        AddAddressSheet(
+            onDismiss = {}
+        )
+    }
+}
 
 @Preview
 @Composable

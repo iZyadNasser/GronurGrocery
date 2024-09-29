@@ -41,7 +41,7 @@ import com.example.gronurgrocery.features.ui.theme.background
 @Composable
 fun FormTextField(
     label: String,
-    @DrawableRes iconDrawable: Int,
+    @DrawableRes iconDrawable: Int? = null,
     fieldValue: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -54,7 +54,9 @@ fun FormTextField(
     keyboardType: KeyboardType? = null,
     imeAction: ImeAction? = null,
     onActionButtonClick: (() -> Unit)? = null,
-    iconTint: Color = Color(0xFF96A4B2)
+    iconTint: Color = Color(0xFF96A4B2),
+    placeholderColor: Color = Color(0xFF96A4B2),
+    isPassword: Boolean = true
 ) {
         TextField(
             value = fieldValue,
@@ -62,33 +64,59 @@ fun FormTextField(
             onValueChange = { onValueChange(it) },
             singleLine = true,
             isError = isError,
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = iconDrawable),
-                    contentDescription = "email",
-                    tint = iconTint
-                )
-            },
+            leadingIcon =
+                if (iconDrawable != null) {
+                    {
+                        Icon(
+                            painter = painterResource(id = iconDrawable),
+                            contentDescription = "email",
+                            tint = iconTint
+                        )
+                    }
+                } else {
+                    null
+                },
             trailingIcon = {
                 if (visibilityIconDrawable != null) {
-                    Icon(
-                        painter = painterResource(id = visibilityIconDrawable),
-                        contentDescription = "toggle password visibility",
-                        tint = iconTint,
-                        modifier = if (onVisibilityIconClick != null) {
-                            Modifier
-                                .clickable(
-                                    indication = null,
-                                    interactionSource = remember { MutableInteractionSource() },
-                                ) {
-                                    onVisibilityIconClick()
-                                }
-                                .animateContentSize()
-                        } else {
-                            Modifier
-                                .animateContentSize()
-                        }
-                    )
+                    if (isPassword) {
+                        Icon(
+                            painter = painterResource(id = visibilityIconDrawable),
+                            contentDescription = "toggle password visibility",
+                            tint = iconTint,
+                            modifier = if (onVisibilityIconClick != null) {
+                                Modifier
+                                    .clickable(
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() },
+                                    ) {
+                                        onVisibilityIconClick()
+                                    }
+                                    .animateContentSize()
+                            } else {
+                                Modifier
+                                    .animateContentSize()
+                            }
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = visibilityIconDrawable),
+                            contentDescription = "expand",
+                            tint = iconTint,
+                            modifier = if (onVisibilityIconClick != null) {
+                                Modifier
+                                    .clickable(
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() },
+                                    ) {
+                                        onVisibilityIconClick()
+                                    }
+                                    .animateContentSize()
+                            } else {
+                                Modifier
+                                    .animateContentSize()
+                            }
+                        )
+                    }
                 }
             },
             placeholder = {
@@ -96,7 +124,7 @@ fun FormTextField(
                     text = label,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Start,
-                    color = Color(0xFF96A4B2)
+                    color = placeholderColor
                 )
             },
             colors = TextFieldDefaults.colors(

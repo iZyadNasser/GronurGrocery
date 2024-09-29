@@ -1,13 +1,12 @@
 package com.example.gronurgrocery.features.profile.presentation.address
 
+import com.example.gronurgrocery.R
 import com.example.gronurgrocery.features.profile.domain.model.Address
+import com.example.gronurgrocery.features.profile.domain.model.AddressType
 
 data class DeliveryAddressState(
-    val addresses: List<Address> = emptyList()
-)
-
-/*
-Address(
+    val addresses: List<Address> = listOf(
+        Address(
             addressLine = "18, elbana buildings, Street 100, New Damietta",
             addressType = AddressType(
                 typeName = "Home",
@@ -34,4 +33,21 @@ Address(
             city = "Damietta",
             country = "Egypt"
         )
+    ),
+
+    val newAddress: Address = Address(
+        addressType = AddressType(
+            typeName = "",
+            typeIconRes = R.drawable.location
+        ),
+        addressLine = "",
+        city = "",
+        country = ""
+    ),
+
+    val isCountryExpanded: Boolean = false
+)
+
+/*
+
 * */
