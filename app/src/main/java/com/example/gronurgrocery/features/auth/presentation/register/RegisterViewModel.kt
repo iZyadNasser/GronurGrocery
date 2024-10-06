@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUserUseCase: RegisterUserUseCase
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val saveUserTokenUseCase: SaveUserTokenUseCase,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(RegisterState())
@@ -82,6 +83,7 @@ class RegisterViewModel @Inject constructor(
                             responseStatus = ResponseStatus.SUCCESS,
                             token = result.data?.token ?: ""
                         )
+                        saveUserToken(_state.value.token)
                     }
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
@@ -103,5 +105,13 @@ class RegisterViewModel @Inject constructor(
         _state.value = _state.value.copy(
             responseStatus = ResponseStatus.NONE
         )
+    }
+
+    private fun saveUserToken(
+        token: String
+    ) {
+        viewModelScope.launch {
+            saveUserTokenUseCase(token)
+        }
     }
 }

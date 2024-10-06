@@ -2,6 +2,7 @@ package com.example.gronurgrocery.features.profile.presentation.address
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -73,7 +77,7 @@ private fun DeliveryAddressScreen(
     if (addresses.isEmpty()) {
         NoAddressScreen()
     } else {
-        HasAddressScreen(addresses)
+        AddAddressSheet(onDismiss = { /*TODO*/ })
     }
 }
 
@@ -182,6 +186,7 @@ private fun HasAddressScreen(
             )
             .navigationBarsPadding()
     ) {
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier
@@ -314,6 +319,7 @@ private fun AddAddressSheet(
             Spacer(modifier = Modifier.height(32.dp))
 
             FormTextField(
+                onClick = { deliveryAddressViewModel.toggleCountryMenu() },
                 label = "Location type",
                 iconDrawable = R.drawable.location,
                 fieldValue = uiState.newAddress.addressType.typeName,
@@ -331,16 +337,47 @@ private fun AddAddressSheet(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                FormTextField(
-                    label = "Country",
-                    fieldValue = uiState.newAddress.addressType.typeName,
-                    onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
-                    iconTint = Color(0xFF96A4B2),
-                    placeholderColor = Color(0xFF96A4B2),
-                    visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .weight(1f)
-                )
+                        .clickable {
+                            deliveryAddressViewModel.toggleCountryMenu()
+                        }
+                ) {
+                    FormTextField(
+                        readOnly = true,
+                        label = "Country",
+                        fieldValue = uiState.countryChoice ?: "",
+                        onValueChange = { },
+                        iconTint = Color(0xFF96A4B2),
+                        placeholderColor = Color(0xFF96A4B2),
+                        visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                deliveryAddressViewModel.toggleCountryMenu()
+                            }
+
+                    )
+
+                    DropdownMenu(
+                        expanded = uiState.isCountryExpanded,
+                        onDismissRequest = { deliveryAddressViewModel.toggleCountryMenu() },
+                    ) {
+                        uiState.countries.forEach { item ->
+                            DropdownMenuItem(
+                                text = { Text(item) },
+                                onClick = {
+                                    deliveryAddressViewModel.changeCountryChoice(item)
+                                    deliveryAddressViewModel.closeCountryMenu()
+                                }
+                            )
+                        }
+                    }
+
+                    Box(modifier = Modifier.fillMaxWidth().height(20.dp))
+                }
 
                 FormTextField(
                     label = "City",
@@ -348,6 +385,7 @@ private fun AddAddressSheet(
                     onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
                     iconTint = Color(0xFF96A4B2),
                     placeholderColor = Color(0xFF96A4B2),
+                    visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
                     modifier = Modifier
                         .weight(1f)
                 )

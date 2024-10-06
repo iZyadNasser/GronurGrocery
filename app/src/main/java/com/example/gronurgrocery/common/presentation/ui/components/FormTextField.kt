@@ -40,7 +40,9 @@ import com.example.gronurgrocery.features.ui.theme.background
 
 @Composable
 fun FormTextField(
+    onClick: (() -> Unit)? = null,
     label: String,
+    readOnly: Boolean = false,
     @DrawableRes iconDrawable: Int? = null,
     fieldValue: String,
     onValueChange: (String) -> Unit,
@@ -59,6 +61,7 @@ fun FormTextField(
     isPassword: Boolean = true
 ) {
         TextField(
+            readOnly = readOnly,
             value = fieldValue,
             enabled = !disabled,
             onValueChange = { onValueChange(it) },
@@ -129,6 +132,7 @@ fun FormTextField(
             },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -161,7 +165,7 @@ fun FormTextField(
             modifier = modifier
                 .clip(RoundedCornerShape(30.dp))
                 .height(60.dp)
-                .background(if (disabled) Color(0xFFCECACA) else Color(0xFFF8F8F8))
+                .background(if (disabled) Color(0xFFCECACA) else if (isError) TextFieldDefaults.colors().errorContainerColor else Color(0xFFF8F8F8))
                 .onFocusChanged { onFocusChanged(it) }
                 .padding(
                     top = 4.dp,
@@ -169,6 +173,14 @@ fun FormTextField(
                     end = 12.dp,
                     bottom = 4.dp
                 )
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    if (onClick != null) {
+                        onClick()
+                    }
+                }
         )
 }
 

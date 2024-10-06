@@ -45,7 +45,15 @@ data class DeliveryAddressState(
         country = ""
     ),
 
-    val isCountryExpanded: Boolean = false
+    val isCountryExpanded: Boolean = true,
+
+    val countries: List<String> = listOf(
+        "Egypt",
+        "Misr",
+        "Om eldonya"
+    ),
+
+    val countryChoice: String? = null
 )
 
 /*

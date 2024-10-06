@@ -1,5 +1,6 @@
 package com.example.gronurgrocery.features.profile.presentation.address
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,23 @@ class DeliveryAddressViewModel: ViewModel() {
         )
     }
 
+    fun toggleCountryMenu() {
+        Log.e("TAG", "toggleCountryMenu: ", )
+        _state.value = _state.value.copy(
+            isCountryExpanded = !_state.value.isCountryExpanded
+        )
+    }
 
+    fun closeCountryMenu() {
+        _state.value = _state.value.copy(
+            isCountryExpanded = false
+        )
+    }
+
+    fun changeCountryChoice(newCountry: String) {
+        _state.value = _state.value.copy(
+            countryChoice = newCountry
+        )
+    }
 
 }
