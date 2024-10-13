@@ -27,7 +27,11 @@ class AuthRepositoryImpl @Inject constructor(
         try {
             emit(Resource.Loading())
             val registerResponse = apiService.registerUser(registerBody).toDomain()
-            emit(Resource.Success(registerResponse))
+            if (registerResponse.status != "success") {
+                emit(Resource.Error(registerResponse.message ?: "An unexpected error happened"))
+            } else {
+                emit(Resource.Success(registerResponse))
+            }
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error happened"))
         } catch (e: IOException) {

@@ -7,9 +7,9 @@ data class UserRegister(
     @SerializedName("created_at")
     val createdAt: String?,
     @SerializedName("email")
-    val email: String,
+    val email: String?,
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("updated_at")
     val updatedAt: String?
 )

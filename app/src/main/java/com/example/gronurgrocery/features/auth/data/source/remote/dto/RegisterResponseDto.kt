@@ -16,10 +16,11 @@ data class RegisterResponseDto(
 )
 
 fun RegisterResponseDto.toDomain() : RegisterResponse {
-    return  RegisterResponse(
-        status = status ?: "",
-        email = userRegister?.email ?: "",
-        id = userRegister?.id ?: 0,
-        token = authorizationRegister?.token ?: ""
+    return RegisterResponse(
+        status = status,
+        email = userRegister?.email,
+        id = userRegister?.id,
+        token = authorizationRegister?.token,
+        message = message
     )
 }

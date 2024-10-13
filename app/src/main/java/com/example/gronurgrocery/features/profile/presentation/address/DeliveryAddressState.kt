@@ -10,7 +10,6 @@ data class DeliveryAddressState(
             addressLine = "18, elbana buildings, Street 100, New Damietta",
             addressType = AddressType(
                 typeName = "Home",
-                typeIconRes = R.drawable.home
             ),
             city = "Damietta",
             country = "Egypt"
@@ -19,7 +18,6 @@ data class DeliveryAddressState(
             addressLine = "18, elbana buildings, Street 100, New Damietta",
             addressType = AddressType(
                 typeName = "Home 01",
-                typeIconRes = R.drawable.home
             ),
             city = "Damietta",
             country = "Egypt"
@@ -28,7 +26,6 @@ data class DeliveryAddressState(
             addressLine = "18, elbana buildings, Street 100, New Damietta",
             addressType = AddressType(
                 typeName = "Work",
-                typeIconRes = R.drawable.profile
             ),
             city = "Damietta",
             country = "Egypt"
@@ -45,7 +42,7 @@ data class DeliveryAddressState(
         country = ""
     ),
 
-    val isCountryExpanded: Boolean = true,
+    val isCountryExpanded: Boolean = false,
 
     val countries: List<String> = listOf(
         "Egypt",
@@ -53,7 +50,14 @@ data class DeliveryAddressState(
         "Om eldonya"
     ),
 
-    val countryChoice: String? = null
+    val isCityExpanded: Boolean = false,
+    val cities: List<String> = listOf(
+        "Damietta",
+        "Domiat",
+        "Mohamed Munir"
+    ),
+
+    val isBottomSheetOpen: Boolean = false
 )
 
 /*

@@ -148,4 +148,13 @@ class VerificationViewModel @Inject constructor(
             saveUserTokenUseCase(token)
         }
     }
+
+    override fun onCleared() {
+        if (_state.value.verifyStatus != ResponseStatus.SUCCESS) {
+            saveUserToken("")
+        }
+        super.onCleared()
+    }
+
+
 }

@@ -16,7 +16,6 @@ class RegisterUserUseCase @Inject constructor(
     suspend operator fun invoke(
         registerBody: RegisterBody
     ): Flow<Resource<RegisterResponse>> {
-        Log.e("j", "usecase", )
         return authRepository.sendRegister(registerBody)
     }
 

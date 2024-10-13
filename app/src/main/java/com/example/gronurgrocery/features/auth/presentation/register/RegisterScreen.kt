@@ -211,7 +211,6 @@ fun RegisterScreen(
                     onClick = {
                         if (registerViewModel.allDataValid()) {
                             registerViewModel.sendRegisterData()
-                            Log.e("TAG", uiState.responseStatus.toString())
                         } else {
                             /* TODO */
                         }

@@ -22,7 +22,6 @@ class DeliveryAddressViewModel: ViewModel() {
     }
 
     fun toggleCountryMenu() {
-        Log.e("TAG", "toggleCountryMenu: ", )
         _state.value = _state.value.copy(
             isCountryExpanded = !_state.value.isCountryExpanded
         )
@@ -36,7 +35,46 @@ class DeliveryAddressViewModel: ViewModel() {
 
     fun changeCountryChoice(newCountry: String) {
         _state.value = _state.value.copy(
-            countryChoice = newCountry
+            newAddress = _state.value.newAddress.copy(
+                country = newCountry
+            )
+        )
+    }
+
+    fun toggleCityMenu() {
+        _state.value = _state.value.copy(
+            isCityExpanded = !_state.value.isCityExpanded
+        )
+    }
+
+    fun closeCityMenu() {
+        _state.value = _state.value.copy(
+            isCityExpanded = false
+        )
+    }
+
+    fun changeCityChoice(newCity: String) {
+        _state.value = _state.value.copy(
+            newAddress = _state.value.newAddress.copy(
+                city = newCity
+            )
+        )
+    }
+    fun updateAddressLine(newLine: String) {
+        _state.value = _state.value.copy(
+            newAddress = _state.value.newAddress.copy(
+                addressLine = newLine
+            )
+        )
+    }
+
+    fun addNewAddress() {
+        /* TODO() */
+    }
+
+    fun toggleBottomSheet() {
+        _state.value = _state.value.copy(
+            isBottomSheetOpen = !_state.value.isBottomSheetOpen
         )
     }
 

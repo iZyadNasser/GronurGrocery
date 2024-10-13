@@ -1,5 +1,6 @@
 package com.example.gronurgrocery.features.profile.presentation.address
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -72,19 +73,29 @@ fun DeliveryAddress(
 
 @Composable
 private fun DeliveryAddressScreen(
-    addresses: List<Address> = emptyList()
+    addresses: List<Address> = emptyList(),
+    deliveryAddressViewModel: DeliveryAddressViewModel = viewModel<DeliveryAddressViewModel>()
 ) {
     if (addresses.isEmpty()) {
-        NoAddressScreen()
+        NoAddressScreen(
+            deliveryAddressViewModel = deliveryAddressViewModel
+        )
     } else {
-        AddAddressSheet(onDismiss = { /*TODO*/ })
+        HasAddressScreen(
+            addresses = addresses,
+            deliveryAddressViewModel = deliveryAddressViewModel
+        )
     }
 }
 
 @Composable
 private fun NoAddressScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deliveryAddressViewModel: DeliveryAddressViewModel = viewModel<DeliveryAddressViewModel>()
 ) {
+
+    val uiState = deliveryAddressViewModel.state.value
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -150,10 +161,17 @@ private fun NoAddressScreen(
 
             FormButton(
                 text = "Add Address",
-                onClick = { /*TODO*/ },
+                onClick = { deliveryAddressViewModel.toggleBottomSheet() },
                 modifier = Modifier
                     .align(Alignment.BottomStart)
             )
+
+            if (uiState.isBottomSheetOpen) {
+                AddAddressSheet(
+                    onDismiss = { deliveryAddressViewModel.toggleBottomSheet() },
+                    deliveryAddressViewModel = deliveryAddressViewModel
+                )
+            }
         }
     }
 }
@@ -167,43 +185,52 @@ private fun HasAddressScreen(
 
     val uiState = deliveryAddressViewModel.state.value
 
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .clip(
-                RoundedCornerShape(
-                    topStart = 32.dp,
-                    topEnd = 32.dp
+    Box {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 32.dp,
+                        topEnd = 32.dp
+                    )
                 )
-            )
-            .fillMaxSize()
-            .background(Color(0xFFF4F5F7))
-            .padding(
-                bottom = 36.dp,
-                start = 16.dp,
-                end = 16.dp,
-                top = 16.dp
-            )
-            .navigationBarsPadding()
-    ) {
-
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-
+                .fillMaxSize()
+                .background(Color(0xFFF4F5F7))
+                .padding(
+                    bottom = 36.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp
+                )
+                .navigationBarsPadding()
         ) {
 
-            items(addresses) { address ->
-                DeliveryAddressItem(address = address)
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f)
+
+            ) {
+
+                items(addresses) { address ->
+                    DeliveryAddressItem(address = address)
+                }
             }
+
+            FormButton(
+                text = "Add Address",
+                onClick = { deliveryAddressViewModel.toggleBottomSheet() }
+            )
         }
 
-        FormButton(
-            text = "Add Address",
-            onClick = { /*TODO*/ }
-        )
+        if (uiState.isBottomSheetOpen) {
+            AddAddressSheet(
+                onDismiss = { deliveryAddressViewModel.toggleBottomSheet() },
+                deliveryAddressViewModel = deliveryAddressViewModel
+            )
+        }
     }
 }
 
@@ -268,133 +295,193 @@ private fun AddAddressSheet(
 
     val uiState = deliveryAddressViewModel.state.value
 
-    Box(
-        //onDismissRequest = { onDismiss() }
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() },
+        modifier = Modifier
+
     ) {
         Column(
+            verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(0.65f)
                 .padding(
                     top = 20.dp,
                     bottom = 36.dp,
                     start = 20.dp,
                     end = 20.dp
                 )
+                .animateContentSize()
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Add a Address",
-                    color = background,
-                    style = TextStyle(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 22.sp,
+            Column{
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Add a Address",
+                        color = background,
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 22.sp,
+                        )
                     )
+
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .size(40.dp)
+                            .background(Color(0xFFF8F8F8))
+                            .clickable {
+                                deliveryAddressViewModel.toggleBottomSheet()
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.decline),
+                            contentDescription = "close"
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Divider(
+                    color = Color(0xFF96A4B2),
+                    modifier = Modifier
+                        .alpha(0.1f)
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+
+                FormTextField(
+                    label = "Location type",
+                    iconDrawable = R.drawable.home,
+                    fieldValue = uiState.newAddress.addressType.typeName,
+                    onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
+                    iconTint = background,
+                    placeholderColor = background,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 )
 
-                Box(
-                    contentAlignment = Alignment.Center,
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .size(40.dp)
-                        .background(Color(0xFFF8F8F8))
+                        .fillMaxWidth()
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.decline),
-                        contentDescription = "close"
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Divider(
-                color = Color(0xFF96A4B2),
-                modifier = Modifier
-                    .alpha(0.1f)
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-
-            FormTextField(
-                onClick = { deliveryAddressViewModel.toggleCountryMenu() },
-                label = "Location type",
-                iconDrawable = R.drawable.location,
-                fieldValue = uiState.newAddress.addressType.typeName,
-                onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
-                iconTint = background,
-                placeholderColor = background,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable {
-                            deliveryAddressViewModel.toggleCountryMenu()
-                        }
-                ) {
-                    FormTextField(
-                        readOnly = true,
-                        label = "Country",
-                        fieldValue = uiState.countryChoice ?: "",
-                        onValueChange = { },
-                        iconTint = Color(0xFF96A4B2),
-                        placeholderColor = Color(0xFF96A4B2),
-                        visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                    // Country
+                    ExposedDropdownMenuBox(
+                        expanded = uiState.isCountryExpanded,
+                        onExpandedChange = { deliveryAddressViewModel.toggleCountryMenu() },
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .weight(1f)
                             .clickable {
                                 deliveryAddressViewModel.toggleCountryMenu()
                             }
-
-                    )
-
-                    DropdownMenu(
-                        expanded = uiState.isCountryExpanded,
-                        onDismissRequest = { deliveryAddressViewModel.toggleCountryMenu() },
                     ) {
-                        uiState.countries.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(item) },
-                                onClick = {
-                                    deliveryAddressViewModel.changeCountryChoice(item)
-                                    deliveryAddressViewModel.closeCountryMenu()
-                                }
-                            )
+                        FormTextField(
+                            readOnly = true,
+                            label = "Country",
+                            fieldValue = uiState.newAddress.country,
+                            onValueChange = { },
+                            iconTint = Color(0xFF96A4B2),
+                            placeholderColor = Color(0xFF96A4B2),
+                            visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .menuAnchor()
+                        )
+
+                        DropdownMenu(
+                            expanded = uiState.isCountryExpanded,
+                            onDismissRequest = { deliveryAddressViewModel.toggleCountryMenu() },
+                            modifier = Modifier
+                                .fillMaxWidth(0.45f)
+                        ) {
+                            uiState.countries.forEach { item ->
+                                DropdownMenuItem(
+                                    text = { Text(item) },
+                                    onClick = {
+                                        deliveryAddressViewModel.changeCountryChoice(item)
+                                        deliveryAddressViewModel.closeCountryMenu()
+                                    }
+                                )
+                            }
                         }
                     }
 
-                    Box(modifier = Modifier.fillMaxWidth().height(20.dp))
+                    // City
+                    ExposedDropdownMenuBox(
+                        expanded = uiState.isCityExpanded,
+                        onExpandedChange = { deliveryAddressViewModel.toggleCityMenu() },
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                deliveryAddressViewModel.toggleCityMenu()
+                            }
+                    ) {
+                        FormTextField(
+                            readOnly = true,
+                            label = "City",
+                            fieldValue = uiState.newAddress.city,
+                            onValueChange = { },
+                            iconTint = Color(0xFF96A4B2),
+                            placeholderColor = Color(0xFF96A4B2),
+                            visibilityIconDrawable = if (uiState.isCityExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .menuAnchor()
+                        )
+
+                        DropdownMenu(
+                            expanded = uiState.isCityExpanded,
+                            onDismissRequest = { deliveryAddressViewModel.toggleCityMenu() },
+                            modifier = Modifier
+                                .fillMaxWidth(0.45f)
+                        ) {
+                            uiState.cities.forEach { item ->
+                                DropdownMenuItem(
+                                    text = { Text(item) },
+                                    onClick = {
+                                        deliveryAddressViewModel.changeCityChoice(item)
+                                        deliveryAddressViewModel.closeCityMenu()
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
 
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Address
                 FormTextField(
-                    label = "City",
-                    fieldValue = uiState.newAddress.addressType.typeName,
-                    onValueChange = { deliveryAddressViewModel.updateAddressType(it) },
+                    label = "Address",
+                    iconDrawable = R.drawable.location,
+                    fieldValue = uiState.newAddress.addressLine,
+                    onValueChange = { deliveryAddressViewModel.updateAddressLine(it) },
                     iconTint = Color(0xFF96A4B2),
                     placeholderColor = Color(0xFF96A4B2),
-                    visibilityIconDrawable = if (uiState.isCountryExpanded) R.drawable.baseline_expand_less_24 else R.drawable.baseline_expand_more_24,
                     modifier = Modifier
-                        .weight(1f)
+                        .fillMaxWidth()
                 )
             }
+
+            FormButton(
+                text = "Add Address",
+                onClick = {
+                    deliveryAddressViewModel.addNewAddress()
+                    deliveryAddressViewModel.toggleBottomSheet()
+                }
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun PreviewAddAddressSheet() {
     GronurGroceryTheme {
@@ -408,6 +495,6 @@ private fun PreviewAddAddressSheet() {
 @Composable
 private fun PreviewDeliveryAddress() {
     GronurGroceryTheme {
-        DeliveryAddress(onUpButtonPressed = { /*TODO*/ })
+        DeliveryAddress(onUpButtonPressed = {})
     }
 }
