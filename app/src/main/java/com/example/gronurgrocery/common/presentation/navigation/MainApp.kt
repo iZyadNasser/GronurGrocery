@@ -71,7 +71,7 @@ fun MyApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Splash
+        startDestination = PaymentMethod
     ) {
         composable<Splash> {
             val coroutineScope = rememberCoroutineScope()

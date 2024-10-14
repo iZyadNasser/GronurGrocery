@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.gronurgrocery.features.profile.domain.model.Address
 import com.example.gronurgrocery.features.profile.domain.model.AddressType
 
 class DeliveryAddressViewModel: ViewModel() {
@@ -69,7 +70,16 @@ class DeliveryAddressViewModel: ViewModel() {
     }
 
     fun addNewAddress() {
-        /* TODO() */
+        if (checkAddressValidation(_state.value.newAddress)) {
+            _state.value = _state.value.copy(
+                addresses = _state.value.addresses + listOf(_state.value.newAddress)
+            )
+        }
+    }
+
+    private fun checkAddressValidation(address: Address): Boolean {
+        /* TODO (check address validation) */
+        return true
     }
 
     fun toggleBottomSheet() {
